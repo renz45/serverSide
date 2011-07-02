@@ -1,0 +1,15 @@
+h1. CIL - Custom Item List
+
+*Adam Rensel's Code*
+
+h2. Features
+
+* customizable lists that can be inserted into templates or into posts/pages using short tags.
+
+* The ability to pin chosen lists to the main menu so the client can easily edit them.
+
+* input custom html/css for each list item.
+
+* image upload functionality
+
+* integration of wordpress native rich text/html editor
