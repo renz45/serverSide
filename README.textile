@@ -1,0 +1,7 @@
+h1. Various front end and back end code chunks I use for projects or just for messing around
+
+*Adam Rensel's Code*
+
+h2. Details
+
+* CIL - custom item list plugin for Wordpress
