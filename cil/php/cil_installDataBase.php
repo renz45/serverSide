@@ -1,5 +1,33 @@
 <?php
 
+/*
+
+cil_listNames:
+---------------------
+	id
+	listName
+
+cil_listInfo:
+---------------------
+	id
+	time
+	title
+	description
+	pin_id (id of list to be pinned under. 0 indicates a new main menu item)
+	url
+	icon_url
+	list_id
+	
+cil_listInfo:
+---------------------
+	id
+	time
+	description
+	url
+	image_url
+	list_id
+*/
+
 global $cil_db_version;
 $cil_db_version = "1.0";
 
@@ -16,8 +44,9 @@ function cil_install () {
 		  title VARCHAR(128) NOT NULL,
 		  description text NOT NULL,
 		  url VARCHAR(55) DEFAULT '' NOT NULL,
-		  image_url VARCHAR(55) DEFAULT '' NOT NULL,
+		  icon_url VARCHAR(55) DEFAULT '' NOT NULL,
 		  list_id int(55) DEFAULT 0 NOT NULL,
+		  pin_id int(55) DEFAULT 0 NOT NULL,
 		  UNIQUE KEY id (id)
 		);";
 	
@@ -32,7 +61,19 @@ function cil_install () {
 			  UNIQUE KEY id (id)
 			);";
 		
-	dbDelta($sql);	
+	dbDelta($sql);
+	
+	$table_name = $wpdb->prefix . "cil_listItemInfo"; 
+	
+		$sql = "CREATE TABLE " . $table_name . " (
+			  id mediumint(9) NOT NULL AUTO_INCREMENT,
+			  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			  description text NOT NULL,
+			  url VARCHAR(55) DEFAULT '' NOT NULL,
+			  image_url VARCHAR(55) DEFAULT '' NOT NULL,
+			  list_id int(55) DEFAULT 0 NOT NULL,
+			  UNIQUE KEY id (id)
+			);";
 
 	add_option("cil_db_version", $cil_db_version);
 	

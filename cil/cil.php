@@ -22,10 +22,11 @@ include("php/cil_installDataBase.php");
 //short code functionality include
 include("php/cil_shortCodes.php");
 
-
 //admin menu
 include("php/cil_adminMenu.php");
 
+//help drop down contents for the various menus
+include("php/cil_help.php");
 
 //view files
 include("views/cil_adminOptionsView.php");
