@@ -11,24 +11,34 @@
 
 $cilPluginURL = plugins_url("",__FILE__);
 
-
 //add hook to import the main css file for this plugin, only load the css if the admin panel is open
 
 //includes code which installs database tables
-include("php/cil_installDataBase.php");
+require("models/cil_model_installDataBase.php");
 
-//register_activation_hook(__FILE__,'cil_install_data'); //enable this when debugging is done.
+//run installation methods
+register_activation_hook(__FILE__,'cil_install');
+register_activation_hook(__FILE__,'cil_install_data');
+
+//require the models class
+require 'models/cil_models.php';
+global $model;
+$model = new Cil_Models($wpdb);
+
+//ajax models
+require 'models/ajaxModel.php';
 
 //short code functionality include
-include("php/cil_shortCodes.php");
+require("views/cil_view_shortCodes.php");
 
 //admin menu
-include("php/cil_adminMenu.php");
+require("controllers/cil_controller_adminMenu.php");
 
 //help drop down contents for the various menus
-include("php/cil_help.php");
+require("views/cil_view_help.php");
 
 //view files
-include("views/cil_adminOptionsView.php");
+require("views/cil_view_adminOptions.php");
+
 
 ?>
