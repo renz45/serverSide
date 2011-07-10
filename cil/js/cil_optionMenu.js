@@ -47,6 +47,18 @@ jQuery(document).ready(function() {
 		jQuery("#cil_edit_List_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_")[1]);
 	}
 
+	///////////////////cancel button////////////////////
+	jQuery('#cil_cancel_button').bind('click',function(){
+		//close form
+		jQuery("#cil_edit_List_form").animate({height:'0px'},350).css({height:'auto'});
+
+		//clear form
+		clearForm();
+
+		//change submit button label back to the default value
+		changeSubmitLabel("Create a New List");
+	});
+
 	////////////Ajax pin List////////////////
 	jQuery(".cil_pin_btn").bind('click',pinButtonHandler);
 	//toggle pinned state

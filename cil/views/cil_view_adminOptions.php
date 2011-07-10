@@ -54,7 +54,7 @@ function show_options_menu()
 					<input type='text' name='cil_logoUrl' id='cil_logoUrl' /><br/>
 					<input id='upload_logo_button' type='button' value='Upload Logo Image' title='upload an image for this lists logo'/>
 				</p>
-				<p><input type='submit' id='cil_newListSubmit' name='cil_newListSubmit' value='Create a New List' /></p>
+				<p><input type='submit' id='cil_newListSubmit' name='cil_newListSubmit' value='Create a New List' /><input id='cil_cancel_button' type='button' value='Cancel' title='cancel'/></p>
 			</form>
 		</div>
 	";
