@@ -9,6 +9,7 @@ function cil_pin_list() {
 
 	$sql = "UPDATE ". $tableName ." SET isPinned='". $_POST['isPinned'] ."' WHERE id = '". $_POST['id'] ."'";
 
+	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	$return = json_encode(array('id'=>$_POST['id'],'isPinned'=>$_POST['isPinned']));
@@ -27,12 +28,14 @@ function cil_delete_list() {
 	$tableName = $wpdb->prefix . "cil_listInfo";
 	$sql = "DELETE FROM ". $tableName ." WHERE id='". $_POST['id'] ."'";
 
+	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	//delete the list items within specified list
    	$tableName = $wpdb->prefix . "cil_listItemInfo";
    	$sql = "DELETE FROM ". $tableName ." WHERE list_id='". $_POST['id'] ."'";
 
+   	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	echo $_POST['id'];
@@ -54,6 +57,8 @@ function cil_edit_list() {
 	{
 		$id = $_POST['id'];
 		$sql = "UPDATE " . $table_name . " SET name='". $_POST['listName'] ."', time=NOW(), description='". $_POST['listDesc'] ."', logo_url='". $_POST['logoUrl'] ."', icon_url='". $_POST['iconUrl'] ."' WHERE id='". $id ."'";
+
+		$wpdb->prepare($sql);
 		$wpdb->query($sql);
 	}else{
 		$name = $_POST['listName'];
