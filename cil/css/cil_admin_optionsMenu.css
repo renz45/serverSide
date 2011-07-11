@@ -213,3 +213,13 @@
 #cil_cancel_button {
 	margin-left: 15px;
 }
+
+#cil_preview_icon {
+	margin: 0 0 0 10px;
+	vertical-align: middle;
+}
+
+#cil_preview_logo {
+	margin: 0 0 0 10px;
+	vertical-align: middle;
+}
