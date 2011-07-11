@@ -1,0 +1,9 @@
+.cil_error {
+	color: #c55;
+	line-height: 15px;
+	background-color: #fee;
+	border: 1px solid #c55;
+	padding:3px;
+	margin-left: 5px;
+	display:none;
+}
