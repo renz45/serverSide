@@ -36,7 +36,8 @@ jQuery(document).ready(function() {
 				fileurl = jQuery('img',html).attr('src');
 			}
 
-			jQuery('#' + formfield).val(fileurl);
+			//insert the url into the form field and trigger the change event
+			jQuery('#' + formfield).val(fileurl).trigger('change');
 			tb_remove();
 			formfield = '';
 		}
