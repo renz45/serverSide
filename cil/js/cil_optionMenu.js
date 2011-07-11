@@ -29,9 +29,6 @@ jQuery(document).ready(function() {
 	function editButtonHandler(){
 		var name = jQuery(this).parent().find(".cil_list_name span").html();
 
-		//change submit button label
-		changeSubmitLabel("Edit " + name + " List");
-
 		//expand the edit menu if it's closed
 		var form = jQuery("#cil_edit_List_form");
 		if(form.css('height') == "0px")
@@ -39,12 +36,19 @@ jQuery(document).ready(function() {
 			form.animate({height:'480'},350).css({height:'auto'});
 		}
 
+		//change submit button label
+		changeSubmitLabel("Edit " + name + " List");
+
 		//take values from the list of item lists and insert them into the form for editing
 		jQuery("#cil_listName").attr("value", name);
 		jQuery("#cil_listDescription").attr("value", jQuery(this).parent().find('.desc').html());
-		jQuery("#cil_iconUrl").attr("value", jQuery(this).parent().find('.cil_icon_url').attr('src'));
-		jQuery("#cil_logoUrl").attr("value", jQuery(this).parent().find('.cil_logo_url').attr('src'));
+		jQuery("#cil_iconUrl").attr("value", jQuery(this).parent().find('.cil_icon_url').attr('src')).trigger('change');
+		jQuery("#cil_logoUrl").attr("value", jQuery(this).parent().find('.cil_logo_url').attr('src')).trigger('change');
 		jQuery("#cil_edit_List_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_")[1]);
+
+		//scroll the screen down to the edit form
+		jQuery('html').animate({"scrollTop": jQuery("#cil_edit_List_form").scrollTop() + 100});
+
 	}
 
 	///////////////////cancel button////////////////////
@@ -111,12 +115,13 @@ jQuery(document).ready(function() {
 	jQuery("#cil_edit_List_form").bind('submit',function(event){
 		//prevent the default form submit action
 		event.preventDefault();
+		var maxNameLength = 12;
 
 		//create data object for ajax call
 		var data = {
 				action:'cil_edit_list',
 				id: jQuery(this).attr('action'),
-				listName: jQuery("#cil_listName").attr("value"),
+				listName: (jQuery('#cil_listName').val()).slice(0,maxNameLength),//shorten name value to 12 chars to fit the menu
 				logoUrl: jQuery("#cil_logoUrl").attr("value"),
 				iconUrl: jQuery("#cil_iconUrl").attr("value"),
 				listDesc: jQuery("#cil_listDescription").attr("value")
@@ -178,6 +183,16 @@ jQuery(document).ready(function() {
 		});
 	});
 
+	//update icon preview image
+	jQuery('#cil_iconUrl').bind('change keyup',function(){
+		jQuery('#cil_preview_icon').attr('src', jQuery(this).val());
+	});
+
+	//update logo preview image
+	jQuery('#cil_logoUrl').bind('change keyup',function(){
+		jQuery('#cil_preview_logo').attr('src', jQuery(this).val());
+	});
+
 	////////////clear edit list form//////////////
 	function clearForm(){
 		jQuery("#cil_listName").attr("value", "");
@@ -185,6 +200,9 @@ jQuery(document).ready(function() {
 		jQuery("#cil_iconUrl").attr("value", "");
 		jQuery("#cil_logoUrl").attr("value", "");
 		jQuery("#cil_edit_List_form").attr('action', "");
+		jQuery('.cil_error').html('');
+		jQuery('#cil_preview_logo').attr('src',"");
+		jQuery('#cil_preview_icon').attr('src',"");
 	}
 
 	//////////////change submit button label///////////////
@@ -197,4 +215,26 @@ jQuery(document).ready(function() {
 	//					Form Validation						  //
 	//														  //
 	////////////////////////////////////////////////////////////
+
+	//limit the list name so it's not too big to fit on the menu bar
+	jQuery('#cil_listName').bind('keyup', function(e){
+		var maxLength = 12;
+
+		var value = jQuery(this).val();
+		var length = value.length;
+
+		var error = jQuery(this).parent().find('.cil_error');
+
+		var extraLength = length - maxLength;
+
+		if( extraLength > 0 )
+		{
+			error.fadeIn(250);
+			error.html(' List name is '+ extraLength +' character'+(extraLength == 1?'':'s')+' too long, it will be shortened to: ' + value.slice(0,maxLength));
+		}else{
+			error.fadeOut(400, function(){
+				error.html('');
+			});
+		}
+	});
 });
