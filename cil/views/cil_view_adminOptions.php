@@ -41,7 +41,7 @@ function show_options_menu()
 
 				<p>
 					<label for='cil_listDescription'><span>List description:</span></label><br/>
-					<input type='text' name='cil_listDescription' id='cil_listDescription' />
+					<textarea name='cil_listDescription' id='cil_listDescription' ></textarea>
 				</p>
 
 				<p>
