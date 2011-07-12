@@ -28,7 +28,18 @@ class Cil_Models {
 		if(!is_null($id))
 		{
 			$sql .= " WHERE id=".$id;
+			$arr = $this->_wpdb->get_results($sql);
+			return $arr[0];
+		}else{
+			return $this->_wpdb->get_results($sql);
 		}
+    }
+
+    public function get_pinned_lists()
+    {
+		$tableName = $this->_wpdb->prefix . "cil_listInfo";
+
+    	$sql = "SELECT * FROM " . $tableName . " WHERE isPinned='1'";
 
 		return $this->_wpdb->get_results($sql);
     }
