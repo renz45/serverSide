@@ -35,6 +35,10 @@ class Cil_Models {
 		}
     }
 
+    /**
+     *
+     * Returns pinned item lists, this is used to populate the sidemenu with pinned lists
+     */
     public function get_pinned_lists()
     {
 		$tableName = $this->_wpdb->prefix . "cil_listInfo";
@@ -42,6 +46,27 @@ class Cil_Models {
     	$sql = "SELECT * FROM " . $tableName . " WHERE isPinned='1'";
 
 		return $this->_wpdb->get_results($sql);
+    }
+
+	/**
+	 * Returns all list items, or only the list items from the list id specified
+	 * @param int $list_id list id to pull results from
+	 */
+	public function get_list_items($list_id = null)
+    {
+
+    	$tableName = $this->_wpdb->prefix . "cil_listItemInfo";
+
+    	$sql = "SELECT * FROM " . $tableName;
+
+		if(!is_null($list_id))
+		{
+			$sql .= " WHERE list_id=".$list_id;
+			$arr = $this->_wpdb->get_results($sql);
+			return $arr;
+		}else{
+			return $this->_wpdb->get_results($sql);
+		}
     }
 
 }
