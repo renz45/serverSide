@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 
 		if(form.css('height') == "0px")
 		{
-			form.animate({height:'480px'},350).css({height:'auto'});
+			form.animate({height:'500px'},350).css({height:'auto'});
 		}
 
 		//clear form
@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
 		var form = jQuery("#cil_edit_List_form");
 		if(form.css('height') == "0px")
 		{
-			form.animate({height:'480'},350).css({height:'auto'});
+			form.animate({height:'500'},350).css({height:'auto'});
 		}
 
 		//change submit button label
@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
 
 		//take values from the list of item lists and insert them into the form for editing
 		jQuery("#cil_listName").attr("value", name);
-		jQuery("#cil_listDescription").attr("value", jQuery(this).parent().find('.desc').html());
+		jQuery("#cil_listDescription").val(jQuery(this).parent().find('.desc').html());
 		jQuery("#cil_iconUrl").attr("value", jQuery(this).parent().find('.cil_icon_url').attr('src')).trigger('change');
 		jQuery("#cil_logoUrl").attr("value", jQuery(this).parent().find('.cil_logo_url').attr('src')).trigger('change');
 		jQuery("#cil_edit_List_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_")[1]);
@@ -73,7 +73,6 @@ jQuery(document).ready(function() {
 			pinned = '0';
 		}else{//no active class and is not pinned
 			pinned = '1';
-			jQuery(this).addClass('active');
 		}
 
 		var data = {
@@ -196,7 +195,7 @@ jQuery(document).ready(function() {
 	////////////clear edit list form//////////////
 	function clearForm(){
 		jQuery("#cil_listName").attr("value", "");
-		jQuery("#cil_listDescription").attr("value", "");
+		jQuery("#cil_listDescription").val("");
 		jQuery("#cil_iconUrl").attr("value", "");
 		jQuery("#cil_logoUrl").attr("value", "");
 		jQuery("#cil_edit_List_form").attr('action', "");
