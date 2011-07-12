@@ -1,4 +1,229 @@
 #cil_wrap h2 {
 	padding-left: 60px;
 	line-height: 50px;
+	font-size: 28px;
+	color:#555;
+	margin-bottom:5px;
+}
+
+#cil_list_desc {
+	width:500px;
+	color:#666;
+	font-size: 14px;
+	margin:0 0 15px 0;
+}
+
+/*//////////////////////////////*/
+
+.cil_admin_list {
+	background-color: #eee;
+	border: 1px solid #ddd;
+	margin-right: 25px;
+	border-radius:5px;
+	width: 600px;
+	overflow: auto;
+}
+
+#create_new_list_header {
+	height: 15px;
+	width: 130px;
+	padding:7px;
+	display: block;
+	background-color: #eee;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	line-height: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #2175a5;
+	cursor: pointer;
+}
+
+#create_new_list_header:hover {
+	color: #e50;
+}
+
+#cil_wrap p.cil_list_label {
+	margin-bottom: 3px;
+	color: #777;
+}
+
+.cil_admin_list li {
+	height: 25px;
+	display: block;
+	background-color: #eee;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	margin: 0;
+	line-height: 25px;
+	font-size: 12px;
+	overflow: hidden;
+
+}
+
+.cil_admin_list li:first-child {
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+
+.cil_admin_list li:last-child {
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+
+.cil_admin_list .cil_list_btn {
+	display: inline-block;
+	background-color: #F9F9F9;
+	padding-left: 8px;
+	padding-right: 8px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ccc;
+	height: 24px;
+	color: #2175a5;
+
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.1, rgb(228,228,228)),
+	    color-stop(0.9, rgb(238,238,238))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(228,228,228) 10%,
+	    rgb(238,238,238) 90%
+	);
+
+}
+
+.cil_admin_list .cil_list_btn:hover, .cil_admin_list .active {
+	cursor: pointer;
+	color: #e50;
+
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0.1, rgb(220,220,220)),
+	    color-stop(0.9, rgb(230,230,230))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(220,220,220) 10%,
+	    rgb(230,230,230) 90%
+	);
+
+}
+
+.cil_admin_list .cil_pin_btn {
+	border-top: 1px solid #eee;
+	float:left;
+}
+
+.cil_admin_list .cil_pin_btn:hover {
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #E8E8E8;
+}
+
+.cil_admin_list .cil_list_edit_btn {
+	float: right;
+	height: 25px;
+	border-right: none;
+}
+
+.cil_admin_list .cil_list_edit_btn:hover {
+ 	border-left: 1px solid #ccc;
+ 	border-right: 1px solid #ccc;
+ 	border-right: none;
+}
+
+.cil_admin_list li:first-child .cil_list_btn:first-child {
+	border-top-left-radius:5px;
+}
+
+.cil_admin_list .cil_list_delete_btn {
+	float: right;
+	height: 25px;
+	border-right: none;
+}
+
+.cil_admin_list .cil_list_delete_btn:hover {
+	border-right: none;
+}
+
+.cil_admin_list .cil_list_name{
+	display: inline-block;
+	padding-left: 5px;
+	padding-right: 8px;
+	height: 24px;
+	max-width: 98px;
+	color: #777;
+	font-size: 12px;
+	font-family: serif;
+	float:left;
+	overflow: hidden;
+}
+
+.cil_admin_list .desc {
+	display: inline-block;
+	width:320px;
+	height:25px;
+	overflow: hidden;
+	float:left;
+	margin:0;
+	line-height: 25px;
+	font-size: 12px;
+}
+
+.cil_admin_list .cil_name_link .cil_list_name {
+	color: #2175a5;
+}
+
+.cil_admin_list .cil_name_link .cil_list_name:hover {
+	color: #e50;
+}
+
+#cil_edit_List_form {
+	height:0;
+	overflow:hidden;
+}
+
+#cil_wrap form p {
+	margin-bottom:20px;
+}
+
+#cil_wrap input[type=text], #cil_wrap textarea {
+	width: 550px;
+	margin-top:10px;
+	margin-bottom:5px;
+	font-size:14px;
+	color:#777;
+}
+
+#cil_wrap textarea {
+	height: 100px;
+}
+
+#cil_wrap input[type=button], #cil_wrap input[type=submit] {
+	cursor:pointer;
+}
+
+#cil_wrap label span {
+	font-size: 16px;
+	color:#555;
+}
+
+#cil_cancel_button {
+	margin-left: 15px;
+}
+
+.cil_item_image {
+	float:left;
+	margin-left: 5px;
+	margin-top: 4px;
+	vertical-align: middle;
+	width:15px;
+	height:15px;
 }
