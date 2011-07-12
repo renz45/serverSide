@@ -50,6 +50,7 @@ function cil_install () {
 
 		$sql = "CREATE TABLE " . $table_name . " (
 			  id mediumint(9) NOT NULL AUTO_INCREMENT,
+			  heading VARCHAR(128) NOT NULL,
 			  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			  description text NOT NULL,
 			  url VARCHAR(55) DEFAULT '' NOT NULL,
@@ -117,7 +118,7 @@ function cil_install_data() {
 	$list_id = 1;
 	$table_name = $wpdb->prefix . "cil_listItemInfo";
 
-	$rows_affected = $wpdb->insert( $table_name, array( 'time' => current_time('mysql'), 'description' => $description, 'list_id' => $list_id ) );
+	$rows_affected = $wpdb->insert( $table_name, array( 'heading'=>'default heading', 'time' => current_time('mysql'), 'description' => $description, 'list_id' => $list_id ) );
 }
 
 function myplugin_update_db_check() {
