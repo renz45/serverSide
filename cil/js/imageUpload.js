@@ -7,6 +7,7 @@ jQuery(document).ready(function() {
 	jQuery('#upload_logo_button').click(function() {
 		formfield = jQuery('#cil_logoUrl').attr('name'); // set this to the id field you want to populate with the url
 		tb_show('', 'media-upload.php?post_id=ID; ?>&type=image&TB_iframe=1');
+
 		return false;
 	});
 
