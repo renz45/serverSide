@@ -9,7 +9,7 @@
 */
 
 
-
+global $cilPluginURL;
 $cilPluginURL = plugins_url("",__FILE__);
 
 //add hook to import the main css file for this plugin, only load the css if the admin panel is open
