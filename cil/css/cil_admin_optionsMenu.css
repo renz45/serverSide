@@ -188,12 +188,16 @@
 	margin-bottom:20px;
 }
 
-#cil_wrap input[type=text] {
+#cil_wrap input[type=text], #cil_wrap textarea {
 	width: 550px;
 	margin-top:10px;
 	margin-bottom:5px;
 	font-size:14px;
 	color:#777;
+}
+
+#cil_wrap textarea {
+	height: 100px;
 }
 
 #cil_wrap #cil_listName
