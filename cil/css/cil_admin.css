@@ -1,3 +1,5 @@
+
+/* error messages in form validation */
 .cil_error {
 	color: #c55;
 	line-height: 15px;
@@ -6,4 +8,9 @@
 	padding:3px;
 	margin-left: 5px;
 	display:none;
+}
+/* resizes the icons in the main admin menu to be no bigger than 19px */
+#adminmenu img {
+	max-width:19px;
+	min-height:19px;
 }
