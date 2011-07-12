@@ -81,3 +81,43 @@ function cil_edit_list() {
 	echo $return;
 	die(); // this is required to return a proper result
 }
+
+//////////////////////////////////////////////////
+//////////////////List Items//////////////////////
+//////////////////////////////////////////////////
+
+add_action('wp_ajax_cil_hide_list', 'cil_hide_list');
+//hide or show a list item
+function cil_hide_list() {
+	global $wpdb;
+
+	$tableName = $wpdb->prefix . "cil_listItemInfo";
+
+	$sql = "UPDATE ". $tableName ." SET isHidden='". $_POST['isHidden'] ."' WHERE id = '". $_POST['id'] ."'";
+
+	$wpdb->prepare($sql);
+   	$wpdb->query($sql);
+
+   	$return = json_encode(array('id'=>$_POST['id'],'isHidden'=>$_POST['isHidden']));
+
+   	echo $return;
+
+	die(); // this is required to return a proper result
+}
+
+add_action('wp_ajax_cil_delete_listItem', 'cil_delete_listItem');
+//delete a list
+function cil_delete_listItem() {
+	global $wpdb;
+
+	//delete list with specified id
+	$tableName = $wpdb->prefix . "cil_listItemInfo";
+	$sql = "DELETE FROM ". $tableName ." WHERE id='". $_POST['id'] ."'";
+
+	$wpdb->prepare($sql);
+   	$wpdb->query($sql);
+
+   	echo $_POST['id'];
+
+	die(); // this is required to return a proper result
+}
