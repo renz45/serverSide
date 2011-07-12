@@ -9,6 +9,7 @@
 */
 
 
+
 $cilPluginURL = plugins_url("",__FILE__);
 
 //add hook to import the main css file for this plugin, only load the css if the admin panel is open
@@ -22,8 +23,9 @@ register_activation_hook(__FILE__,'cil_install_data');
 
 //require the models class
 require 'models/cil_models.php';
-global $model;
-$model = new Cil_Models($wpdb);
+global $cil_model;
+global $wpdb;
+$cil_model = new Cil_Models($wpdb);
 
 //ajax models
 require 'models/ajaxModel.php';
@@ -39,6 +41,8 @@ require("views/cil_view_help.php");
 
 //view files
 require("views/cil_view_adminOptions.php");
+require("views/cil_view_adminListEdit.php");
+
 
 
 ?>
