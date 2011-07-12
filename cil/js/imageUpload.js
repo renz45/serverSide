@@ -1,22 +1,21 @@
 jQuery(document).ready(function() {
 
+	//set up fields and buttons for the image uploader
+	var image_upload_params = [{button:'#upload_logo_button', formField:'#cil_logoUrl'},
+					           {button:'#upload_icon_button', formField:'#cil_iconUrl'},
+					           {button:'#upload_image_button', formField:'#cil_imageUrl'} ];
 
-	var formfield = '';
 
-	//uload logo button/field
-	jQuery('#upload_logo_button').click(function() {
-		formfield = jQuery('#cil_logoUrl').attr('name'); // set this to the id field you want to populate with the url
-		tb_show('', 'media-upload.php?post_id=ID; ?>&type=image&TB_iframe=1');
+	for(i = 0; i < image_upload_params.length; i = i + 1)
+	{
+		jQuery(image_upload_params[i]['button']).click({form:image_upload_params[i]['formField']},function(e) {
 
-		return false;
-	});
-
-	//upload icon button/field
-	jQuery('#upload_icon_button').click(function() {
-		formfield = jQuery('#cil_iconUrl').attr('name'); // set this to the id field you want to populate with the url
-		tb_show('', 'media-upload.php?post_id=ID; ?>&type=image&TB_iframe=1');
-		return false;
-	});
+			var form = e.data['form'];
+			formfield = jQuery(form).attr('name');
+			tb_show('', 'media-upload.php?post_id=ID; ?>&type=image&TB_iframe=1');
+			return false;
+		});
+	}
 
 	// Store original function
 	window.original_send_to_editor = window.send_to_editor;
