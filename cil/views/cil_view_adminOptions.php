@@ -1,12 +1,15 @@
 <?php
-add_action('show_admin_options_menu', 'show_options_menu');
+
+//view for the cil options menu
+add_action('show_cil_admin_options_menu', 'show_options_menu');
 
 function show_options_menu()
 {
+
 	$output = "";
 
-	global $model;
-	$results = $model->get_item_lists();
+	global $cil_model;
+	$results = $cil_model->get_item_lists();
 
 	$output = "
 		<div id='cil_wrap'>
