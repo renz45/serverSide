@@ -14,15 +14,16 @@ function show_list_options()
 
 	$listItems = $cil_model->get_list_items($id);
 
+	//dynamic background image without using javascript
 	$output = "<div id='cil_wrap'>
 
 			<style type='text/css'>
-				h2 {
+				#cil_list_pageTitle {
 					background: url('". $listData->logo_url ."') left center no-repeat;
 				}
 			</style>
 
-			<h2>". $listData->name ."</h2>
+			<h2 id='cil_list_pageTitle'>". $listData->name ."</h2>
 			<p id='cil_list_desc'>". $listData->description ."</p>
 			<ul class='cil_admin_list'>\n";
 
@@ -34,7 +35,7 @@ function show_list_options()
 		//insert image icon if there is an image associated with this item
 		if(!empty($value->image_url))
 		{
-			$output .= "<img class='cil_item_image' src='". $cilPluginURL ."/assets/image.png' alt='". $value->image_url."' title='This item has an image' width='20' height='20' />\n";
+			$output .= "<img class='cil_item_image' src='". $cilPluginURL ."/assets/image.png' alt='". $value->image_url."' title='This item has an image' width='15' height='15' />\n";
 		}
 
 		//wrap the heading in an anchor tag if there is a url associated with this item
@@ -46,14 +47,14 @@ function show_list_options()
 		}
 
 
-		$output .=	"<p class='desc'>" . $value->description . "</p>
+		$output .=	"<p class='desc'>" . $value->content . "</p>
 						<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
 						<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
 					</li>\n";
 	}
 	$output .=	"</ul>
 
-			<p id='create_new_list_header'>Create a new item list:</p>
+			<p id='create_new_list_header'>Create a new item:</p>
 			<form id='cil_edit_List_form' action=''>
 				<p>
 					<label for='cil_listName'><span>Item Heading:</span></label><br/>
@@ -66,13 +67,15 @@ function show_list_options()
 				</p>
 
 				<p>
-					<label for='cil_listDescription'><span>List description:</span></label><br/>
+					<label for='cil_listDescription'><span>List content:</span></label><br/>
 					<textarea name='cil_listDescription' id='cil_listDescription' /></textarea>
 				</p>
 
 				<p>
-					<label for='cil_imageUrl'><span>Image URL:</span> (This is the image attached to this item, it's optional)</label><br/>
+					<img id='cil_item_imageIcon' src='http://localhost:8888/wordpress/wp-content/plugins/cil/assets/image.png' alt='http://localhost:8888/wordpress/wp-content/uploads/2011' title='This item has an image' width='15' height='15' />
+					<label for='cil_imageUrl'><span>Image URL:</span>(This is the image attached to this item, it's optional)</label><br/>
 					<input type='text' name='cil_imageUrl' id='cil_imageUrl' /><br/>
+					<img id='cil_preview_image' src='".$value->image_url."' alt='preview image' title='preview image' /><br/>
 					<input id='upload_image_button' type='button' value='Upload Image' title='upload an image for this lists menu icon' />
 				</p>
 
