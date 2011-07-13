@@ -12,7 +12,9 @@ jQuery(document).ready(function() {
 
 		if(form.css('height') == "0px")
 		{
-			form.animate({height:'480px'},350).css({height:'auto'});
+			form.animate({height:'480px'},350,function(){
+												jQuery(this).css({height:'auto'});
+											  });
 		}
 
 		//clear form
@@ -33,11 +35,13 @@ jQuery(document).ready(function() {
 		var form = jQuery("#cil_edit_List_form");
 		if(form.css('height') == "0px")
 		{
-			form.animate({height:'480'},350).css({height:'auto'});
+			form.animate({height:'480'},350,function(){
+												jQuery(this).css({height:'auto'});
+											});
 		}
 
 		//change submit button label
-		changeSubmitLabel("Edit " + name + " List");
+		changeSubmitLabel("Edit " + name);
 
 		//take values from the list of item lists and insert them into the form for editing
 		jQuery("#cil_listName").attr("value", name);
@@ -116,14 +120,17 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 		var maxNameLength = 12;
 
+
+
 		//create data object for ajax call
 		var data = {
-				action:'cil_edit_list',
+				action:'cil_edit_item',
 				id: jQuery(this).attr('action'),
-				listName: jQuery('#cil_listName').val(),
-				logoUrl: jQuery("#cil_logoUrl").attr("value"),
-				iconUrl: jQuery("#cil_iconUrl").attr("value"),
-				listDesc: jQuery("#cil_listDescription").attr("value")
+				heading: jQuery('#cil_listName').val(),
+				imageUrl: jQuery("#cil_imageUrl").val(),
+				url: jQuery("#cil_listNameUrl").val(),
+				listId: window.location.search.split('?page=cil_list_')[1],
+				content: jQuery("#cil_listDescription").attr("value")
 		};
 		//update list
 
@@ -134,18 +141,34 @@ jQuery(document).ready(function() {
 			//parse the return JSON object into a javascript object
 			var data = jQuery.parseJSON(r);
 
-			if(data['newPost'] == true)
+			if(data['newItem'] == true)
 			{//if the ajax call was a new post than create a new list item for the list, use the returned data object to populate values
+				var heading = "";
+				var image = "";
+
+				if(data['url'].length > 0)
+				{
+					heading = "<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'><span>"+ data['heading'] +"</span></a>";
+				}else{
+					heading = "<span>"+ data['heading'] +"</span>";
+				}
+
+				if(data['imageUrl'].length > 0)
+				{
+					image = "<img class='cil_item_image' src='"+ jQuery('#cil_item_imageIcon').attr('src') +"' alt='"+ data['imageUrl'] +"' title='This item has an image' width='15' height='15' />";
+				}
+
 				jQuery('.cil_admin_list').append(
 				"<li id='cil-list_"+ data['id'] +"'>"+
-				"<a class='cil_pin_btn cil_list_btn' title='Pin this list to menu'>pin</a>"+
-				"<img class='cil_icon_url' src='"+data['iconUrl']+"' alt='"+ data['listName'] +"-"+data['iconUrl']+"' title='"+data['iconUrl']+"' width='20' height='20' />"+
-				"<img class='cil_logo_url' src='"+data['logoUrl']+"' alt='"+ data['listName'] +"-"+data['logoUrl']+"' title='"+data['logoUrl']+"' width='0' height='0' />"+
-				"<span class='cil_list_name'> - <span>"+ data['listName'] +"</span> - </span>"+
-				"<p class='desc'>"+data['listDesc']+"</p>"+
-				"<a class='cil_list_btn cil_list_edit_btn'>Edit</a>"+
-				"<a class='cil_list_btn cil_list_delete_btn'>Delete</a>"+
-				"</li>\n");
+						"<a class='cil_pin_btn cil_list_btn ' title='Hide this item'>hide</a>"+
+						image +
+						"<span class='cil_list_name'> - "+
+						heading +
+						" - </span>"+
+						"<p class='desc'>"+ data['content'] +"</p>"+
+						"<a class='cil_list_btn cil_list_edit_btn'>Edit</a>"+
+						"<a class='cil_list_btn cil_list_delete_btn'>Delete</a>"+
+					"</li>");
 
 				//rebind click handlers to the buttons in the new list item, this is done automatically on page reload, but this is for when a list item is
 				//initally created so the page doesn't have to reload in order to get functionality
@@ -158,17 +181,36 @@ jQuery(document).ready(function() {
 			}else{//if the list item exists and it's just being edited, change the values in the main list to match the edits
 				var list = jQuery("#cil-list_" + data['id']);
 
-				var logo = list.find('.cil_logo_url');
-				var icon = list.find('.cil_icon_url');
+				//if there is an item url
+				if(data['url'].length > 0)
+				{
 
-				logo.attr('alt', data['listName']+"-"+data['logoUrl']);
-				icon.attr('alt', data['listName']+"-"+data['iconUrl']);
-				list.find('.cil_list_name span').html(data['listName']);
-				logo.attr('src', data['logoUrl']);
-				logo.attr('title',data['logoUrl']);
-				icon.attr('src', data['iconUrl']);
-				icon.attr('title',data['iconUrl']);
-				list.find('.desc').html(data['listDesc']);
+					if(list.find('.cil_name_link').length == 0 )//if there is not an anchor tag around the heading already, than wrap one around it
+					{
+						list.find('.cil_list_name span').wrap("<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'></a>");
+					}else{//if the anchor exists, just change the src and title attributes to match the new settings
+						list.find('.cil_name_link').attr('href',data['url']).attr('title', data['heading']);
+					}
+				}else if(list.find('.cil_name_link').length == 1){//if the anchor tag exists and there is nothing for the item url, remove the anchor tag surrounding the heading
+					list.find('.cil_list_name span').unwrap('a');
+				}
+
+				//if there is an image url
+				if(data['imageUrl'].length > 0)
+				{
+					//if the image icon doesn't already exist, than add a new one
+					if(list.find('.cil_item_image').length == 0)
+					{
+						list.find('.cil_pin_btn').after("<img class='cil_item_image' src='"+ jQuery('#cil_item_imageIcon').attr('src') +"' alt='"+ data['imageUrl'] +"' title='This item has an image' width='15' height='15' />");
+					}else{//if the icon already exists, just change the alt attribute to match the new values
+						list.find('.cil_item_image').attr('alt', data['imageUrl']);
+					}
+				}else{//if there is no image url in the return go ahead and remove the image icon
+					list.find('.cil_item_image').remove();
+				}
+
+				list.find('.cil_list_name span').html(data['heading']);
+				list.find('.desc').html(data['content']);
 			}
 			//close the form
 			jQuery("#cil_edit_List_form").animate({height:'0px'},350).css({height:'auto'});
@@ -177,14 +219,14 @@ jQuery(document).ready(function() {
 			clearForm();
 
 			//change submit button label back to the default value
-			changeSubmitLabel("Create a New List");
+			changeSubmitLabel("Create a New Item");
 
 		});
 	});
 
-	//update icon preview image
-	jQuery('#cil_iconUrl').bind('change keyup',function(){
-		jQuery('#cil_preview_icon').attr('src', jQuery(this).val());
+	//update image preview
+	jQuery('#cil_imageUrl').bind('change keyup',function(){
+		jQuery('#cil_preview_image').attr('src', jQuery(this).val());
 	});
 
 
@@ -192,10 +234,11 @@ jQuery(document).ready(function() {
 	function clearForm(){
 		jQuery("#cil_listName").attr("value", "");
 		jQuery("#cil_listDescription").val("");
-		jQuery("#cil_imageUrl").attr("value", "");
+		jQuery("#cil_imageUrl").val("");
 		jQuery("#cil_edit_List_form").attr('action', "");
 		jQuery('#cil_listNameUrl').val("");
 		jQuery('.cil_error').html('');
+		jQuery('#cil_preview_image').attr('src',"");
 	}
 
 	//////////////change submit button label///////////////
