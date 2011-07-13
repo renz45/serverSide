@@ -22,13 +22,13 @@
 	border-radius:5px;
 	width: 600px;
 	overflow: auto;
+	margin-bottom: 20px;
 }
 
 #create_new_list_header {
+	display: inline;
 	height: 15px;
-	width: 130px;
 	padding:7px;
-	display: block;
 	background-color: #eee;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #ddd;
@@ -38,6 +38,7 @@
 	font-weight: bold;
 	color: #2175a5;
 	cursor: pointer;
+	clear: both;
 }
 
 #create_new_list_header:hover {
@@ -187,6 +188,7 @@
 
 #cil_edit_List_form {
 	height:0;
+	margin-top: 10px;
 	overflow:hidden;
 }
 
