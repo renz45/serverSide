@@ -52,7 +52,7 @@ function cil_install () {
 			  id mediumint(9) NOT NULL AUTO_INCREMENT,
 			  heading VARCHAR(200) NOT NULL,
 			  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			  description text NOT NULL,
+			  content text NOT NULL,
 			  url VARCHAR(55) DEFAULT '' NOT NULL,
 			  image_url VARCHAR(55) DEFAULT '' NOT NULL,
 			  list_id int(55) DEFAULT 0 NOT NULL,
