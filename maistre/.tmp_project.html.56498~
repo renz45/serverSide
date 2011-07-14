@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Zachary Nicoll" />
+    <title>maistre</title>
+    <link rel="shortcut icon" type="image/ico" href="" />
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" ></script>
+    <script src="js/jquery.md5.js" type="text/javascript"></script>
+    <script src="js/site.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <h1><a href="home.html">Maistre</a></h1>
+        <div id="nav">
+          <h3>Welcome, user!</h3>
+          <ul>
+            <li><a href="home.html">logout</a>|</li>
+            <li><a class="modal_link" href="profile">edit profile</a>|</li>
+            <li><a href="portfolio.html">view portfolio</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="content" class="project">
+        <p id="breadcrumbs"><a href="home.html">Home</a> &rarr; Project Page</p>
+        <div class="information">
+          <a class="right" href="project.html">delete project</a>
+          <a class="right" href="project.html">add project to portfolio</a>
+          <h2>Development of maistre, the project management site<a href="project.html" class="edit">edit</a></h2>
+          <form class="inline" method="post" action="project.html">
+            <input type="text" name="project_title" value="Development of maistre, the project management site" />
+            <input type="submit" name="submit" value="submit" />
+          </form>
+          <p class="right">Project description of greatness! Project description of greatness! Project description of greatness! Project description!</p>
+          <p>Status: <span class="status open">open</span><a href="project.html" class="edit">edit</a></p>
+          <form class="inline" method="post" action="project.html">
+            <select>
+              <option>open</option>
+              <option>closed</option>
+            </select>
+            <input type="submit" name="submit" value="submit" />
+          </form>
+          <p>Project Manager: Smoggle McSmoggleson<a href="project.html" class="edit">edit</a></p>
+          <form class="inline" method="post" action="project.html">
+            <select>
+              <option>Smoggle McSmoggleson</option>
+              <option>Zachary Nicoll</option>
+              <option>Adam Rensel</option>
+              <option>Tim Lieberman</option>
+              <option>Leanna Lucas</option>
+            </select>
+            <input type="submit" name="submit" value="submit" />
+          </form>
+        </div>
+        <div id="users" class="left">
+          <h2>Project Members</h2>
+          <form method="post" action="project.html">
+            <input type="text" name="member_name" value="" />
+            <input type="submit" name="add_member_submit" value="Add Member" />
+          </form>
+          <ul>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+            <li>
+              <a href="project.html"><img src="images/default_image.png" alt="default maistre image" width="50" height="50" /></a>
+              <a class="remove" href="project.html">remove</a>
+            </li>
+          </ul>
+          <div class="pagination">
+            <a href="project.html">&laquo; first</a>
+            <a href="project.html">&lsaquo; previous</a>
+            <span id="current">1</span> of <span id="total">4852</span>
+            <a class="right" href="project.html">last &raquo;</a>
+            <a class="right" href="project.html">next &rsaquo;</a>
+          </div>
+        </div>
+        <div id="tasks" class="right list">
+          <p id="show_all"><a href="project.html">show all members</a></p>
+          <h2><a href="home.html">Open Tasks</a></h2>
+          <h2 class="tab"><a href="home.html">Closed Tasks</a><a class="add modal_link" href="task">&oplus;</a></h2>
+          <ul>
+            <li class="author">&#9733; Zach</li>
+            <li><a href="task.html">Code out the entirety of the project.</a></li>
+            <li><a href="task.html">Make more list items as dummy text for the multi user tasks list.</a></li>
+            <li class="author">&#9733; Adam</li>
+            <li><a href="task.html">Code out the entirety of the project.</a></li>
+            <li><a href="task.html">Make more list items as dummy text for the multi user tasks list.</a></li>
+            <li class="author">&#9733; Tim</li>
+            <li><a href="task.html">Create entire design in the next 5 minutes.</a></li>
+            <li><a href="task.html">Now repeat the above!</a></li>
+            <li><a href="task.html">Code out the entirety of the project.</a></li>
+            <li class="author">&#9733; Leanna</li>
+            <li><a href="task.html">Fix all ze bugs! All of them!</a></li>
+          </ul>
+          <div class="pagination">
+            <a href="project.html">&laquo; first</a>
+            <a href="project.html">&lsaquo; previous</a>
+            <span id="current">1</span> of <span id="total">4852</span>
+            <a class="right" href="project.html">last &raquo;</a>
+            <a class="right" href="project.html">next &rsaquo;</a>
+          </div>
+        </div>
+        <div id="notes" class="left list">
+          <h2><a href="home.html">Project Notes</a></h2>
+          <h2 class="tab"><a href="home.html">Recent Task Notes</a><a class="add modal_link" href="note">&oplus;</a></h2>
+          <ul>
+            <li><a href="task.html">Okay, so I noticed something about this task... No one is doing it!</a></li>
+            <li><a href="task.html">Whoever it was that coded all of the CSS for this entire site should never be allowed to touch a computer every again.</a></li>
+            <li><a href="task.html">Oh yes, please, do assign me more tasks. I obviously have nothing to do.</a></li>
+            <li><a href="task.html">If only I had a song in my head. That'd be a great thing to slap in here.</a></li>
+            <li><a href="task.html">Okay, so I noticed something about this task... No one is doing it!</a></li>
+            <li><a href="task.html">Whoever it was that coded all of the CSS for this entire site should never be allowed to touch a computer every again.</a></li>
+            <li><a href="task.html">Oh yes, please, do assign me more tasks. I obviously have nothing to do.</a></li>
+          </ul>
+          <div class="pagination">
+            <a href="project.html">&laquo; first</a>
+            <a href="project.html">&lsaquo; previous</a>
+            <span id="current">1</span> of <span id="total">4852</span>
+            <a class="right" href="project.html">last &raquo;</a>
+            <a class="right" href="project.html">next &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+      <div class="modal task">
+        <form>
+          <label>Title</label>
+          <input type="text" name="task_title"/>
+          <label>Description</label>
+          <textarea name="task_description" rows="5" cols="50"></textarea>
+          <p id="priority">Priority: <a href="1">&#9734;</a> <a href="2">&#9734;</a> <a href="3">&#9734;</a> <a href="4">&#9734;</a> <a href="5">&#9734;</a></p>
+          <input type="hidden" name="priority" value="" />
+          <label>Assigned User</label>
+          <select name="task_assigned_user">
+            <option>Select one...</option>
+            <option>Zachary Nicoll</option>
+            <option>Adam Rensel</option>
+            <option>Tim Lieberman</option>
+            <option>Leanna Lucas</option>
+          </select>
+          <input type="submit" name="cancel" class="submit" value="Submit Task" />
+          <input type="submit" name="submit" class="cancel" value="Cancel" />
+        </form>
+      </div>
+      <div id="signup" class="modal profile">
+        <form method="post" action="home.html">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" value="" />
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" value="" />
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email" value="" />
+          <div id="profile_image">
+            <img src="http://www.gravatar.com/avatar/" alt="personal avitar" width="80" height="80" />
+            <input type="checkbox" name="gravitar" id="gravitar" value="" checked="checked" />
+            <label for="gravitar">Use Gravitar</label>
+            <input type="file" name="avitar" />
+          </div>
+          <label for="gh_username">Github Username:</label>
+          <input type="text" name="gh_username" id="gh_username" value="" />
+          <input type="submit" name="submit" class="submit" value="Sign up" />
+          <input type="submit" name="submit" class="cancel" value="Cancel" />
+        </form>
+      </div>
+      <div class="modal note">
+        <ul id="error_list">
+          <li>We don't like your note.</li>
+          <li>Note fail.</li>
+        </ul>
+        <form>
+          <label>Add Project Note</label>
+          <textarea name="note_content" rows="5" cols="50"></textarea>
+          <input type="submit" name="cancel" class="submit" value="Submit Note" />
+          <input type="submit" name="submit" class="cancel" value="Cancel" />
+        </form>
+      </div>
+    </div>
+    <div id="darknessification"></div>
+  </body>
+</html>

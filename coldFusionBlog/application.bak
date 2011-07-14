@@ -1,0 +1,1 @@
+﻿<cfsetting showdebugoutput="false" ><cfapplication name="blog" sessionmanagement="true" clientmanagement="true" >
