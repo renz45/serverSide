@@ -1,0 +1,12 @@
+h1. theymakeapps.com - mobile site
+
+*Adam Rensel's Code*
+
+p. remake of the site theymakeapps.com in mobile form. I wanted to take a crack at converting a site into a mobile format. I must have done a decent job because the creator of the original site contact me with his praise :)
+
+p. live site: here(theymakeapps mobile)":http://www.adamrensel.com/theymakeapps/
+
+h2. Features
+
+* liquid layout to handle landscape or portrait views on a phone.
+* Mobilization feature is being able to add searched companies to your address book straight from the site.

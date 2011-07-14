@@ -1,0 +1,13 @@
+h1. maistre - github powered project management
+
+*Adam Rensel's Code*
+
+p. I did this project along with 3 other people over the course of a week, we were all learning coldfusion at the time.
+
+p. My role for this project was project management and code architecture.
+
+h2. Features
+
+* Portfolio pages are automatically generated from projects you are involved in.
+* create/edit projects and assign tasks to other maistre members. 
+* tasks can be attached to commits from github.
