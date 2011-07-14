@@ -1,0 +1,916 @@
+body {
+	font: 62.5%/1 Helvetica, Arial, Sans-Serif;
+	margin:0;
+	padding: 0;
+	color: #555;
+	background: url('../img/bgMain.gif') center center;
+}
+
+a {
+	color: #00A8E1;
+}
+
+.clear {
+	clear: both;
+}
+
+/*  *********************** NAV STYLES ***************************  */
+#navList {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 4.5em;
+	background-color: #f8f8f3;
+	border-top: 4px solid #535555;
+	border-bottom: 4px solid #535555;
+	z-index: 100;
+}
+
+#navList p {
+	margin: 0;
+}
+
+#navList li {
+	display: block;
+	width: 19%;
+	min-width: 45px;
+	height: 4.5em;
+	float: left;
+	font-size: 1em;
+	font-family: Georgia, serif;
+	color: #535555;
+	border-left: 1px dashed #535555;
+	border-right: 1px dashed #535555;
+	text-align: center;
+	line-height: 4em;
+}
+
+#navList li a {
+	display: block;
+}
+
+#navList li:hover {
+	cursor: pointer ;
+}
+
+#navList li a {
+	text-decoration: none;
+	color: #535555;
+}
+
+#navList #logoBtn {
+	border-left: none;
+	text-indent: -999em;
+	background: url('../img/logo.jpg') center center no-repeat #f8f8f3;
+}
+
+#navList #searchBtn {
+	border-right: none;
+}
+
+#logoBtn {
+	margin: 0;
+}
+
+#navList #sortByBtn,
+#navList #filtersBtn,
+#navList #searchBtn {
+	position: relative;
+	background: url('../img/btnArrow.jpg') center 32px no-repeat;
+}
+	
+	/* *******register and login******* */
+#register {
+	float: left;
+	margin: 0 0 0 10px;
+	border: 1px solid #535555;
+	border-top: none;
+	background-color: #f8f8f3;
+}
+
+#login {
+	position: relative;
+	float: right;
+	margin: 0 10px 0 0;
+	border: 1px solid #535555;
+	border-top: none;
+	background-color: #f8f8f3;	
+}
+
+#login form input {
+	width: 8em;
+	color: #aaa;
+}
+
+#login form input:focus {
+	color: #555;
+}
+
+#login form .submit {
+	padding: 3px 0 3px 0;
+	width: 3.5em;
+	color: #fff;
+	background-color: #555;
+	border: none;
+	cursor: pointer;
+}
+
+#login form .submit:focus {
+	color: #fff;
+}
+
+#login form p {
+	background: url('../img/btnArrow.jpg') center right no-repeat;
+}
+
+#login form {
+	position: absolute;
+	top: 0;
+	right: -1px;
+	padding: 0 5px 0 5px;
+	width: 25em;
+	background-color: #FFFF94;
+	height: 0;
+	overflow: hidden;
+}
+
+#login.active form {
+	height: auto;
+}
+
+#login a, #register a {
+	text-decoration: none;
+	color: #535555;
+	padding: 4px;
+	font-size: 1.2em;
+	font-family: Georgia, serif;
+	line-height: 1.7em;
+}
+
+/* ******************** NAV MODAL STYLES ************************ */
+
+#navModals {
+	visibility: hidden;
+	height: 0;
+	width: 0;
+}
+	/* sortByModal */
+#sortByModal {
+	background-color: #FFFF94;
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	min-width: 20em;
+	overflow: hidden;
+	text-align: left;
+	
+	visibility: hidden;
+}
+
+/* toggled by js */
+#navList #sortByBtn.active {
+	background-color: #FFFF94;
+}
+
+#navList #sortByBtn #sortByModal.active {
+	visibility: visible;
+}
+
+#sortByModal p {
+	font-size: 1.6em;
+	color: #777;
+	margin: 0 0 -5px 0;
+}
+
+#sortByModal ul {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+#sortByModal li {
+	width: 90%;
+	height: 3.5em;
+	border: none;
+	text-align: left;
+	font-size: 1.5em;
+	font-family: sans-serif;
+}
+
+#sortByModal li a {
+	display: block;
+	padding: 0 0 0 10px;
+	line-height: 3.5em;
+	width: 110%;
+}
+
+#sortByModal li a:hover {
+	background-color: #666;
+	color: #fff;
+}
+
+	/* Filter modal */
+
+#filtersModal {
+	position: absolute;
+	left: -5em;
+	background-color: #fff;
+	overflow: hidden;
+	margin: 5px 0 0 0;
+	padding: 1em;
+	min-width: 18em;
+	border: 9px solid #FFFF94;
+	
+	visibility: hidden;
+}
+
+/* changed with js for toggled state */
+#navList #filtersBtn.active {
+	background-color: #FFFF94;
+}
+
+#filtersModal.active {
+	visibility: visible;
+}
+
+#filtersModal p {
+	text-align: left;
+	margin: 0 0 -8px 0;
+}
+
+#filtersModal:hover {
+	cursor: auto ;
+}
+
+#filtersModal ul {
+	padding: 0;
+}
+
+#filtersModal li{
+	padding: 0;
+	margin: 0;
+	border: none;
+	height: 2.7em;
+	width: 2.7em;
+	min-width: 0;
+	
+}
+
+#filtersModal li a {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	height: 2.7em;
+	width: 2.7em;
+	text-indent: -999em;
+	border: 1px solid #aaa;
+}
+
+#filtersModal li a:hover, #filtersModal li a.active {
+	border-color: #00A8E1;
+	z-index: 100;
+}
+
+.appleSelect {
+	background: url('../img/spriteOS.gif') 0 center no-repeat #fff;
+}
+
+.androidSelect {
+	background: url('../img/spriteOS.gif') -27px center no-repeat #fff;
+}
+
+.blackberrySelect {
+	background: url('../img/spriteOS.gif') -55px center no-repeat #fff;
+}
+
+.palmSelect {
+	background: url('../img/spriteOS.gif') -84px center no-repeat #fff;
+}
+
+.windowsSelect {
+	background: url('../img/spriteOS.gif') -113px center no-repeat #fff;
+}
+
+.symbianSelect {
+	background: url('../img/spriteOS.gif') -139px center no-repeat #fff;
+}
+
+#locationSearchLabel {
+	margin: 20px 0 0 0;
+	line-height: 1.3em;
+	float: left;
+	font-size: 1em;
+	text-align: left;
+}
+
+#locationSearch input {
+	width: 13em;
+	color: #aaa;
+}
+
+#locationSearch input:focus {
+	width: 13em;
+	color: #666;
+}
+
+#locationSearch #locationSubmit {
+	color: #fff;
+	background-color: #666;
+	border: #999;
+	width: 3.4em;
+	height: 1.8em;
+	padding: 1px 0 0 0;
+}
+
+#filtersModal #priceSelect {
+	margin: 0;
+	padding: 0;
+}
+
+#filtersModal #priceSelect li {
+	width: 3.5em;
+	border: none;
+}
+
+#filtersModal #priceSelect li a {
+	width: 3.5em;	
+	border: 1px solid #aaa;
+}
+
+#filtersModal #priceSelect li a:hover, #filtersModal #priceSelect li a.active {
+	background-color:#666 ;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+}
+
+#filtersModal #priceLabel {
+	clear: both;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	float: none;
+	
+}
+
+#priceLabel span{
+	margin: 0;
+	padding: 0;
+}
+
+	/* favs btn */
+#favsBtn:hover, #favsBtn.active {
+	background-color: #FFFF94;
+}
+
+	/* search modal */
+	
+#searchModal {
+	position: absolute;
+	top: 4em;
+	left: -16em;
+	background-color: #fff;
+	overflow: hidden;
+	margin: 5px 0 0 0;
+	padding: 1em;
+	width: 18em;
+	border: 9px solid #FFFF94;
+	
+	visibility: hidden;
+}
+
+#navList #searchBtn.active {
+	background-color: #FFFF94;
+}
+
+#searchModal.active {
+	visibility: visible;
+}
+
+#searchBtn p {
+	margin: 0 0 5px 0;
+	padding: 0;
+	line-height: 1.2em;
+	text-align: left;
+}
+
+#searchModal input {
+	width: 10em;
+	color: #aaa;
+}
+
+#searchModal input:focus {
+	width: 13em;
+	color: #666;
+	background-color: #666;
+}
+
+#searchModal input:hover {
+	background-color: #666;
+}
+
+#searchModal #searchBtnInput {
+	color: #fff;
+	background-color: #666;
+	border: #999;
+	width: 3.4em;
+	height: 1.8em;
+	padding: 1px 0 0 0;
+}
+
+/* *********************************** SPONSOR ARTICLE ************************************* */
+
+#articleList {
+	clear: both;
+	padding: 1px 0 0 0;
+}
+
+.sponsorCompany {
+	position: relative;
+	width: 96%;
+	margin: 15px auto 0 auto;
+	padding: 1%;
+	background-color: #fff;
+	
+}
+
+.sponsorBadge, .featuredBadge {
+	position: absolute;
+	right: 0;
+	top: -1em;
+	width: 5.2em;
+	height: 5.3em;
+	text-indent: -999em;
+	background: url('../img/iconSponsor.gif') center center no-repeat; 
+}
+
+.featuredBadge {
+	background: url('../img/iconFeatured.gif') center center no-repeat; 
+}
+
+.companyName {
+	margin: 0 0 2px 0;
+	padding: 0;
+	font-size: 1.4em;
+	color: #555;
+}
+
+.companyLocation {
+	margin: 0;
+	padding: 0;
+	font-family: Georgia, serif;
+	font-size: .9em;
+	font-weight: normal;
+	color: #555;
+}
+
+.companyLocation span {
+	font-style: italic;
+}
+
+.companyInfo {
+	margin: 4px 0 0 0;
+	overflow: hidden;
+	border-top: 4px solid #555;
+	border-bottom: 3px solid #555 ;
+}
+
+.companyInfo li {
+	list-style: none;
+}
+
+.skillRow,
+.exampleRow,
+.infoRow {
+	width: 100%;
+	float: left;
+	clear: both;
+	border-bottom: 1px dotted #555;
+}
+
+.infoRow {
+	border: none;
+}
+
+.skillRow p,
+.exampleRow p,
+.infoRow p {
+	padding: 0;
+	margin: 5px 0 0 0;
+	width: 18%;
+	float: left;
+	color: #555;
+}
+
+.skillRow .osIcons, .exampleRow .sampleApps, .infoRow .additionalInfo {
+	width: 78%;
+	padding: 5px;
+	margin: 0;
+	color: #555;
+	float: left;
+	border-left: 1px dotted #555;
+}
+
+.skillRow .osIcons li {
+	width: 2.7em;
+	height: 2.7em;
+	float: left;
+	text-indent: -999em;
+}
+
+.exampleRow .sampleApps li {
+	clear: left;
+	overflow: hidden;
+}
+
+.exampleRow .sampleApps li span {
+	display: block;
+	width: 2.7em;
+	height: 2.7em;
+	float: left;
+	text-indent: -999em;
+}
+
+.exampleRow .sampleApps li p {
+	margin: 0;
+	width: 80%;
+	float: left;
+}
+
+.exampleRow .sampleApps li p a {
+	display: block;
+	width: 80%;
+	line-height: 2.8em;
+	padding: 0 0 0 5px;
+	margin: 0;
+	text-decoration: none;
+	color: #555;
+}
+
+.exampleRow .sampleApps li p a:hover {
+	background-color: #555;
+	color: #fff;
+	cursor: pointer;
+}
+
+	/* options dropdown */
+.optionsDropDown {
+	position: relative;
+	padding: 5px;
+	margin: 5px 0 0 0;
+	width: 9em ;
+	height: 1em;
+	line-height: 1em;
+	float: left;
+	background-color: #555;
+	color: #fff;
+	clear: both;
+	border: none;
+	cursor: pointer;
+}
+
+.optionsDropDown p {
+	margin: 0;
+	background: url('../img/dropdownArrowWhite.gif') 75px center no-repeat #555;
+}
+
+.optionsDropDown ul {
+	position: absolute;
+	padding: 0;
+	left: 0;
+	top: 1.1em;
+	width: 10em;
+	background-color: #555;
+	overflow: hidden;
+	
+	height: 0;
+}
+
+.optionsDropDown.active ul {
+	height: auto;
+	z-index: 100;
+}
+
+.optionsDropDown li {
+	list-style: none;
+}
+
+.optionsDropDown li a {
+	display: block;
+	color: #fff;
+	padding: 10px 5px;
+	text-decoration: none;
+}
+
+.optionsDropDown li a:hover {
+	color: #555;
+	background: #fff;
+}
+
+/* facebook/twitter icons */
+.articleShareLinks {
+	margin: 5px 0 0 0;
+	float: right;
+}
+
+.articleShareLinks .facebook {
+	margin: -1px 0 0 0;
+	display: block;
+	text-indent: -999em;
+	width: 2.1em;
+	height: 2.1em;
+	float: right;
+	background: url('../img/iconFacebook.jpg') center center no-repeat;
+}
+
+.articleShareLinks .twitter {
+	margin: 0 8px 0 0;
+	display: block;
+	text-indent: -999em;
+	width: 2.1em;
+	height: 2.1em;
+	float: right;
+	background: url('../img/iconTwitter.jpg') center center no-repeat;
+}
+	/* example modal */
+.appExampleModal {
+	width: 100%;
+	top: 0;
+	position: absolute;
+	z-index: 120;
+	
+}
+
+.appExampleModal div {
+	width: 13.5em;
+	padding: 10px;
+	margin: 0 auto;
+	background-color: #FFFF94;
+}
+
+.appExampleModal p {
+	padding: 5px;
+	margin: 0;
+	width: 9em;
+	background-color: #fff;
+	text-align: center;
+	font-size: 1.4em;
+}
+
+.appExampleModal .closeBtn a {
+	display: block;
+	padding: 6px 5px 6px 5px;
+	background-color: #555;
+	text-decoration: none;
+	color: #fff;
+}
+
+.companyName a {
+	text-decoration: none;
+	color: #555;
+}
+
+.freeAccountInfo {
+	height: 0;
+	overflow: hidden;
+}
+
+/* *************************BOTTOM BUTTONS************************* */
+#bottomBtns {
+	clear: both;
+	text-align: center;
+	width: 98%;
+	margin: 0 auto;
+}
+
+#bottomBtns ul {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#bottomBtns ul li {
+	list-style: none;
+	float: left;
+	height: 2.3em;
+	background-color: #555;
+	color: #fff;
+}
+
+#bottomBtns ul li a {
+	color: #fff;
+	text-decoration: none;
+	line-height: 2.3em;
+}
+
+#bottomBtns ul li p {
+	margin: 0;
+}
+
+#prevBtn, #nextBtn {
+	width: 15%;
+}
+
+#resultsPerPage {
+	width: 68%;
+	margin: 0 1% 0 1%;
+}
+
+#resultsPerPage p {
+	background: url('../img/dropdownArrowWhite.gif') 98% center no-repeat;
+}
+
+#resultsPerPage ul {
+	position: absolute;
+	padding: 0;
+	width: 66%;
+	
+	height: 0;
+	visibility: hidden;
+}
+
+#resultsPerPage ul li {
+	display: block;
+	padding: 0 0 0 1%;
+	margin: -1px 0 0 0;
+	float: none;
+	line-height: 22px;
+	background-color: #555;
+	width: 97%;
+	text-align: left;
+	border: 1px solid #aaa;
+}
+
+#resultsPerPage ul li:hover, #resultsPerPage ul li.active {
+	background-color: #fff;
+	color: #555;
+	cursor: pointer;
+}
+
+#resultsPerPage ul.active {
+	visibility: visible;
+	height: auto;
+}
+
+#backToTopFooter a {
+	display: block;
+	height: 20px;
+	width: 100%;
+	line-height: 20px;
+	color: #fff;
+	text-decoration: none;
+	float: left;
+	margin: .5em 0 0 0;
+	background-color: #555 ;
+	
+	clear: both;
+}
+
+/* **************************************BOTTOM NAV********************************** */
+
+#bottomNav {
+	padding: 0;
+	margin: 25px 0 0 0;
+	width: 100%;
+	border-bottom: 4px solid #555;
+	border-top: 4px solid #555;
+	clear: both;
+	float: left;
+}
+
+#bottomNav li {
+	padding: 6px 0 6px 0;
+	border-bottom: 1px dotted #555;
+	text-align: center;
+	list-style: none;
+	background-color: #f8f8f3;
+}
+
+#bottomNav li.last {
+	border: none;
+}
+
+#bottomNav li a {
+	text-decoration: none;
+	color: #555;
+}
+
+.newsletter form {
+	height: 0;
+	overflow: hidden;
+}
+
+.newsletter form .submit {
+	color: #fff;
+	background-color:#555 ;
+	border: none;
+	cursor: pointer;
+	padding: 3px 5px 3px 5px;
+}
+
+.newsletter {
+	cursor: pointer;
+}
+
+.newsletter form.active {
+	height: auto;
+}
+
+/* *******************************FOOTER******************************** */
+#footer {
+	clear: both;
+	float: left;
+	width: 100%;
+	text-align: center;
+}
+
+#footer h2 {
+	margin: 15px 0 15px 0;
+}
+
+#footer h2 a {
+	color: #555;
+}
+
+#footer ul {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#footer ul li {
+	display: inline;
+	list-style: none;
+}
+
+#footer ul li a {
+	color: #555;
+	text-decoration: none;
+}
+
+#footer p {
+	color: #555;
+	margin: 3px 0 0 0;
+}
+
+
+/* *********************************FAQ PAGE********************************** */
+
+#faqList {
+	background-color: #fff;
+	width: 97%;
+	margin: 30px auto 0 auto;
+	padding: 10px 1%;
+	clear: both;
+}
+
+#faqTitle {
+	border-bottom: 3px solid #555;
+}
+
+.faqQuestions {
+	padding: 0;
+}
+
+.faqQuestions p {
+	margin: 0 0 10px 0;
+}
+
+.faqQuestions li {
+	list-style: none;
+	margin: 0 0 10px 0 ;
+	cursor: pointer;
+}
+
+.faqQuestions strong {
+	background-color: #FFFF94;
+	padding: 7px 5px 3px 5px;
+	line-height: 1.6em;
+}
+
+.faqQuestions .answer {
+	margin: 0;
+	padding: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.faqQuestions li.active .answer {
+	height: auto;
+	margin: 10px 0 20px 0;
+}
+
+.faqQuestions li li {
+	list-style: circle;
+}
+
+/* *****************************FAVORITES****************************** */
+#favTitle {
+	margin: 15px 15px 0 15px;
+	font-size: 2.4em;
+	font-family: Georgia, sans-serif;
+	border-bottom: 3px solid #555;
+}
+

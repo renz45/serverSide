@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.1//EN" "http://www.openmobilealliance.org/tech/DTD/xhtml-mobile11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>They Make Apps - Mobile</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Cache-Control" content="max-age=10" /> 
+		<meta http-equiv="Content-Type" content="application/xhtml+xml" />
+		
+		<!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<meta name="Keywords" content="keywords go here seperated by comas" />
+		<meta name="Description" content="description here" /> -->
+
+		
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+		<script src="js/main.js" type="text/javascript"></script>
+	</head>
+	
+	<body>
+		<div id="nav">
+			<ul id="navList"><!-- nav list -->
+				<li id="logoBtn"><a href="index.html">They Make Apps</a></li>
+				
+				<li id="sortByBtn" class="btn">
+					<a href="#">Sort By</a>
+					
+					<div id="sortByModal" class="modal">
+						<p>Choose one: </p>
+						<ul id="sortBy">
+							<li><a href="#">Featured</a></li>
+							<li><a href="#">Most Recent</a></li>
+							<li><a href="#">Recently Updated</a></li>
+							<li><a href="#">Popularity</a></li>
+							<li><a href="#">Alphabetically</a></li>
+						</ul><!-- end sortBy -->
+					</div><!-- end sortByModal -->
+				
+				</li><!-- end sort by btn -->
+				
+				<li id="filtersBtn" class="btn">
+					<a href="#">Filters</a>
+					
+					<div id="filtersModal" class="modal">
+						<p>Choose an OS to filter</p>
+						<ul id="OSbtns">
+							<li><a class="appleSelect" href="#">Apple</a></li>
+							<li><a class="androidSelect" href="#">Android</a></li>
+							<li><a class="blackberrySelect" href="#">Blackberry</a></li>
+							<li><a class="palmSelect" href="#">Palm</a></li>
+							<li><a class="windowsSelect" href="#">Windows</a></li>
+							<li><a class="symbianSelect" href="#">Symbian</a></li>
+						</ul><!-- end sortBy -->
+						<br />
+						<p id="locationSearchLabel">Start typing the name of a state or country, pick a location from the list, and hit 'Okay':</p>
+						<form id="locationSearch" method="get" action="#">
+							<p>
+								<input type="text" name="locationSearch" value="location" />
+								<input id="locationSubmit" type="submit" name="button" value="Okay" />
+							</p>
+						</form>
+						
+						<p>What's your budget in US Dollars?</p>
+						<ul id="priceSelect">
+							<li><a href="#">0 - 5k</a></li>
+							<li><a href="#">5k - 10k</a></li>
+							<li><a href="#">10k - 15k</a></li>
+							<li><a href="#">15k - 20k</a></li>
+							<li><a href="#">20k+</a></li>
+						</ul>
+						<p id="priceLabel">
+							<span style="margin:0 0 0 0;">0</span> 
+							<span style="margin:0 0 0 19px;">5k</span> 
+							<span style="margin:0 0 0 15px;">10k</span> 
+							<span style="margin:0 0 0 15px;">15k</span> 
+							<span style="margin:0 0 0 17px;">20k</span> 
+							<span style="margin:0 0 0 17px;">+</span></p>
+					</div><!-- end filtersModal -->
+				</li><!-- end filterBtn -->
+				
+				<li id="favsBtn"><a href="favorites.html">Favs</a></li><!-- favs btn -->
+				
+				<li id="searchBtn" class="btn">
+					<a href="#">Search</a>
+					
+					<div id="searchModal" class="modal">
+						<p>Search for a company, an App, a Keyword... and hit 'Okay':</p>
+						<form method="get" action="#">
+							<p>
+								<input type="text" name="search" value="Search" />
+								<input id="searchBtnInput" type="submit" name="button" value="Okay" />
+							</p>
+						</form>
+					</div><!-- end searchModal -->
+				</li><!-- end search btn -->
+					
+			</ul><!-- end nav list -->
+			
+			<p id="register"><a href="#">APP MAKER? CREATE A PROFILE</a></p>
+			<div id="login" class="btn">
+				<a href="#">LOGIN</a>
+				<form class="modal" method="post" action="#">
+					<p>
+						<input type="text" name="username" value="Username" />
+						<input type="password" name="password" value="password" />
+						<input class="submit" type="submit" name="button" value="Okay" />
+						&#xa0;				
+					</p>
+				</form>
+			</div>
+		</div><!-- end nav -->
+		
+		<div id="articleList">
+			
+			<div class="sponsorCompany">
+				<p class="sponsorBadge">Sponsor</p>
+				<h2 class="companyName">New Potato Technologies</h2>
+				<h3 class="companyLocation">North Carolina, USA - <span>over $20k</span></h3>
+				
+				<div class="companyInfo">
+				
+					<div class="skillRow">
+						<p>Skills</p>
+						
+						<ul class="osIcons">
+							<li class="androidSelect">Android</li>
+							<li class="appleSelect">iPhone</li>
+							<li class="windowsSelect">Windows</li>
+						</ul>
+					</div><!-- end SkillRow -->
+					
+					<div class="exampleRow">
+						<p>Example Apps</p>
+						
+						<ul class="sampleApps">
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic1.jpg">Live Rider Cycling Computer</a></p></li>
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic2.jpg">FLPR Remote Control</a></p></li>
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic3.jpg">Jack Pot Slots</a></p></li>
+						</ul>
+					</div><!-- exampleRow -->
+					
+					<div class="infoRow">
+						<p>More Info</p>
+						
+						<p class="additionalInfo">iOS dev team. Engineers, dreamers, designers, and artists based in Wilmington, NC. Working to extend the iPhone, iPod, and iPad platforms into new innovative areas. Mixing Santa's workshop with a bit of magic to bring imagination to reality.</p>
+					</div><!-- end infoRow -->
+					
+				</div><!-- end companyInfo -->
+				
+				<div class="optionsDropDown btn">
+					<p>options</p>
+					<ul class="modal">
+						<li><a href="#">Add to Favs</a></li>
+						<li><a href="#">Visit Site</a></li>
+						<li><a href="#">Follow on Twitter</a></li>
+						<li><a href="#">Contact this maker</a></li>
+						<li><a href="#">Add to contacts</a></li>
+					</ul>
+				</div><!-- end optionsDropDown -->
+				
+				<div class="articleShareLinks">
+					<a class="facebook" href="#">Share on Facebook</a>
+					<a class="twitter" href="#">Share on Twitter</a>
+				</div><!-- articleShareLinks -->
+				<div class="clear"></div>
+				
+				<div class="exampleModal"></div><!-- end exampleModal -->
+			</div><!-- end sponsorCompany -->
+			
+			<!-- add mob -->
+			<script type="text/javascript">
+			var admob_vars = {
+			 pubid: 'a14cfe3cfc24696', // publisher id
+			 bgcolor: '000000', // background color (hex)
+			 text: 'FFFFFF', // font-color (hex)
+			 ama: false, // set to true and retain comma for the AdMob Adaptive Ad Unit, a special ad type designed for PC sites accessed from the iPhone.  More info: http://developer.admob.com/wiki/IPhone#Web_Integration
+			 test: true // test mode, set to false to receive live ads
+			};
+			</script>
+			<script type="text/javascript" src="http://mmv.admob.com/static/iphone/iadmob.js"></script>
+			
+			<div class="sponsorCompany">
+				<p class="sponsorBadge">Sponsor</p>
+				<h2 class="companyName">New Potato Technologies</h2>
+				<h3 class="companyLocation">North Carolina, USA - <span>over $20k</span></h3>
+				
+				<div class="companyInfo">
+				
+					<div class="skillRow">
+						<p>Skills</p>
+						
+						<ul class="osIcons">
+							<li class="androidSelect">Android</li>
+							<li class="appleSelect">iPhone</li>
+							<li class="windowsSelect">Windows</li>
+						</ul>
+					</div><!-- end SkillRow -->
+					
+					<div class="exampleRow">
+						<p>Example Apps</p>
+						
+						<ul class="sampleApps">
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic1.jpg">Live Rider Cycling Computer</a></p></li>
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic2.jpg">FLPR Remote Control</a></p></li>
+							<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic3.jpg">Jack Pot Slots</a></p></li>
+						</ul>
+					</div><!-- exampleRow -->
+					
+					<div class="infoRow">
+						<p>More Info</p>
+						
+						<p class="additionalInfo">iOS dev team. Engineers, dreamers, designers, and artists based in Wilmington, NC. Working to extend the iPhone, iPod, and iPad platforms into new innovative areas. Mixing Santa's workshop with a bit of magic to bring imagination to reality.</p>
+					</div><!-- end infoRow -->
+					
+				</div><!-- end companyInfo -->
+				
+				<div class="optionsDropDown btn">
+					<p>options</p>
+					<ul class="modal">
+						<li><a href="#">Add to Favs</a></li>
+						<li><a href="#">Visit Site</a></li>
+						<li><a href="#">Follow on Twitter</a></li>
+						<li><a href="#">Contact this maker</a></li>
+						<li><a href="#">Add to contacts</a></li>
+					</ul>
+				</div><!-- end optionsDropDown -->
+				
+				<div class="articleShareLinks">
+					<a class="facebook" href="#">Share on Facebook</a>
+					<a class="twitter" href="#">Share on Twitter</a>
+				</div><!-- articleShareLinks -->
+				<div class="clear"></div>
+				
+				<div class="exampleModal"></div><!-- end exampleModal -->
+				
+			</div><!-- end sponsorCompany -->
+			
+			
+			<div class="sponsorCompany">
+				<p class="featuredBadge">Featured</p>
+				<h2 class="companyName"><a href="#">New Potato Technologies</a></h2>
+				<h3 class="companyLocation">North Carolina, USA - <span>over $20k</span></h3>
+				
+				<div class="companyInfo">
+				
+					<div class="skillRow">
+						<p>Skills</p>
+						
+						<ul class="osIcons">
+							<li class="androidSelect">Android</li>
+							<li class="appleSelect">iPhone</li>
+							<li class="windowsSelect">Windows</li>
+						</ul>
+					</div><!-- end SkillRow -->
+					
+					<div class="freeAccountInfo">
+						<div class="exampleRow">
+							<p>Example Apps</p>
+							
+							<ul class="sampleApps">
+								<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic1.jpg">Live Rider Cycling Computer</a></p></li>
+								<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic2.jpg">FLPR Remote Control</a></p></li>
+								<li><span class="appleSelect">iPhone</span> <p><a href="appImg/appPic3.jpg">Jack Pot Slots</a></p></li>
+							</ul>
+						</div><!-- exampleRow -->
+						
+						<div class="infoRow">
+							<p>More Info</p>
+							
+							<p class="additionalInfo">iOS dev team. Engineers, dreamers, designers, and artists based in Wilmington, NC. Working to extend the iPhone, iPod, and iPad platforms into new innovative areas. Mixing Santa's workshop with a bit of magic to bring imagination to reality.</p>
+						</div><!-- end infoRow -->
+					</div><!-- end freeAccountInfo -->
+					
+				</div><!-- end companyInfo -->
+				
+				<div class="optionsDropDown btn">
+					<p>options</p>
+					<ul class="modal">
+						<li><a href="#">Add to Favs</a></li>
+						<li><a href="#">Visit Site</a></li>
+						<li><a href="#">Follow on Twitter</a></li>
+						<li><a href="#">Contact this maker</a></li>
+						<li><a href="#">Add to contacts</a></li>
+					</ul>
+				</div><!-- end optionsDropDown -->
+				
+				<div class="articleShareLinks">
+					<a class="facebook" href="#">Share on Facebook</a>
+					<a class="twitter" href="#">Share on Twitter</a>
+				</div><!-- articleShareLinks -->
+				<div class="clear"></div>
+				
+				<div class="exampleModal"></div><!-- end exampleModal -->
+				
+			</div><!-- end sponsorCompany -->
+			
+			
+		</div><!-- end articleList -->
+		
+		<div id="bottomBtns">
+			<ul>
+				<li id="prevBtn"><a href="#">Prev</a></li>
+				<li id="resultsPerPage" class="btn">
+					<p><a href="#">3 Results per page</a></p>
+					<ul class="modal">
+						<li class="3">3 Articles</li>
+						<li class="6">6 Articles</li>
+						<li class="10">10 Articles</li>
+						<li class="15">15 Articles</li>
+						<li class="20">20 Articles</li>
+						<li class="25">25 Articles</li>
+						<li class="30">30 Articles</li>
+						<li class="50">50 Articles</li>
+					</ul>
+				</li>
+				<li id="nextBtn"><a href="#">Next</a></li>
+			</ul>
+			<p id="backToTopFooter"><a href="#">Back To Top</a></p>
+		</div><!-- end bottomBtns -->
+		
+		<ul id="bottomNav">
+			<li><a href="http://twitter.com/theymakeapps">Follow Us on Twitter</a></li>
+			<li><a href="http://www.facebook.com/TheyMakeApps">Become a Fan on Facebook</a></li>
+			<li class="last newsletter btn">
+				Get the Newsletter
+				<form class="modal" method="post" action="#">
+					<p>
+						<input type="text" name="newsletterEmail" value="app@email.com" />
+						<input class="submit" type="submit" name="button" value="Okay" />
+					</p>
+				</form>
+			</li>
+		</ul><!-- end bottomNav -->
+		
+		<div id="footer">
+			<h2><a href="http://theymakeapps.com/">View Main Site</a></h2>
+			<ul>
+				<li><a href="http://theymakeapps.com/terms_and_conditions/">Terms</a></li>
+				<li> | </li>
+				<li><a href="http://theymakeapps.com/privacy_policy/">Privacy</a></li>
+				<li> | </li>
+				<li><a href="#">Contact</a></li>
+				<li> | </li>
+				<li><a href="faq.html">FAQ</a></li>
+			</ul>
+			<p>&#xA9; copyright They Make Apps, 2010</p>
+		</div><!-- end footer -->
+		
+	</body>
+</html>

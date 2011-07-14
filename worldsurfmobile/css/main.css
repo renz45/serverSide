@@ -1,0 +1,561 @@
+body {
+	font: 62.5%/1 Helvetica, Arial, Sans-Serif;
+	margin:0;
+	color: #555;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #555;
+}
+
+.orangeSerif {
+	font-family: Georgia, sans-serif;
+	color: #ff4200;
+}
+
+.darkSerif {
+	font-family: Georgia, sans-serif;
+	color: #555;
+}
+
+.whiteSerif {
+	font-family: Georgia, sans-serif;
+	color: #fff;
+}
+
+h1 {
+	font-weight: normal;
+}
+
+h2 {
+	font-weight: normal;
+}
+
+h3 {
+	font-weight: normal;
+}
+
+.orangeButton {
+	padding: 5px 5px 5px 5px;
+	color: #fff;
+	font-size: .9em;
+	background-color: #ff4200;
+	line-height: 1.2em;
+	border: 1px solid #b43002;
+	cursor: pointer;
+	
+	/* makes iPhone buttons look right */
+	-webkit-appearance: none;
+	
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-bottomright: 0px; 
+	
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+}
+
+
+/* ***************NAV*************** */
+#nav ul {
+	border-bottom: 4px solid #555;
+	height: 5.4em;
+}
+
+#nav li {
+	float: right;
+}
+
+#logo {
+	width: 59%;
+	padding: 0;
+	margin: 0;
+}
+
+#logo h1{
+	padding: 0;
+	margin: 0;
+}
+
+#logo a {
+	display: block;
+	padding: 0;
+	margin: 0;
+	height: 2.6em;
+	text-indent: -999em;
+	background: url('../img/logo.png') center center no-repeat;
+}
+
+#favoriteBtn {
+	border-left: 1px solid #c13200;
+}
+
+#newSearchBtn {
+	border-right: 1px solid #ffb9a1 ;
+	border-left: 1px solid #c13200;
+}
+
+#favoriteBtn, #newSearchBtn {
+	width: 20%;
+	padding: 0;
+}
+
+#favoriteBtn p, #newSearchBtn p {
+	margin: 0;
+}
+
+#favoriteBtn a, #newSearchBtn a {
+	display: block;
+	height: 5.4em;
+	line-height: 5em;
+	text-align: center;
+	color: #fff;
+	font-size: 1em;
+	background: url('../img/arrow_topNav.gif') center 37px no-repeat #ff4200;
+}
+
+/* ********************NAV DROPDOWNS****************** */
+/* new search drop down */
+#newSearchDropdown {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 4.8em;
+	font-size: 1.2em;
+	background-color: #555;
+	text-align: left;
+	border-bottom: 1px solid #333;
+	
+	overflow: hidden;
+	height: 0;
+}
+
+#newSearchDropdown a {
+	display: inline;
+}
+
+#newSearchDropdown form {
+	padding: 1em;
+	border-bottom: 1px solid #aaa;
+}
+
+#newSearchDropdown form #newSearch {
+	border: none;
+	background-color: #fff;
+}
+
+#newSearchDropdown .orangeButton {
+	font-size: 1em;
+	padding: .4em;
+	margin: 0 0 0 6px;
+}
+
+#newSearchDropdown a.active {
+	background-color: #ff4200 ;
+	color: #fff;
+}
+
+#newSearchDropdown input.orangeButton {
+	padding: .3em;
+	margin: 0;
+}
+
+#newSearchDropdown p {
+	padding: 0 1em;
+	margin: 0;
+	color: #fff;
+}
+
+#newSearchDropdown form p {
+	line-height: 1em;
+	padding: 0;
+	margin: 0;
+}
+
+#newSearchBtn #newSearchDropdown.active {
+	height: auto;
+	overflow: visible;
+}
+
+
+#newSearchBtn a.active {
+	background-color: #555;
+	color: #fff;
+}
+
+/* favorites drop down */
+#favoriteDropdown {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 5.6em;
+	background-color: #555;
+	overflow: hidden;
+	border-top: none;
+	
+	height: 0;
+}
+
+#favoriteDropdown ul {
+	height: auto;
+	padding: .6em;
+}
+
+#favoriteDropdown ul li {
+	position: relative;
+	display: block;
+	height: 3.8em;
+	float: none;
+	margin: 0;
+	width: 100%;
+	background-color: #aaa;
+	background: url('../img/slice_whiteBar.gif') center center repeat-x;
+	border-bottom: 1px solid #ccc;
+	overflow: hidden;
+}
+
+#favoriteDropdown ul li a {
+	text-align: left;
+	height: auto;
+	padding: .3em 3em .8em .5em;
+	line-height: 1.2em;
+	font-size: 1.2em;
+	color: #ff4200;
+	background: none;
+}
+
+#favoriteDropdown.active ul li a {
+	color: #ff4200;
+	background: none;
+}
+
+#favoriteDropdown ul li a span {
+	font-family: Georgia, sans-serif;
+	color: #555;
+}
+
+#favoriteDropdown ul li .closeBtn {
+	position: absolute;
+	padding: 0;
+	right: .2em;
+	top: .1em;
+	font-size: 3em;
+	line-height: 1em;
+	text-align: center;
+}
+
+#favoriteBtn #favoriteDropdown.active {
+	height: auto;
+	overflow: visible;
+}
+
+
+#favoriteBtn a.active {
+	background-color: #555;
+	color: #fff;
+}
+
+/* ***************WELCOME BLOCK************** */
+#welcomeBlock {
+	clear: both;
+	padding: 0 1em 0 1em;
+}
+
+#welcomeBlock h2 {
+	font-size: 1.8em;
+	margin: 15px 0 5px 0;
+}
+
+#welcomeBlock p {
+	margin: 0 0 20px 0;
+	font-size: 1.3em;
+}
+
+
+/* ****************INFO BLOCK**************** */
+.infoBlock {
+	padding: 0 1em;
+	clear: both;
+}
+
+.infoFrame {
+	
+	border: 1px solid #555;
+	overflow: hidden;
+	
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px; 
+	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+}
+
+.infoFrame h3 {
+	font-size: 1.6em;
+	margin: 0;
+	padding: .5em;
+	border-bottom: 1px solid #aaa;
+	
+}
+
+.infoFrame ul li a {
+	display: block;
+	padding: .8em 0 .7em .5em;
+	font-size: 1.2em;
+	line-height: 1.8em;
+	color: #ff4200;
+	background: url('../img/slice_whiteBar.gif') center center repeat-x;
+	border-bottom: 1px solid #ccc;
+}
+
+.infoFrame ul li {
+	overflow: hidden;
+	height: auto;
+	clear: both;
+}
+
+.infoFrame ul li a span {
+	font-family: Georgia, sans-serif;
+	color: #555;
+}
+
+.blockBottom {
+	height: 4em;
+	background-color: #555;
+}
+
+.blockBottom a {
+	padding: 0 2.5em 0 2.5em;
+	line-height: 2.8em;
+	float: right;
+	font-size: 1.5em;
+	border-left: 1px solid #aaa ;
+}
+
+/* ***********************FOOTER************************** */
+
+#linkMainSite {
+	text-align: center;
+	margin: 8em 0 5px 0 ;
+}
+
+#linkMainSite a {
+	color: #ff4200;
+	text-decoration: underline;
+	font-size: 1.5em;
+}
+
+#footer {
+	background-color: #555;
+	padding: 15px;
+}
+
+#footer ul {
+	text-align: center;
+}
+
+#footer ul li {
+	display: inline;
+	color: #fff;
+	font-size: 1.4em;
+}
+
+#footer ul li a {
+	color: #fff;
+}
+
+#footer p {
+	text-align: center;
+	color: #fff;
+	margin: 1em 0 0 0;
+}
+
+/* ***********************CITY************************ */
+.rightCol {
+	float: right;
+}
+
+.leftCol {
+	float: left;
+}
+
+.rightCol p, .leftCol p {
+	margin: 0;
+	padding: 0;
+	line-height: .2em;
+}
+
+#welcomeBlock .orangeButton {
+	float: right;
+}
+
+.cityDay .rightCol p, .cityDay .leftCol p {
+	line-height: 1.8em;
+	font-size: 1.2em;
+}
+
+.cityDay {
+	overflow: hidden;
+	border: none;
+	height: 0;
+}
+
+.infoList li.active .cityDay {
+	padding: .8em;
+	height: auto;
+	border-bottom: 1px solid #aaa ;
+}
+
+h3.card1 {
+	display: inline;
+	float: left;
+	border: none;
+	font-family: Georgia,serif;
+	
+	background: none;
+	color: #ff4200;
+}
+
+h3.card2 {
+	display: inline;
+	float: right;
+	border-left: 1px solid #ccc;
+	border-bottom: none;
+	font-family: Georgia,serif;
+	background: none;
+	color: #ff4200;
+}
+
+h3.card1 a, h3.card2 a {
+	color: #ff4200;
+}
+
+.cardNav {
+	border-bottom: 1px solid #ccc;
+	overflow: hidden;
+}
+
+.card2.active a, .card1.active a{
+	color: #fff;
+}
+
+.card2.active, .card1.active {
+	background-color: #ff4200;
+}
+
+.forecastList {
+	height: 0;
+	overflow: hidden;
+}
+
+.forecastList.active {
+	height: auto;
+}
+
+/* MARINE WEATHER */
+
+.marineList {
+	height: 0;
+	overflow: hidden;
+}
+
+.marineList.active {
+	height: auto;
+}
+
+.marineList li .cityDay.cityMarine {
+	position: relative;
+	font-size: 1.4em;
+	
+	/* change with js depending on wave height */
+	height: 35em;
+	
+	height: 0;
+	padding: 0 0 0 8px;
+}
+
+.marineList li.active .cityDay.cityMarine {
+	height: 25em;
+}
+
+.marineDescription {
+	clear: both;
+	margin-top: 0;
+	padding-top: 5px;
+	border-top: 1px solid #aaa;
+}
+
+.swellInfo {
+	border-right: 1px solid #fff;
+	padding: 0 5px 0 0;
+	margin: 0 5px 0 0;
+}
+
+.waterInfo .leftCol .swellDir {
+	font-size: 4em;
+	line-height: 1.3em;
+}
+
+.marineList li .cityMarine .rightCol .normalTemp {
+	font-size: 3em;
+	color: #ff4200;
+}
+
+.marineFooter {
+	position: absolute;
+	bottom: 0;
+	left: .8em;
+	color: #fff;
+}
+
+.waterInfo {
+	position: absolute;
+	left: 0em;
+	right: 0;
+	height: 20em;
+	padding: 2.5em 0 0 .8em;
+	color: #fff;
+	background: url('../img/waterBg.jpg') top center repeat-x;
+	
+	/* change with js depending on wave height */
+	bottom: -8.6em;
+}
+
+
+
+/* Error styles */
+#favMax {
+	margin-top: 1em;
+	padding: .5em;
+	background-color: #fcc;
+	border: 1px solid #800;
+	color: #800;
+}
+
+#favoriteDropdown ul .noFavs {
+	padding: 3px;
+	font-size: 1.6em;
+	line-height: 2em;
+}
+
+#welcomeBlock .geoLoc {
+	float: left;
+	margin-bottom: 1em;
+}
