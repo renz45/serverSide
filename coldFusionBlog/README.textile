@@ -2,4 +2,4 @@ Intentional Health coldfusion blog
 
 *Adam Rensel's Code*
 
-p. I was using this small project to learn coldfusion. The backend uses jax for editing comments/tags.
+p. I was using this small project to learn coldfusion. The backend uses ajax for editing comments/tags.

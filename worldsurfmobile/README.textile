@@ -1,0 +1,13 @@
+h1. World Surf Mobile site
+
+*Adam Rensel's Code*
+
+p. Mobile surf weather site. This was mobilized by adding geolocation functionality. The site can pull your own location from the phones gps or ip tracking and use that location for the weather. 
+
+p. live site: "here(World Surf Mobile)":http://www.adamrensel.com/worldsurfmobile/index.php
+
+h2. Features
+
+* liquid layout to handle landscape or portrait views on a phone.
+* Mobilization feature is being able to search for weather using your current location.
+* favorites saved using cookies
