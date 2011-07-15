@@ -38,6 +38,9 @@ function php_dump($value)
 							table.phpdump th {
 								border-width: 1px;
 								padding: 5px;
+								border-spacing: 2px;
+								border-style: solid;
+								border-collapse: collapse;
 							}
 
 							table.phpdump th:hover {
