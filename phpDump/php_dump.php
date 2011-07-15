@@ -169,13 +169,13 @@ function php_dump($value)
 		$return .= $parser->parseObject($value);
 	}else if(is_string($value))
 	{
-		$return .= "<p class='php_dump_string'>" . $value . " : String</p>";
+		$return .= "<p class='php_dump_string'>" . $value . "</p>";
 	}else if(is_int($value))
 	{
-		$return .= "<p class='php_dump_int'>" . $value . " : Int</p>";
+		$return .= "<p class='php_dump_int'>" . $value . "</p>";
 	}else if(is_float($value))
 	{
-		$return .= "<p class='php_dump_float'>" . $value . " : Float</p>";
+		$return .= "<p class='php_dump_float'>" . $value . "</p>";
 	}else if(is_bool($value))
 	{
 		if($value == false)
@@ -192,8 +192,6 @@ function php_dump($value)
 //class with parsing methods
 class phpDumpParser
 {
-	private $_result;
-
     public function __construct()
     {
 
@@ -226,6 +224,7 @@ class phpDumpParser
 		return $result;
     }
 
+    //fills in the table for objects and arrays
     private function fillTable($item)
     {
 		$result = "";
@@ -234,24 +233,24 @@ class phpDumpParser
 		{
 			$result .= "<tr>";
 			$result .= "<td>" . $key . "</td>";
-			if(is_array($value))
+			if(is_array($value))//if array
 			{
 				$result .= "<td>" . $this->parseArray($value) . "</td>";
-			}else if(is_object($value))
+			}else if(is_object($value))//if object
 			{
 				$result .= "<td>" . $this->parseObject($value) . "</td>";
-			}else if(is_string($value))
+			}else if(is_string($value))//if string
 			{
 				$result .= "<td class='php_dump_string'>" . $value . "</td>";
-			}else if(is_int($value))
+			}else if(is_int($value))//if int
 			{
 				$result .= "<td class='php_dump_int'>" . $value . "</td>";
-			}else if(is_float($value))
+			}else if(is_float($value)) // if float
 			{
-				$result .= "<td class='php_dump_float'>" . $value . " : </td>";
-			}else if(is_bool($value))
+				$result .= "<td class='php_dump_float'>" . $value . "</td>";
+			}else if(is_bool($value))// if bool
 			{
-				if($value == false)
+				if($value == false)//php converts the boolean to a 1 or 0, this just translates is back to 'true' or 'false'
 				{
 					$result .= "<td class='php_dump_bool'>False : Boolean</td>";
 				}else{
