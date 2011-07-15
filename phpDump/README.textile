@@ -1,0 +1,10 @@
+h1. PHP variable dump
+
+*Adam Rensel's Code*
+
+h2. Details
+
+* PHP equivalent to coldfusion's cfDump.
+* Displays a color coded representation of a variable.
+* Shows nested objects and arrays in an easy to view table.
+* Arrays and Objects expand and contract via javascript
