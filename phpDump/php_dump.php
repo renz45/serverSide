@@ -69,8 +69,8 @@ function php_dump($value)
 
 							/* array styles */
 							table.phpdump.php_dump_array,
-							table.phpdump.php_dump_array td,
-							table.phpdump.php_dump_array th,
+							table.phpdump.php_dump_array>tbody>tr>td:first-child,
+							table.phpdump.php_dump_array>thead th,
 							.php_dump_array  {
 								background-color: rgb(255, 221, 221);
 								color: #a00;
@@ -82,18 +82,18 @@ function php_dump($value)
 								padding: 5px;
 							}
 
-							table.phpdump.php_dump_array th {
+							table.phpdump.php_dump_array>thead th {
 								background-color: #fee;
 								color: #a00;
 							}
-							table.phpdump.php_dump_array th:hover {
+							table.phpdump.php_dump_array>thead th:hover {
 								background-color: #faa;
 							}
 
 							/* Object styles */
 							table.phpdump.php_dump_object,
-							table.phpdump.php_dump_object td,
-							table.phpdump.php_dump_object th,
+							table.phpdump.php_dump_object>tbody>tr>td:first-child,
+							table.phpdump.php_dump_object>thead th,
 							.php_dump_object  {
 								background-color: #ebd09e;
 								color: #a06602;
@@ -105,11 +105,11 @@ function php_dump($value)
 								padding: 5px;
 							}
 
-							table.phpdump.php_dump_object th {
+							table.phpdump.php_dump_object>thead th {
 								background-color: #fce0af;
 								color: #a06602;
 							}
-							table.phpdump.php_dump_object th:hover {
+							table.phpdump.php_dump_object>thead th:hover {
 								background-color: #ffc869;
 							}
 
@@ -245,7 +245,7 @@ class phpDumpParser
 				$result .= "<td class='php_dump_int'>" . $value . "</td>";
 			}else if(is_float($value))
 			{
-				$result .= "<td class='php_dump_float'>" . $value . "</td>";
+				$result .= "<td class='php_dump_float'>" . $value . " : </td>";
 			}else if(is_bool($value))
 			{
 				if($value == false)
