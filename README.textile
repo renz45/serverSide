@@ -9,3 +9,4 @@ h2. Details
 * maistre - a simple project management application which interfaces with github to relate tasks to got commits.
 * theymakeapps - mobile version of the www.theymakeapps.com site, used for mobile site development and design experiments
 * worldsurfmobile - Functional surfing weather site used to display the weather, pulls down your location using the geolocation API. A cookie based favorites system saves favorites.
+* PHP Variable Dump - PHP version of cold fusion CFdump. Displays a graphical/color coded representation of arrays, objects and other datatypes.
