@@ -7,29 +7,30 @@ jQuery(document).ready(function() {
 	////////////////////////////////////////////////////////////
 
 	////////expand the form when the add new list button is pressed/////////
-	jQuery("#create_new_list_header").bind('click',function(){
-		var form = jQuery("#cil_edit_List_form");
+	jQuery("#create_new_list_header")
+		.bind('click',function(){
+			var form = jQuery("#cil_edit_List_form");
 
-		if(form.css('height') == "0px")
-		{
-			form.animate({height:'480px'},350,function(){
-												jQuery(this).css({height:'auto'});
-											  });
-		}
+			if(form.css('height') == "0px")
+			{
+				form.animate({height:'480px'},350,function(){
+													jQuery(this).css({height:'auto'});
+												  });
+			}
 
-		//clear form
-		clearForm();
+			//clear form
+			clearForm();
 
-		//change submit button label
-		changeSubmitLabel("Create a New List");
+			//change submit button label
+			changeSubmitLabel("Create a New Item");
 
-	});
+		});
 
 	///////////list edit button functionality////////////
 	jQuery(".cil_list_edit_btn").bind('click',editButtonHandler);
 
 	function editButtonHandler(){
-		var name = jQuery(this).parent().find(".cil_list_name span").html();
+		var name = jQuery(this).parent().find(".cil_list_name span").attr('title');
 
 		//expand the edit menu if it's closed
 		var form = jQuery("#cil_edit_List_form");
@@ -58,7 +59,9 @@ jQuery(document).ready(function() {
 	///////////////////cancel button////////////////////
 	jQuery('#cil_cancel_button').bind('click',function(){
 		//close form
-		jQuery("#cil_edit_List_form").animate({height:'0px'},350).css({height:'auto'});
+		jQuery("#cil_edit_List_form")
+			.animate({height:'0px'},350)
+			.css({height:'auto'});
 
 		//clear form
 		clearForm();
@@ -111,6 +114,11 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl, data,function(r){
 			//remove the item from the list
 			jQuery("#cil-list_"+r).remove();
+
+			if(jQuery('.cil_admin_list li').length == 0)
+			{
+				jQuery('.cil_admin_list').after("<h3 id='cil_no_items'>oops your list is empty, click the button below to start adding new items to your list</h3>");
+			}
 		});
 	}
 
@@ -138,8 +146,12 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl, data,function(r){
 			//if the upload is successful
 
+			var maxChars = 12;
+
 			//parse the return JSON object into a javascript object
 			var data = jQuery.parseJSON(r);
+
+			var choppedHeading =  (data['heading']).slice(0,maxChars);
 
 			if(data['newItem'] == true)
 			{//if the ajax call was a new post than create a new list item for the list, use the returned data object to populate values
@@ -148,9 +160,9 @@ jQuery(document).ready(function() {
 
 				if(data['url'].length > 0)
 				{
-					heading = "<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'><span>"+ data['heading'] +"</span></a>";
+					heading = "<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'><span title='"+ data['heading'] +"'>"+ choppedHeading +"</span></a>";
 				}else{
-					heading = "<span>"+ data['heading'] +"</span>";
+					heading = "<span title='"+ data['heading'] +"'>"+ choppedHeading +"</span>";
 				}
 
 				if(data['imageUrl'].length > 0)
@@ -177,6 +189,12 @@ jQuery(document).ready(function() {
 				newItem.find('.cil_list_edit_btn').bind('click',editButtonHandler);
 				newItem.find('.cil_pin_btn').bind('click',pinButtonHandler);
 				newItem.find('.cil_list_delete_btn').bind('click',deleteButtonHandler);
+
+				var h3 = jQuery('#cil_no_items');
+				if(h3.length > 0)
+				{
+					h3.remove();
+				}
 
 			}else{//if the list item exists and it's just being edited, change the values in the main list to match the edits
 				var list = jQuery("#cil-list_" + data['id']);
@@ -209,11 +227,17 @@ jQuery(document).ready(function() {
 					list.find('.cil_item_image').remove();
 				}
 
-				list.find('.cil_list_name span').html(data['heading']);
-				list.find('.desc').html(data['content']);
+				list.find('.cil_list_name span')
+					.html(choppedHeading)
+					.attr('title',data['heading']);
+
+				list.find('.desc')
+					.html(data['content']);
 			}
 			//close the form
-			jQuery("#cil_edit_List_form").animate({height:'0px'},350).css({height:'auto'});
+			jQuery("#cil_edit_List_form")
+				.animate({height:'0px'},350)
+				.css({height:'auto'});
 
 			//clear form
 			clearForm();
