@@ -1,4 +1,4 @@
-h1. CIL - Custom Item List
+h1. CIL - Custom Item List Wordpress plugin
 
 *Adam Rensel's Code*
 
