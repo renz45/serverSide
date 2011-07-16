@@ -8,6 +8,14 @@
     Author URI: http://www.adamrensel.com
 */
 
+//TODO add a way to reorganize list items within a list
+//TODO add nested lists
+//TODO add html template for individual lists in the settings panel
+//TODO add the ability to edit list items without pinning them to the side menu
+//TODO ajax pagination for the user side
+
+//for development only, remove after development is done.
+include 'views/php_dump.php';
 
 global $cilPluginURL;
 $cilPluginURL = plugins_url("",__FILE__);
@@ -23,8 +31,10 @@ register_activation_hook(__FILE__,'cil_install_data');
 
 //require the models class
 require 'models/cil_models.php';
-global $cil_model;
+
 global $wpdb;
+
+global $cil_model;
 $cil_model = new Cil_Models($wpdb);
 
 //ajax models
