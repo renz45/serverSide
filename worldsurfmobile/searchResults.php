@@ -18,7 +18,7 @@
 		return $html;
 	}
 	
-	$apiCall = curl_get_contents("http://www.worldweatheronline.com/feed/search.ashx?key=fb8e512d61032537100912&query=". urlencode($searchQuery) ."&num_of_results=3&format=xml");
+	$apiCall = curl_get_contents("http://free.worldweatheronline.com/feed/search.ashx?key=fb8e512d61032537100912&query=". urlencode($searchQuery) ."&num_of_results=3&format=xml");
 	// optional params decode the cdata within the xml
 	if(isset($apiCall)){
 		try{

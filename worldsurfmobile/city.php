@@ -25,7 +25,7 @@
 		$cityQuery = $lat;
 		$countryQuery = $long;
 	}
-	$forecast = curl_get_contents("http://www.worldweatheronline.com/feed/weather.ashx?q=". urlencode($cityQuery) .",". urlencode($countryQuery) ."&format=xml&num_of_days=5&key=fb8e512d61032537100912");
+	$forecast = curl_get_contents("http://free.worldweatheronline.com/feed/weather.ashx?q=". urlencode($cityQuery) .",". urlencode($countryQuery) ."&format=xml&num_of_days=5&key=fb8e512d61032537100912");
 	// optional params decode the cdata within the xml
 	try{
 		$forecastXML = simplexml_load_string($forecast,'SimpleXMLElement', LIBXML_NOCDATA);
@@ -34,7 +34,7 @@
 	}
 	
 	//tap marine weather api using latitude and longitude
-	$marineForecast = curl_get_contents("http://www.worldweatheronline.com/feed/marine.ashx?q=". $lat .",". $long ."&format=xml&key=fb8e512d61032537100912");
+	$marineForecast = curl_get_contents("http://free.worldweatheronline.com/feed/marine.ashx?q=". $lat .",". $long ."&format=xml&key=fb8e512d61032537100912");
 	// optional params decode the cdata within the xml
 	try{
 		$marineForecastXML = simplexml_load_string($marineForecast,'SimpleXMLElement', LIBXML_NOCDATA);
