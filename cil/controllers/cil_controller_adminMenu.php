@@ -87,7 +87,7 @@ function setupSideMenu()
 
 	foreach($pinned as $list)
 	{
-		$page = add_menu_page('Custom Item Lists', $list->name, 'edit_pages', 'cil_list_'.$list->id, 'cil_list_options', $list->icon_url);
+		$page = add_menu_page('Custom Item Lists', $list->name, 'edit_pages', "cil_list-$list->id-$list->name.php", 'cil_list_options', $list->icon_url);
 		//add hook to load external files used for the top level pinned list menu - js/css
 		 add_action('admin_print_styles-' . $page , 'cil_admin_listOptions_externalFileLoad');
 	}
