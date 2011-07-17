@@ -5,7 +5,8 @@ function show_list_options()
 {
 	global $cilPluginURL;
 
-	$pageArr = split('cil_list_',$_GET['page']);
+	$pageArr = split('-',$_GET['page']);
+
 	$id = $pageArr[1];
 
 	global $cil_model;
