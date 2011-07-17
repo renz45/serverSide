@@ -69,4 +69,19 @@ class Cil_Models {
 		}
     }
 
+	/**
+	 * Returns all list items, or only the list items from the list id specified
+	 * @param int $list_id list id to pull results from
+	 */
+	public function get_list_items_by_name($list_name)
+    {
+
+    	$sql = "SELECT * FROM `wp_cil_listItemInfo` as li
+					JOIN `wp_cil_listInfo` as l
+						on li.`list_id` = l.id
+					WHERE l.name = '$list_name'";
+
+		return $this->_wpdb->get_results($sql);
+    }
+
 }
