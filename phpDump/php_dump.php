@@ -1,11 +1,12 @@
 <?php
 
+
 /**
  * I couldn't find a friends version of cfDump so this is a quick and easy version to view contents of arrays and objects within php in a nice formated way.
  *
  * @param anything $value item to echo out, if it is an array or an object it will be formated in a nice way.
  */
-function php_dump($value)
+function php_dump($value, $label=null)
 {
 
 
@@ -150,14 +151,20 @@ function php_dump($value)
 
 							</style>
 
-							<div id='php_dump_legend_container'>
-	    						<div class='php_dump_string php_dump_legend'>String</div>
+							<div id='php_dump_legend_container'>\n";
+	if(!is_null($label))
+	{
+		$return .= "<span>$label &nbsp;&darr;&nbsp;</span>\n";
+	}
+	$return .= 					"<div class='php_dump_string php_dump_legend'>String</div>
 	    						<div class='php_dump_int php_dump_legend'>Int</div>
 	    						<div class='php_dump_float php_dump_legend'>Float</div>
 	    						<div class='php_dump_bool php_dump_legend'>Boolean</div>
 	    						<div class='php_dump_array php_dump_legend'>Array</div>
 	    						<div class='php_dump_object php_dump_legend'>Object</div>
 							</div>\n";
+
+
 
 	$parser = new phpDumpParser();
 
@@ -169,13 +176,13 @@ function php_dump($value)
 		$return .= $parser->parseObject($value);
 	}else if(is_string($value))
 	{
-		$return .= "<p class='php_dump_string'>" . $value . "</p>";
+		$return .= "<p class='php_dump_string'>$value</p>";
 	}else if(is_int($value))
 	{
-		$return .= "<p class='php_dump_int'>" . $value . "</p>";
+		$return .= "<p class='php_dump_int'>$value</p>";
 	}else if(is_float($value))
 	{
-		$return .= "<p class='php_dump_float'>" . $value . "</p>";
+		$return .= "<p class='php_dump_float'>$value</p>";
 	}else if(is_bool($value))
 	{
 		if($value == false)
