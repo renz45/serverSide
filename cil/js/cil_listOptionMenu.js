@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl, data,function(r){
 			var obj = jQuery.parseJSON(r);
 
-			if(obj['isPinned'] == 0)
+			if(obj['isHidden'] == 0)
 			{
 				jQuery('#cil-list_'+obj['id']+" .cil_pin_btn").removeClass('active');
 			}else{
