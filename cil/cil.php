@@ -14,8 +14,10 @@
 //TODO add the ability to edit list items without pinning them to the side menu
 //TODO ajax pagination for the user side
 
-//for development only, remove after development is done.
-include 'views/php_dump.php';
+//////////////dev aids//////////////////
+include 'dev_aids/php_dump.php';
+/////////////Remove after dev//////////////////
+
 
 global $cilPluginURL;
 $cilPluginURL = plugins_url("",__FILE__);
