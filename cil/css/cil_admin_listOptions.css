@@ -1,4 +1,4 @@
-#cil_wrap h2 {
+#cil_item_wrap h2 {
 	padding-left: 60px;
 	line-height: 50px;
 	font-size: 28px;
@@ -6,7 +6,7 @@
 	margin-bottom:5px;
 }
 
-#cil_list_desc {
+#cil_item_cil_item_content {
 	width:500px;
 	color:#666;
 	font-size: 14px;
@@ -15,7 +15,7 @@
 
 /*//////////////////////////////*/
 
-.cil_admin_list {
+.cil_admin_list_items {
 	background-color: #eee;
 	border: 1px solid #ddd;
 	margin-right: 25px;
@@ -45,12 +45,12 @@
 	color: #e50;
 }
 
-#cil_wrap p.cil_list_label {
+#cil_item_wrap p.cil_list_label {
 	margin-bottom: 3px;
 	color: #777;
 }
 
-.cil_admin_list li {
+.cil_admin_list_items li {
 	height: 25px;
 	display: block;
 	background-color: #eee;
@@ -64,17 +64,17 @@
 
 }
 
-.cil_admin_list li:first-child {
+.cil_admin_list_items li:first-child {
 	border-top-left-radius:5px;
 	border-top-right-radius:5px;
 }
 
-.cil_admin_list li:last-child {
+.cil_admin_list_items li:last-child {
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
 }
 
-.cil_admin_list .cil_list_btn {
+.cil_admin_list_items .cil_list_item_btn {
 	display: inline-block;
 	background-color: #F9F9F9;
 	padding-left: 8px;
@@ -99,7 +99,7 @@
 
 }
 
-.cil_admin_list .cil_list_btn:hover, .cil_admin_list .active {
+.cil_admin_list_items .cil_list_item_btn:hover, .cil_admin_list_items .active {
 	cursor: pointer;
 	color: #e50;
 
@@ -118,43 +118,43 @@
 
 }
 
-.cil_admin_list .cil_pin_btn {
+.cil_admin_list_items .cil_pin_btn {
 	border-top: 1px solid #eee;
 	float:left;
 }
 
-.cil_admin_list .cil_pin_btn:hover {
+.cil_admin_list_items .cil_pin_btn:hover {
 	border-right: 1px solid #ccc;
 	border-top: 1px solid #E8E8E8;
 }
 
-.cil_admin_list .cil_list_edit_btn {
+.cil_admin_list_items .cil_list_edit_btn {
 	float: right;
 	height: 25px;
 	border-right: none;
 }
 
-.cil_admin_list .cil_list_edit_btn:hover {
+.cil_admin_list_items .cil_list_edit_btn:hover {
  	border-left: 1px solid #ccc;
  	border-right: 1px solid #ccc;
  	border-right: none;
 }
 
-.cil_admin_list li:first-child .cil_list_btn:first-child {
+.cil_admin_list_items li:first-child .cil_list_item_btn:first-child {
 	border-top-left-radius:5px;
 }
 
-.cil_admin_list .cil_list_delete_btn {
+.cil_admin_list_items .cil_list_delete_btn {
 	float: right;
 	height: 25px;
 	border-right: none;
 }
 
-.cil_admin_list .cil_list_delete_btn:hover {
+.cil_admin_list_items .cil_list_delete_btn:hover {
 	border-right: none;
 }
 
-.cil_admin_list .cil_list_name{
+.cil_admin_list_items .cil_item_heading{
 	display: inline-block;
 	padding-left: 5px;
 	padding-right: 8px;
@@ -167,7 +167,7 @@
 	overflow: hidden;
 }
 
-.cil_admin_list .desc {
+.cil_admin_list_items .cil_item_content {
 	display: inline-block;
 	width:320px;
 	height:25px;
@@ -178,25 +178,25 @@
 	font-size: 12px;
 }
 
-.cil_admin_list .cil_name_link .cil_list_name {
+.cil_admin_list_items .cil_name_link .cil_item_heading {
 	color: #2175a5;
 }
 
-.cil_admin_list .cil_name_link .cil_list_name:hover {
+.cil_admin_list_items .cil_name_link .cil_item_heading:hover {
 	color: #e50;
 }
 
-#cil_edit_List_form {
+#cil_edit_item_form {
 	height:0;
 	margin-top: 10px;
 	overflow:hidden;
 }
 
-#cil_wrap form p {
+#cil_item_wrap form p {
 	margin-bottom:20px;
 }
 
-#cil_wrap input[type=text], #cil_wrap textarea {
+#cil_item_wrap input[type=text], #cil_item_wrap textarea {
 	width: 550px;
 	margin-top:10px;
 	margin-bottom:5px;
@@ -204,20 +204,20 @@
 	color:#777;
 }
 
-#cil_wrap textarea {
+#cil_item_wrap textarea {
 	height: 100px;
 }
 
-#cil_wrap input[type=button], #cil_wrap input[type=submit] {
+#cil_item_wrap input[type=button], #cil_item_wrap input[type=submit] {
 	cursor:pointer;
 }
 
-#cil_wrap label span {
+#cil_item_wrap label span {
 	font-size: 16px;
 	color:#555;
 }
 
-#cil_cancel_button {
+#cil_item_cancel_button {
 	margin-left: 15px;
 }
 

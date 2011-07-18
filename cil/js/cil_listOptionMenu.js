@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
 	////////expand the form when the add new list button is pressed/////////
 	jQuery("#create_new_list_header")
 		.bind('click',function(){
-			var form = jQuery("#cil_edit_List_form");
+			var form = jQuery("#cil_edit_item_form");
 
 			if(form.css('height') == "0px")
 			{
@@ -30,10 +30,10 @@ jQuery(document).ready(function() {
 	jQuery(".cil_list_edit_btn").bind('click',editButtonHandler);
 
 	function editButtonHandler(){
-		var name = jQuery(this).parent().find(".cil_list_name span").attr('title');
+		var name = jQuery(this).parent().find(".cil_item_heading span").attr('title');
 
 		//expand the edit menu if it's closed
-		var form = jQuery("#cil_edit_List_form");
+		var form = jQuery("#cil_edit_item_form");
 		if(form.css('height') == "0px")
 		{
 			form.animate({height:'480'},350,function(){
@@ -45,21 +45,21 @@ jQuery(document).ready(function() {
 		changeSubmitLabel("Edit " + name);
 
 		//take values from the list of item lists and insert them into the form for editing
-		jQuery("#cil_listName").attr("value", name);
-		jQuery("#cil_listDescription").attr("value", jQuery(this).parent().find('.desc').html().replace(/&gt;/gi, '>').replace(/&lt;/gi,'<'));
-		jQuery("#cil_imageUrl").val(jQuery(this).parent().find('.cil_item_image').attr('alt')).trigger('change');
-		jQuery('#cil_listNameUrl').val(jQuery(this).parent().find('.cil_name_link').attr('href'));
-		jQuery("#cil_edit_List_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_")[1]);
+		jQuery("#cil_item_heading").attr("value", name);
+		jQuery("#cil_item_content").attr("value", jQuery(this).parent().find('.cil_item_content').html().replace(/&gt;/gi, '>').replace(/&lt;/gi,'<'));
+		jQuery("#cil_item_imageUrl").val(jQuery(this).parent().find('.cil_item_image').attr('alt')).trigger('change');
+		jQuery('#cil_item_headingUrl').val(jQuery(this).parent().find('.cil_name_link').attr('href'));
+		jQuery("#cil_edit_item_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_item_")[1]);
 
 		//scroll the screen down to the edit form
-		jQuery('html').animate({"scrollTop": jQuery("#cil_edit_List_form").scrollTop() + 100});
+		jQuery('html').animate({"scrollTop": jQuery("#cil_edit_item_form").scrollTop() + 100});
 
 	}
 
 	///////////////////cancel button////////////////////
-	jQuery('#cil_cancel_button').bind('click',function(){
+	jQuery('#cil_item_cancel_button').bind('click',function(){
 		//close form
-		jQuery("#cil_edit_List_form")
+		jQuery("#cil_edit_item_form")
 			.animate({height:'0px'},350)
 			.css({height:'auto'});
 
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
 		var data = {
 				action:'cil_hide_list',
 				isHidden: hidden,
-				id: jQuery(this).parent().attr('id').split("cil-list_")[1]
+				id: jQuery(this).parent().attr('id').split("cil-list_item_")[1]
 		};
 
 		jQuery.post(ajaxurl, data,function(r){
@@ -93,9 +93,9 @@ jQuery(document).ready(function() {
 
 			if(obj['isHidden'] == 0)
 			{
-				jQuery('#cil-list_'+obj['id']+" .cil_pin_btn").removeClass('active');
+				jQuery('#cil-list_item_'+obj['id']+" .cil_pin_btn").removeClass('active');
 			}else{
-				jQuery('#cil-list_'+obj['id']+" .cil_pin_btn").addClass('active');
+				jQuery('#cil-list_item_'+obj['id']+" .cil_pin_btn").addClass('active');
 			}
 		});
 	}
@@ -107,23 +107,23 @@ jQuery(document).ready(function() {
 
 		var data = {
 				action:'cil_delete_listItem',
-				id: jQuery(this).parent().attr('id').split("cil-list_")[1]
+				id: jQuery(this).parent().attr('id').split("cil-list_item_")[1]
 		};
 
 		//delete list from the database
 		jQuery.post(ajaxurl, data,function(r){
 			//remove the item from the list
-			jQuery("#cil-list_"+r).remove();
+			jQuery("#cil-list_item_"+r).remove();
 
-			if(jQuery('.cil_admin_list li').length == 0)
+			if(jQuery('.cil_admin_list_items li').length == 0)
 			{
-				jQuery('.cil_admin_list').after("<h3 id='cil_no_items'>oops your list is empty, click the button below to start adding new items to your list</h3>");
+				jQuery('.cil_admin_list_items').after("<h3 id='cil_no_items'>oops your list is empty, click the button below to start adding new items to your list</h3>");
 			}
 		});
 	}
 
 	//////////////Ajax edit list////////////////
-	jQuery("#cil_edit_List_form").bind('submit',function(event){
+	jQuery("#cil_edit_item_form").bind('submit',function(event){
 		//prevent the default form submit action
 		event.preventDefault();
 		var maxNameLength = 12;
@@ -132,11 +132,11 @@ jQuery(document).ready(function() {
 		var data = {
 				action:'cil_edit_item',
 				id: jQuery(this).attr('action'),
-				heading: jQuery('#cil_listName').val(),
-				imageUrl: jQuery("#cil_imageUrl").val(),
-				url: jQuery("#cil_listNameUrl").val(),
+				heading: jQuery('#cil_item_heading').val(),
+				imageUrl: jQuery("#cil_item_imageUrl").val(),
+				url: jQuery("#cil_item_headingUrl").val(),
 				listId: window.location.search.split('-')[1],
-				content: jQuery("#cil_listDescription").attr("value")
+				content: jQuery("#cil_item_content").attr("value")
 		};
 		//update list
 
@@ -171,21 +171,21 @@ jQuery(document).ready(function() {
 					image = "<img class='cil_item_image' src='"+ jQuery('#cil_item_imageIcon').attr('src') +"' alt='"+ data['imageUrl'] +"' title='This item has an image' width='15' height='15' />";
 				}
 
-				jQuery('.cil_admin_list').append(
-				"<li id='cil-list_"+ data['id'] +"'>"+
-						"<a class='cil_pin_btn cil_list_btn ' title='Hide this item'>hide</a>"+
+				jQuery('.cil_admin_list_items').append(
+				"<li id='cil-list_item_"+ data['id'] +"'>"+
+						"<a class='cil_pin_btn cil_list_item_btn ' title='Hide this item'>hide</a>"+
 						image +
-						"<span class='cil_list_name'> - "+
+						"<span class='cil_item_heading'> - "+
 						heading +
 						" - </span>"+
-						"<p class='desc'>"+ data['content'] +"</p>"+
-						"<a class='cil_list_btn cil_list_edit_btn'>Edit</a>"+
-						"<a class='cil_list_btn cil_list_delete_btn'>Delete</a>"+
+						"<p class='cil_item_content'>"+ data['content'] +"</p>"+
+						"<a class='cil_list_item_btn cil_list_edit_btn'>Edit</a>"+
+						"<a class='cil_list_item_btn cil_list_delete_btn'>Delete</a>"+
 					"</li>");
 
 				//rebind click handlers to the buttons in the new list item, this is done automatically on page reload, but this is for when a list item is
 				//initally created so the page doesn't have to reload in order to get functionality
-				var newItem = jQuery('#cil-list_'+ data['id']);
+				var newItem = jQuery('#cil-list_item_'+ data['id']);
 
 				newItem.find('.cil_list_edit_btn').bind('click',editButtonHandler);
 				newItem.find('.cil_pin_btn').bind('click',pinButtonHandler);
@@ -198,7 +198,7 @@ jQuery(document).ready(function() {
 				}
 
 			}else{//if the list item exists and it's just being edited, change the values in the main list to match the edits
-				var list = jQuery("#cil-list_" + data['id']);
+				var list = jQuery("#cil-list_item_" + data['id']);
 
 				//if there is an item url
 				if(data['url'].length > 0)
@@ -206,12 +206,12 @@ jQuery(document).ready(function() {
 
 					if(list.find('.cil_name_link').length == 0 )//if there is not an anchor tag around the heading already, than wrap one around it
 					{
-						list.find('.cil_list_name span').wrap("<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'></a>");
+						list.find('.cil_item_heading span').wrap("<a class='cil_name_link' href='"+ data['url'] +"' title='"+ data['heading'] +"'></a>");
 					}else{//if the anchor exists, just change the src and title attributes to match the new settings
 						list.find('.cil_name_link').attr('href',data['url']).attr('title', data['heading']);
 					}
 				}else if(list.find('.cil_name_link').length == 1){//if the anchor tag exists and there is nothing for the item url, remove the anchor tag surrounding the heading
-					list.find('.cil_list_name span').unwrap('a');
+					list.find('.cil_item_heading span').unwrap('a');
 				}
 
 				//if there is an image url
@@ -228,7 +228,7 @@ jQuery(document).ready(function() {
 					list.find('.cil_item_image').remove();
 				}
 
-				list.find('.cil_list_name span')
+				list.find('.cil_item_heading span')
 					.html(choppedHeading)
 					.attr('title',data['heading']);
 
@@ -236,7 +236,7 @@ jQuery(document).ready(function() {
 					.html(data['content']);
 			}
 			//close the form
-			jQuery("#cil_edit_List_form")
+			jQuery("#cil_edit_item_form")
 				.animate({height:'0px'},350)
 				.css({height:'auto'});
 
@@ -250,31 +250,26 @@ jQuery(document).ready(function() {
 	});
 
 	//update image preview
-	jQuery('#cil_imageUrl').bind('change keyup',function(){
-		jQuery('#cil_preview_image').attr('src', jQuery(this).val());
+	jQuery('#cil_item_imageUrl').bind('change keyup',function(){
+		jQuery('#cil_preview_item_image').attr('src', jQuery(this).val());
 	});
 
 
 	////////////clear edit list form//////////////
 	function clearForm(){
-		jQuery("#cil_listName").attr("value", "");
-		jQuery("#cil_listDescription").val("");
-		jQuery("#cil_imageUrl").val("");
-		jQuery("#cil_edit_List_form").attr('action', "");
-		jQuery('#cil_listNameUrl').val("");
+		jQuery("#cil_item_heading").attr("value", "");
+		jQuery("#cil_item_content").val("");
+		jQuery("#cil_item_imageUrl").val("");
+		jQuery("#cil_edit_item_form").attr('action', "");
+		jQuery('#cil_item_headingUrl').val("");
 		jQuery('.cil_error').html('');
-		jQuery('#cil_preview_image').attr('src',"");
+		jQuery('#cil_preview_item_image').attr('src',"");
 	}
 
 	//////////////change submit button label///////////////
 	function changeSubmitLabel(label){
-		jQuery('#cil_newListSubmit').attr('value', label);
+		jQuery('#cil_newItemSubmit').attr('value', label);
 	}
 
-	////////////////////////////////////////////////////////////
-	//														  //
-	//					Form Validation						  //
-	//														  //
-	////////////////////////////////////////////////////////////
 
 });
