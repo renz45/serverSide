@@ -9,7 +9,6 @@ function cil_pin_list() {
 
 	$sql = "UPDATE ". $tableName ." SET isPinned='". $_POST['isPinned'] ."' WHERE id = '". $_POST['id'] ."'";
 
-	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	$return = json_encode(array('id'=>$_POST['id'],'isPinned'=>$_POST['isPinned']));
@@ -28,14 +27,12 @@ function cil_delete_list() {
 	$tableName = $wpdb->prefix . "cil_listInfo";
 	$sql = "DELETE FROM ". $tableName ." WHERE id='". $_POST['id'] ."'";
 
-	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	//delete the list items within specified list
    	$tableName = $wpdb->prefix . "cil_listItemInfo";
    	$sql = "DELETE FROM ". $tableName ." WHERE list_id='". $_POST['id'] ."'";
 
-   	$wpdb->prepare($sql);
    	$wpdb->query($sql);
 
    	echo $_POST['id'];
@@ -53,15 +50,16 @@ function cil_edit_list() {
 	$id = "";
 	$newPost = false;
 
-	//if an id was given as a post variable return just that list
+	//if an id was given as a post variable edit just that list
 	if(!empty($_POST['id'] ))
 	{
 		$id = $_POST['id'];
-		$sql = "UPDATE " . $table_name . " SET name='". $_POST['listName'] ."', time=NOW(), description='". $_POST['listDesc'] ."', logo_url='". $_POST['logoUrl'] ."', icon_url='". $_POST['iconUrl'] ."' WHERE id='". $id ."'";
+		$sql = "UPDATE " . $table_name . " SET name='%s', time=NOW(), description='%s', logo_url='%s', icon_url='%s' WHERE id='". $id ."'";
 
-		$wpdb->prepare($sql);//security measures, stripping slashes and such with wp built in prepare method
-		$wpdb->query($sql);
-	}else{//if there was no id return all lists
+		//TODO write this prepare the right way so its actually working
+		;//security measures, stripping slashes and such with wp built in prepare method
+		$wpdb->query($wpdb->prepare($sql,array($_POST['listName'], $_POST['listDesc'], $_POST['logoUrl'],$_POST['iconUrl'])));
+	}else{//if there was no id create a new list
 		$name = $_POST['listName'];
 		$description = $_POST['listDesc'];
 		$logo_url = $_POST['logoUrl'];
@@ -137,17 +135,16 @@ function cil_edit_item() {
 	if(!empty($_POST['id'] ))
 	{
 		$id = $_POST['id'];
-		$sql = "UPDATE " . $table_name . "
+		$sql = "UPDATE $table_name
 				SET
-					heading='". $_POST['heading'] ."',
+					heading='".$_POST['heading']."',
 				    time=NOW(),
-				    content='". $_POST['content'] ."',
-				    image_url='". $_POST['imageUrl'] ."',
-				    url='". $_POST['url'] ."',
-				    list_id='". $_POST['listId'] ."'
-				WHERE id='". $id ."'";
+				    content='".htmlentities($_POST['content'])."',
+				    image_url='".$_POST['imageUrl']."',
+				    url='".$_POST['url']."',
+				    list_id='".$_POST['listId']."'
+				WHERE id='$id'";
 
-		$wpdb->prepare($sql);//security measures, stripping slashes and such with wp built in prepare method
 		$wpdb->query($sql);
 	}else{//if there was no id return all lists
 		$heading = $_POST['heading'];
@@ -156,14 +153,14 @@ function cil_edit_item() {
 		$url = $_POST['url'];
 		$list_id = $_POST['listId'];
 
-		$wpdb->insert($table_name, array('heading' => $heading,'time' => current_time('mysql'),'content' => $content,'image_url' => $image_url,'url' => $url, 'list_id' => $list_id ));
+		$wpdb->insert($table_name, array('heading' => $heading,'time' => current_time('mysql'),'content' => htmlentities($content),'image_url' => $image_url,'url' => $url, 'list_id' => $list_id ));
 		$id = $wpdb->insert_id;//get recently created id
 		$newItem = true;
 	}
 
 	$return = json_encode(array('id'=>$id,
 								'heading'=>$_POST['heading'],
-								'content'=>$_POST['content'],
+								'content'=>stripslashes($_POST['content']),
 								'imageUrl'=>$_POST['imageUrl'],
 								'url'=>$_POST['url'],
 								'listId'=>$_POST['listId'],
