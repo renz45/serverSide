@@ -1,5 +1,4 @@
 <?php
-//TODO comment this file
 //TODO write the help views that go with this on the config page
 
 $cil_shortCode = new cil_shortcode($cil_model);
@@ -65,6 +64,8 @@ class cil_shortcode {
 			//loop through the list items and create html <li></li>
 			foreach ($listItems as $item)
 			{
+				$item->content = html_entity_decode($item->content);
+
 				if($item->isHidden == false)
 				{
 					$ret .= "\t<li>\n";
@@ -92,10 +93,10 @@ class cil_shortcode {
 					$ret .= "</h3>\n";
 
 					//output content in a <p>
-					$ret .= "\t\t<p>$item->content</p>\n";
+					$ret .= "\t\t<p>". do_shortcode($item->content) ."</p>\n";
 
 					//if the show_time attribute is true, than output time in a <span></span>
-					if($a['show_time'] == true)
+					if($a['show_time'] == "true")
 					{
 						$ret .= "\t\t<span>". date( 'D m.d.Y - g:ia', strtotime($item->time) ) ."</span>\n";
 					}
@@ -124,6 +125,8 @@ class cil_shortcode {
 		// Set a blank return by default
 		$ret = "";
 
+		$content = $this->trimLineBreaks($content);
+		$content = stripslashes( html_entity_decode($content) );
 		//set attribute defaults
 		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display'),$atts);
 
@@ -134,7 +137,7 @@ class cil_shortcode {
 			$this->_listItems[$a['name']] = $listItems;
 		}
 		//create the <ul> with a custom class name
-		$ret .= "<ul class='cil_list_-". $a['name'] ."'>";
+		$ret .= "<ul class='cil_list-". $a['name'] ."'>";
 
 		//loop through the list items, change the name and index attributes on any short tags to math the correct index
 		for($i = 0; $i < count($this->_listItems[$a['name']]); $i++)
@@ -228,7 +231,7 @@ class cil_shortcode {
 		{
 			return "There was a problem with the cil_item_content short code";
 		}else{
-			return $this->_listItems[$a['name']][$a['index']]->content;
+			return do_shortcode($this->_listItems[$a['name']][$a['index']]->content);
 		}
 	}
 
@@ -297,6 +300,7 @@ class cil_shortcode {
 	{
 		//array of shortcodes to search for and what to replace them with
 		$searchFor = array("[cil_item_image_url]" => "[cil_item_image_url name='$list_name' index='$index']",
+							"[cil_item_image]" => "[cil_item_image name='$list_name' index='$index']",
 							"[cil_item_heading]"=>"[cil_item_heading name='$list_name' index='$index']",
 							"[cil_item_content]"=>"[cil_item_content name='$list_name' index='$index']",
 							"[cil_item_time]"=>"[cil_item_time name='$list_name' index='$index']",
@@ -310,6 +314,27 @@ class cil_shortcode {
 		}
 
 		return $string;
+	}
+
+	/**
+	 *
+	 * Trim function that trims out all the extra <p></p> tags that the wordpress html editor inserts into your shortcode
+	 * @param unknown_type $string
+	 */
+	private function trimLineBreaks($string)
+	{
+
+		//cut out the </p> at the beginning and the <p> at the end if the </p> exists in the beginning
+		if(substr($string, 0, 4) == '</p>')
+		{
+			$string = substr($string, 4, strlen($string) - 7);
+		}
+
+		//cut out all the <p></p> (empty paragraph tags)
+		$string = join("",split('<p></p>', $string));
+
+		return $string;
+
 	}
 
 }
