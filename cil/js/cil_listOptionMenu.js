@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
 
 		//take values from the list of item lists and insert them into the form for editing
 		jQuery("#cil_listName").attr("value", name);
-		jQuery("#cil_listDescription").attr("value", jQuery(this).parent().find('.desc').html());
+		jQuery("#cil_listDescription").attr("value", jQuery(this).parent().find('.desc').html().replace(/&gt;/gi, '>').replace(/&lt;/gi,'<'));
 		jQuery("#cil_imageUrl").val(jQuery(this).parent().find('.cil_item_image').attr('alt')).trigger('change');
 		jQuery('#cil_listNameUrl').val(jQuery(this).parent().find('.cil_name_link').attr('href'));
 		jQuery("#cil_edit_List_form").attr('action', jQuery(this).parent().attr('id').split("cil-list_")[1]);
@@ -128,8 +128,6 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 		var maxNameLength = 12;
 
-
-
 		//create data object for ajax call
 		var data = {
 				action:'cil_edit_item',
@@ -137,7 +135,7 @@ jQuery(document).ready(function() {
 				heading: jQuery('#cil_listName').val(),
 				imageUrl: jQuery("#cil_imageUrl").val(),
 				url: jQuery("#cil_listNameUrl").val(),
-				listId: window.location.search.split('?page=cil_list_')[1],
+				listId: window.location.search.split('-')[1],
 				content: jQuery("#cil_listDescription").attr("value")
 		};
 		//update list
@@ -150,6 +148,9 @@ jQuery(document).ready(function() {
 
 			//parse the return JSON object into a javascript object
 			var data = jQuery.parseJSON(r);
+
+			data['content'] = data['content'].replace(/>/gi,'&gt;').replace(/</gi,'&lt;');
+
 
 			var choppedHeading =  (data['heading']).slice(0,maxChars);
 
