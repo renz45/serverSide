@@ -176,7 +176,7 @@ function php_dump($value, $label=null)
 		$return .= $parser->parseObject($value);
 	}else if(is_string($value))
 	{
-		$return .= "<p class='php_dump_string'>$value</p>";
+		$return .= "<p class='php_dump_string'>". htmlentities($value) ."</p>";
 	}else if(is_int($value))
 	{
 		$return .= "<p class='php_dump_int'>$value</p>";
@@ -248,7 +248,7 @@ class phpDumpParser
 				$result .= "<td>" . $this->parseObject($value) . "</td>";
 			}else if(is_string($value))//if string
 			{
-				$result .= "<td class='php_dump_string'>" . $value . "</td>";
+				$result .= "<td class='php_dump_string'>" . htmlentities($value) . "</td>";
 			}else if(is_int($value))//if int
 			{
 				$result .= "<td class='php_dump_int'>" . $value . "</td>";
