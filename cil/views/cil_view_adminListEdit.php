@@ -25,6 +25,8 @@ function show_list_options()
 	{
 		foreach ($listItems as $value)
 		{
+			$value->content = stripslashes_deep($value->content);
+
 			$maxChars = 12;
 			//shorten the heading so it fits in the list
 			$choppedHeading = substr($value->heading,0, $maxChars);
