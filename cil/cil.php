@@ -9,7 +9,6 @@
 */
 
 //TODO add a way to reorganize list items within a list
-//TODO add nested lists
 //TODO add html template for individual lists in the settings panel
 //TODO add the ability to edit list items without pinning them to the side menu
 //TODO ajax pagination for the user side
