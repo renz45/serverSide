@@ -149,6 +149,14 @@ function php_dump($value, $label=null)
 								padding:5px
 							}
 
+							/* null styles */
+							table.phpdump td.php_dump_null, .php_dump_null {
+								background-color: #333;
+								color: #eee;
+								border: 1px solid #eee;
+								padding:5px
+							}
+
 							</style>
 
 							<div id='php_dump_legend_container'>\n";
@@ -191,6 +199,9 @@ function php_dump($value, $label=null)
 		}else{
 			$return .= "<p class='php_dump_bool'>True : Boolean</p>";
 		}
+	}else if(is_null($value))
+	{
+		$return .= "<p class='php_dump_null'>Value is NULL</p>";
 	}
 
 	echo $return;
