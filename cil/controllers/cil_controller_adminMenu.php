@@ -20,8 +20,9 @@ function cil_plugin_menus()
 }
 
 //show top level list edit page - pinned lists
-function cil_list_options()
+function cil_list_options($arg)
 {
+
 	if (!current_user_can('manage_options'))  {
 		wp_die( __('You do not have sufficient permissions to access this page.') );
 	}
@@ -55,8 +56,11 @@ function cil_optionsMenu_externalFileLoad()
 
 	wp_enqueue_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js');
 
+
 	//load styles
-	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_optionsMenu.css');
+	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_listOptions.css');
+	wp_enqueue_style('cil_listItemOptionStyle', $cilPluginURL.'/css/cil_admin_optionsMenu.css');
+	wp_enqueue_style('cil_optionHelpStyle', $cilPluginURL.'/css/cil_help_window.css');
 	wp_enqueue_style('thickbox');
 }
 
@@ -67,15 +71,17 @@ function cil_admin_listOptions_externalFileLoad()
 	global $cilPluginURL;
 
 	//load javascript
+	//required for the wordpress media upload panel
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('thickbox');
 	wp_register_script('imageUpload', $cilPluginURL.'/js/imageUpload.js', array('jquery','media-upload','thickbox'));
 	wp_enqueue_script('imageUpload');
-
+	//page specific javascript
 	wp_enqueue_script('cil_optionScript', $cilPluginURL.'/js/cil_listOptionMenu.js');
 
 	//load styles
 	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_listOptions.css');
+	wp_enqueue_style('cil_optionHelpStyle', $cilPluginURL.'/css/cil_help_window.css');
 	wp_enqueue_style('thickbox');
 }
 
