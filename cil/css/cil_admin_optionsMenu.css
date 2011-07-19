@@ -20,10 +20,11 @@
 	font-weight:bold;
 }
 
-#create_new_list_header {
+.cil_list_option_button {
 	height: 15px;
 	width: 130px;
 	padding:7px;
+	margin-right: 5px;
 	display: inline;
 	background-color: #eee;
 	border-top: 1px solid #fff;
@@ -228,4 +229,14 @@
 #cil_preview_logo {
 	margin: 0 0 0 10px;
 	vertical-align: middle;
+}
+
+#cil_edit_list_items {
+	display:none;
+}
+
+/* edit list view */
+
+#cil_item_wrap {
+	display: none;
 }
