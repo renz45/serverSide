@@ -25,7 +25,7 @@
 	margin-bottom: 20px;
 }
 
-#create_new_list_header {
+#create_new_item_header {
 	display: inline;
 	height: 15px;
 	padding:7px;
@@ -41,7 +41,7 @@
 	clear: both;
 }
 
-#create_new_list_header:hover {
+#create_new_item_header:hover {
 	color: #e50;
 }
 
@@ -118,23 +118,23 @@
 
 }
 
-.cil_admin_list_items .cil_pin_btn {
+.cil_admin_list_items .cil_hide_btn {
 	border-top: 1px solid #eee;
 	float:left;
 }
 
-.cil_admin_list_items .cil_pin_btn:hover {
+.cil_admin_list_items .cil_hide_btn:hover {
 	border-right: 1px solid #ccc;
 	border-top: 1px solid #E8E8E8;
 }
 
-.cil_admin_list_items .cil_list_edit_btn {
+.cil_admin_list_items .cil_item_edit_btn {
 	float: right;
 	height: 25px;
 	border-right: none;
 }
 
-.cil_admin_list_items .cil_list_edit_btn:hover {
+.cil_admin_list_items .cil_item_edit_btn:hover {
  	border-left: 1px solid #ccc;
  	border-right: 1px solid #ccc;
  	border-right: none;
@@ -144,13 +144,13 @@
 	border-top-left-radius:5px;
 }
 
-.cil_admin_list_items .cil_list_delete_btn {
+.cil_admin_list_items .cil_item_delete_btn {
 	float: right;
 	height: 25px;
 	border-right: none;
 }
 
-.cil_admin_list_items .cil_list_delete_btn:hover {
+.cil_admin_list_items .cil_item_delete_btn:hover {
 	border-right: none;
 }
 
