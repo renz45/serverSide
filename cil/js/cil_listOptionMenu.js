@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 	////////////////////////////////////////////////////////////
 
 	////////expand the form when the add new list button is pressed/////////
-	jQuery("#create_new_list_header")
+	jQuery("#create_new_item_header")
 		.bind('click',function(){
 			var form = jQuery("#cil_edit_item_form");
 
@@ -27,9 +27,9 @@ jQuery(document).ready(function() {
 		});
 
 	///////////list edit button functionality////////////
-	jQuery(".cil_list_edit_btn").bind('click',editButtonHandler);
+	jQuery(".cil_item_edit_btn").bind('click',editItemButtonHandler);
 
-	function editButtonHandler(){
+	function editItemButtonHandler(){
 		var name = jQuery(this).parent().find(".cil_item_heading span").attr('title');
 
 		//expand the edit menu if it's closed
@@ -71,9 +71,9 @@ jQuery(document).ready(function() {
 	});
 
 	////////////Ajax hide List////////////////
-	jQuery(".cil_pin_btn").bind('click',pinButtonHandler);
+	jQuery(".cil_hide_btn").bind('click',hideButtonHandler);
 	//toggle pinned state
-	function pinButtonHandler(){
+	function hideButtonHandler(){
 		var hidden = '1';
 		if(jQuery(this).hasClass('active'))//if the item has the class active which means it is pinned
 		{
@@ -93,17 +93,17 @@ jQuery(document).ready(function() {
 
 			if(obj['isHidden'] == 0)
 			{
-				jQuery('#cil-list_item_'+obj['id']+" .cil_pin_btn").removeClass('active');
+				jQuery('#cil-list_item_'+obj['id']+" .cil_hide_btn").removeClass('active');
 			}else{
-				jQuery('#cil-list_item_'+obj['id']+" .cil_pin_btn").addClass('active');
+				jQuery('#cil-list_item_'+obj['id']+" .cil_hide_btn").addClass('active');
 			}
 		});
 	}
 
 	//////////////Ajax delete list//////////////
-	jQuery(".cil_list_delete_btn").bind('click',deleteButtonHandler);
+	jQuery(".cil_item_delete_btn").bind('click',deleteItemButtonHandler);
 	//delete an item
-	function deleteButtonHandler(){
+	function deleteItemButtonHandler(){
 
 		var data = {
 				action:'cil_delete_listItem',
@@ -126,7 +126,6 @@ jQuery(document).ready(function() {
 	jQuery("#cil_edit_item_form").bind('submit',function(event){
 		//prevent the default form submit action
 		event.preventDefault();
-		var maxNameLength = 12;
 
 		//create data object for ajax call
 		var data = {
@@ -135,8 +134,8 @@ jQuery(document).ready(function() {
 				heading: jQuery('#cil_item_heading').val(),
 				imageUrl: jQuery("#cil_item_imageUrl").val(),
 				url: jQuery("#cil_item_headingUrl").val(),
-				listId: window.location.search.split('-')[1],
-				content: jQuery("#cil_item_content").attr("value")
+				listId: jQuery('.cil_hidden_list_id').val(),
+				content: jQuery("#cil_item_content").val()
 		};
 		//update list
 
@@ -173,23 +172,23 @@ jQuery(document).ready(function() {
 
 				jQuery('.cil_admin_list_items').append(
 				"<li id='cil-list_item_"+ data['id'] +"'>"+
-						"<a class='cil_pin_btn cil_list_item_btn ' title='Hide this item'>hide</a>"+
+						"<a class='cil_hide_btn cil_list_item_btn ' title='Hide this item'>hide</a>"+
 						image +
 						"<span class='cil_item_heading'> - "+
 						heading +
 						" - </span>"+
 						"<p class='cil_item_content'>"+ data['content'] +"</p>"+
-						"<a class='cil_list_item_btn cil_list_edit_btn'>Edit</a>"+
-						"<a class='cil_list_item_btn cil_list_delete_btn'>Delete</a>"+
+						"<a class='cil_list_item_btn cil_item_edit_btn'>Edit</a>"+
+						"<a class='cil_list_item_btn cil_item_delete_btn'>Delete</a>"+
 					"</li>");
 
 				//rebind click handlers to the buttons in the new list item, this is done automatically on page reload, but this is for when a list item is
 				//initally created so the page doesn't have to reload in order to get functionality
 				var newItem = jQuery('#cil-list_item_'+ data['id']);
 
-				newItem.find('.cil_list_edit_btn').bind('click',editButtonHandler);
-				newItem.find('.cil_pin_btn').bind('click',pinButtonHandler);
-				newItem.find('.cil_list_delete_btn').bind('click',deleteButtonHandler);
+				newItem.find('.cil_item_edit_btn').bind('click',editItemButtonHandler);
+				newItem.find('.cil_hide_btn').bind('click',hideButtonHandler);
+				newItem.find('.cil_item_delete_btn').bind('click',deleteItemButtonHandler);
 
 				var h3 = jQuery('#cil_no_items');
 				if(h3.length > 0)
@@ -220,7 +219,7 @@ jQuery(document).ready(function() {
 					//if the image icon doesn't already exist, than add a new one
 					if(list.find('.cil_item_image').length == 0)
 					{
-						list.find('.cil_pin_btn').after("<img class='cil_item_image' src='"+ jQuery('#cil_item_imageIcon').attr('src') +"' alt='"+ data['imageUrl'] +"' title='This item has an image' width='15' height='15' />");
+						list.find('.cil_hide_btn').after("<img class='cil_item_image' src='"+ jQuery('#cil_item_imageIcon').attr('src') +"' alt='"+ data['imageUrl'] +"' title='This item has an image' width='15' height='15' />");
 					}else{//if the icon already exists, just change the alt attribute to match the new values
 						list.find('.cil_item_image').attr('alt', data['imageUrl']);
 					}
@@ -260,7 +259,7 @@ jQuery(document).ready(function() {
 		jQuery("#cil_item_heading").attr("value", "");
 		jQuery("#cil_item_content").val("");
 		jQuery("#cil_item_imageUrl").val("");
-		jQuery("#cil_edit_item_form").attr('action', "");
+		jQuery("#cil_hidden_list_id").val("");
 		jQuery('#cil_item_headingUrl').val("");
 		jQuery('.cil_error').html('');
 		jQuery('#cil_preview_item_image').attr('src',"");
