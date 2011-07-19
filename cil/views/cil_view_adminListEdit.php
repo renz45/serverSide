@@ -1,17 +1,28 @@
 <?php
 //show individual list options
 add_action('show_cil_admin_list_options', 'show_list_options');
-function show_list_options()
+function show_list_options($skipQuery=false)
 {
 	global $cilPluginURL;
 
-	$pageArr = split('-',$_GET['page']);
+	if($skipQuery == false || $skipQuery == "" )
+	{
+		$pageArr = split('-',$_GET['page']);
 
-	$id = $pageArr[1];
+		$id = $pageArr[1];
 
-	global $cil_model;
-	$listData = $cil_model->get_item_lists($id);
-	$listItems = $cil_model->get_list_items($id);
+		global $cil_model;
+		$listData = $cil_model->get_item_lists($id);
+		$listItems = $cil_model->get_list_items($id);
+
+	}else{
+
+		$listData = array('name'=>'','logo_url'=>'','description'=>'');
+		$listData = (object)$listData;
+
+		$listItems = array();
+		$id = "";
+	}
 
 	//dynamic background image without using javascript
 	$output = "<div id='cil_item_wrap'>
@@ -30,7 +41,7 @@ function show_list_options()
 			$choppedHeading = substr($value->heading,0, $maxChars);
 
 			$output .= "<li id='cil-list_item_". $value->id ."'>
-							<a class='cil_pin_btn cil_list_item_btn ". ($value->isHidden == 1 ? 'active' : "") ."' title='Hide this item'>hide</a>\n";
+							<a class='cil_hide_btn cil_list_item_btn ". ($value->isHidden == 1 ? 'active' : "") ."' title='Hide this item'>hide</a>\n";
 
 			//insert image icon if there is an image associated with this item
 			if(!empty($value->image_url))
@@ -48,8 +59,8 @@ function show_list_options()
 
 
 			$output .=	"<p class='cil_item_content'>" . $value->content . "</p>
-							<a class='cil_list_item_btn cil_list_edit_btn'>Edit</a>
-							<a class='cil_list_item_btn cil_list_delete_btn'>Delete</a>
+							<a class='cil_list_item_btn cil_item_edit_btn'>Edit</a>
+							<a class='cil_list_item_btn cil_item_delete_btn'>Delete</a>
 						</li>\n";
 		}
 		$output .=	"</ul>\n";
@@ -58,7 +69,7 @@ function show_list_options()
 		$output .=	"</ul>\n";
 		$output .= "<h3 id='cil_no_items'>oops your list is empty, click the button below to start adding new items to your list</h3>\n";
 	}
-	$output .=	"<p id='create_new_list_header'>Create a new item:</p>
+	$output .=	"<p id='create_new_item_header'>Create a new item</p>
 			<form id='cil_edit_item_form' action=''>
 				<p>
 					<label for='cil_item_heading'><span>Item Heading:</span></label><br/>
@@ -76,14 +87,17 @@ function show_list_options()
 				</p>
 
 				<p>
-					<img id='cil_item_imageIcon' src='$cilPluginURL/cil/assets/image.png' alt='image icon' title='This item has an image' width='15' height='15' />
+					<img id='cil_item_imageIcon' src='$cilPluginURL/assets/image.png' alt='image icon' title='This item has an image' width='15' height='15' />
 					<label for='cil_item_imageUrl'><span>Image URL:</span>(This is the image attached to this item, it's optional)</label><br/>
 					<input type='text' name='cil_item_imageUrl' id='cil_item_imageUrl' /><br/>
 					<img id='cil_preview_item_image' src='' alt='preview image' title='preview image' /><br/>
 					<input id='upload_item_image_button' type='button' value='Upload Image' title='upload an image for this lists menu icon' />
 				</p>
 
-				<p><input type='submit' id='cil_newItemSubmit' name='cil_newItemSubmit' value='Create a New Item' /><input id='cil_item_cancel_button' type='button' value='Cancel' title='cancel'/></p>
+				<p><input type='submit' id='cil_newItemSubmit' name='cil_newItemSubmit' value='Create a New Item' />
+				<input id='cil_item_cancel_button' type='button' value='Cancel' title='cancel'/>
+				<input class='cil_hidden_list_id' type='hidden' value='$id' />
+				<input class='cil_hidden_list_item_id' type='hidden' value='' /></p>
 			</form>
 		</div>";
 
