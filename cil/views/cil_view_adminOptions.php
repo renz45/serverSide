@@ -11,6 +11,7 @@ function show_options_menu()
 	global $cil_model;
 	$results = $cil_model->get_item_lists();
 
+
 	$output = "
 		<div id='cil_wrap'>
 			<h2><span>CIL - </span>Custom Item List | Options</h2>
@@ -32,7 +33,7 @@ function show_options_menu()
 	}
 	$output .=	"</ul>
 
-			<p id='create_new_list_header'>Create a new item list:</p>
+			<a id='cil_create_new_list_header' class='cil_list_option_button'>Create a new item list</a><a id='cil_edit_list_items' class='cil_list_option_button'>Edit List Items</a>
 			<form id='cil_edit_List_form' action=''>
 				<p>
 					<label for='cil_listName'><span>List Name:</span> (Keep it short, this will be the menu item when pinned)</label><br/>
@@ -55,14 +56,20 @@ function show_options_menu()
 					<input type='text' name='cil_logoUrl' id='cil_logoUrl' /><img id='cil_preview_logo' src='' alt='Preview logo' title='Preview Logo' width='45' height='45' /><br/>
 					<input id='upload_logo_button' type='button' value='Upload Logo Image' title='upload an image for this lists logo'/>
 				</p>
-				<p><input type='submit' id='cil_newListSubmit' name='cil_newListSubmit' value='Create a New List' /><input id='cil_cancel_button' type='button' value='Cancel' title='cancel'/></p>
+				<p><input type='submit' id='cil_newListSubmit' name='cil_newListSubmit' value='Create a New List' />
+				<input id='cil_cancel_button' type='button' value='Cancel' title='cancel'/>
+				<input class='cil_hidden_list_id' type='hidden' value='$value->id' /></p>
 			</form>
 		</div>
 	";
 
+
+
 	// echo the output to work with the wordpress method do_action()
 	echo $output;
 
+	//display the view for editing list items for a given list
+	do_action('show_cil_admin_list_options',true);
 }
 
 
