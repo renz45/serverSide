@@ -1,0 +1,10 @@
+#cil_edit_item_help p {
+	font-size: 16px;
+	color:#777;
+	margin-bottom: 2px;
+}
+
+
+#cil_edit_item_help code {
+	color:#922;
+}
