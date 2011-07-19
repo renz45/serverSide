@@ -2,7 +2,8 @@
 
 add_action('wp_ajax_cil_pin_list', 'cil_pin_list');
 //pin or unpin lists from the side menu
-function cil_pin_list() {
+function cil_pin_list()
+{
 	global $wpdb;
 
 	$tableName = $wpdb->prefix . "cil_listInfo";
@@ -20,7 +21,8 @@ function cil_pin_list() {
 
 add_action('wp_ajax_cil_delete_list', 'cil_delete_list');
 //delete a list
-function cil_delete_list() {
+function cil_delete_list()
+{
 	global $wpdb;
 
 	//delete list with specified id
@@ -42,7 +44,8 @@ function cil_delete_list() {
 
 add_action('wp_ajax_cil_edit_list', 'cil_edit_list');
 //edit a list
-function cil_edit_list() {
+function cil_edit_list()
+{
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . "cil_listInfo";
@@ -57,7 +60,7 @@ function cil_edit_list() {
 		$sql = "UPDATE " . $table_name . " SET name='%s', time=NOW(), description='%s', logo_url='%s', icon_url='%s' WHERE id='". $id ."'";
 
 		//TODO write this prepare the right way so its actually working
-		;//security measures, stripping slashes and such with wp built in prepare method
+		//security measures, stripping slashes and such with wp built in prepare method
 		$wpdb->query($wpdb->prepare($sql,array($_POST['listName'], $_POST['listDesc'], $_POST['logoUrl'],$_POST['iconUrl'])));
 	}else{//if there was no id create a new list
 		$name = $_POST['listName'];
@@ -87,7 +90,8 @@ function cil_edit_list() {
 
 add_action('wp_ajax_cil_hide_list', 'cil_hide_list');
 //hide or show a list item
-function cil_hide_list() {
+function cil_hide_list()
+{
 	global $wpdb;
 
 	$tableName = $wpdb->prefix . "cil_listItemInfo";
@@ -106,7 +110,8 @@ function cil_hide_list() {
 
 add_action('wp_ajax_cil_delete_listItem', 'cil_delete_listItem');
 //delete a list item
-function cil_delete_listItem() {
+function cil_delete_listItem()
+{
 	global $wpdb;
 
 	//delete list item with specified id
@@ -123,7 +128,8 @@ function cil_delete_listItem() {
 
 add_action('wp_ajax_cil_edit_item', 'cil_edit_item');
 //edit a list item
-function cil_edit_item() {
+function cil_edit_item()
+{
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . "cil_listItemInfo";
@@ -168,4 +174,21 @@ function cil_edit_item() {
 
 	echo $return;
 	die(); // this is required to return a proper result
+}
+
+add_action('wp_ajax_cil_get_items', 'cil_get_items');
+//get list items for a specified list id
+function cil_get_items()
+{
+	global $wpdb;
+
+	$table_name = $wpdb->prefix . "cil_listItemInfo";
+
+	$sql = "SELECT * FROM $table_name WHERE list_id='". $_POST['id'] ."'";
+
+	$result = $wpdb->get_results($sql,OBJECT_K);
+
+	echo json_encode($result);
+
+	die();// this is required to return a proper result
 }
