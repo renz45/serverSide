@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 	//set up fields and buttons for the image uploader
 	var image_upload_params = [{button:'#upload_logo_button', formField:'#cil_logoUrl'},
 					           {button:'#upload_icon_button', formField:'#cil_iconUrl'},
-					           {button:'#upload_image_button', formField:'#cil_imageUrl'} ];
+					           {button:'#upload_item_image_button', formField:'#cil_item_imageUrl'} ];
 
 
 	for(i = 0; i < image_upload_params.length; i = i + 1)
