@@ -149,6 +149,14 @@ function php_dump($value, $label=null)
 								padding:5px
 							}
 
+							/* null styles */
+							table.phpdump td.php_dump_null, .php_dump_null {
+								background-color: #333;
+								color: #eee;
+								border: 1px solid #eee;
+								padding:5px
+							}
+
 							</style>
 
 							<div id='php_dump_legend_container'>\n";
@@ -176,7 +184,7 @@ function php_dump($value, $label=null)
 		$return .= $parser->parseObject($value);
 	}else if(is_string($value))
 	{
-		$return .= "<p class='php_dump_string'>$value</p>";
+		$return .= "<p class='php_dump_string'>". htmlentities($value) ."</p>";
 	}else if(is_int($value))
 	{
 		$return .= "<p class='php_dump_int'>$value</p>";
@@ -191,6 +199,9 @@ function php_dump($value, $label=null)
 		}else{
 			$return .= "<p class='php_dump_bool'>True : Boolean</p>";
 		}
+	}else if(is_null($value))
+	{
+		$return .= "<p class='php_dump_null'>Value is NULL</p>";
 	}
 
 	echo $return;
@@ -248,7 +259,7 @@ class phpDumpParser
 				$result .= "<td>" . $this->parseObject($value) . "</td>";
 			}else if(is_string($value))//if string
 			{
-				$result .= "<td class='php_dump_string'>" . $value . "</td>";
+				$result .= "<td class='php_dump_string'>" . htmlentities($value) . "</td>";
 			}else if(is_int($value))//if int
 			{
 				$result .= "<td class='php_dump_int'>" . $value . "</td>";
