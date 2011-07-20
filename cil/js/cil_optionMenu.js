@@ -316,12 +316,12 @@ jQuery(document).ready(function() {
 	});
 
 	/////////////////update image preview///////////////////
-	jQuery('#cil_item_imageUrl').bind('change keyup',function(){
-		jQuery('#cil_preview_item_image').attr('src', jQuery(this).val());
+	formItemImageUrl.bind('change keyup',function(){
+		editItemForm.find('#cil_preview_item_image').attr('src', jQuery(this).val());
 	});
 
 	///////////////////limit the list name so it's not too big to fit on the menu bar////////////////
-	jQuery('#cil_listName').bind('keyup', function(e){
+	formListName.bind('keyup', function(e){
 		var maxLength = 12;
 
 		var value = jQuery(this).val();
@@ -343,8 +343,7 @@ jQuery(document).ready(function() {
 	});
 
 	////////expand the form when the add new list button is pressed/////////
-	jQuery("#create_new_item_header").bind('click',function(){
-
+	cilItemWrapper.find("#create_new_item_header").bind('click',function(){
 
 			if(editItemForm.css('height') == "0px")
 			{
@@ -355,11 +354,10 @@ jQuery(document).ready(function() {
 			clearItemForm();
 
 			//change submit button label
-			changeSubmitLabel("Create a New Item");
+			changeItemSubmitLabel("Create a New Item");
 		});
 
-
-///////////list edit button functionality////////////
+	///////////list edit button functionality////////////
 	cilItemWrapper.find(".cil_item_edit_btn").bind('click',editItemButtonHandler);
 
 	function editItemButtonHandler(){
@@ -623,6 +621,7 @@ jQuery(document).ready(function() {
 	{
 		cilItemWrapper.hide();
 		clearItemForm();
+		closeEditListForm(editItemForm);
 	}
 
 	///////////////show the item edit panel////////////////
