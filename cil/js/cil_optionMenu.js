@@ -612,7 +612,7 @@ jQuery(document).ready(function() {
 				350);
 	}
 
-	//hide the button that shows the edit item menu
+	///////////////////////hide the button that shows the edit item menu///////////////////////
 	function showItemEditButton()
 	{
 		editListItemButton.fadeIn(200);
@@ -625,7 +625,7 @@ jQuery(document).ready(function() {
 		clearItemForm();
 	}
 
-	//show the item edit panel
+	///////////////show the item edit panel////////////////
 	function showItemEdit()
 	{
 		cilItemWrapper.fadeIn(200);
