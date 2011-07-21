@@ -5,9 +5,9 @@ cil_listInfo:
 ---------------------
 	id
 	time
-	title
+	name
 	description
-	pin_id (id of list to be pinned under. 0 indicates a new main menu item)
+	isPinned (id of list to be pinned under. 0 indicates a new main menu item)
 	logo_url
 	icon_url
 
@@ -15,10 +15,12 @@ cil_listInfo:
 ---------------------
 	id
 	time
-	description
+	heading
+	content
 	url
 	image_url
 	list_id
+	isHidden
 */
 
 global $cil_db_version;
