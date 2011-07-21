@@ -76,7 +76,6 @@ jQuery(document).ready(function() {
 		//close form
 		closeEditListForm(editListForm);
 
-
 		//clear form
 		clearForm();
 
