@@ -10,7 +10,9 @@ jQuery(document).ready(function() {
 	var cilListList = cilListWrapper.find('.cil_admin_list');
 	var cilItemList = cilItemWrapper.find('.cil_admin_list_items');
 
+	var createNewListButton = cilListWrapper.find("#cil_create_new_list_header");
 	var editListItemButton = cilListWrapper.find('#cil_edit_list_items');
+	var editTemplateButton = cilListWrapper.find('#cil_edit_template');
 
 	var editListForm = cilListWrapper.find("#cil_edit_List_form");
 	var formListName = editListForm.find("#cil_listName");
@@ -19,6 +21,8 @@ jQuery(document).ready(function() {
 	var formListLogoUrl = editListForm.find("#cil_logoUrl");
 	var formListSubmit = editListForm.find('.#cil_newListSubmit');
 
+	var editListItemTitle = jQuery('#cil_listItemsFor');
+
 	var editItemForm = cilItemWrapper.find("#cil_edit_item_form");
 	var formItemHeading = editItemForm.find("#cil_item_heading");
 	var formItemContent = editItemForm.find("#cil_item_content");
@@ -26,9 +30,11 @@ jQuery(document).ready(function() {
 	var formItemHeadingUrl = editItemForm.find('#cil_item_headingUrl');
 	var formItemSubmit = editItemForm.find('#cil_newItemSubmit');
 
+	var editTemplateForm = cilListWrapper.find('#cil_edit_list_template');
+
 	var cilItemImageIcon = editItemForm.find('#cil_item_imageIcon');
 
-	var createNewListButton = cilListWrapper.find("#cil_create_new_list_header");
+
 
 	////////////////////////////////////////////////////////////
 	//														  //
@@ -39,10 +45,11 @@ jQuery(document).ready(function() {
 	//////////expand the form when the add new list button is pressed/////////
 	createNewListButton.bind('click',function(){
 
-		var form = editListForm;
-		if(form.css('height') == "0px")
+		if(editListForm.css('height') == "0px")
 		{
-			expandEditListForm(form);
+			expandEditListForm(editListForm);
+		}else if(formListSubmit.val() == "Create a New List"){
+			closeEditListForm(editListForm);
 		}
 
 		//hide item list if its up
@@ -51,9 +58,80 @@ jQuery(document).ready(function() {
 		//clear form
 		clearForm();
 
+		//fadeout the list edit item title
+		editListItemTitle.fadeOut(200);
+
+		hideItemEditButton();
+		hideTemplateButton();
+
+		editTemplateForm.fadeOut(200);
+
 		//change submit button label
 		changeSubmitLabel("Create a New List");
 
+	});
+
+	///////////////////edit list cancel button////////////////////
+	editListForm.find('#cil_cancel_button').bind('click',function(){
+		//close form
+		closeEditListForm(editListForm);
+
+
+		//clear form
+		clearForm();
+
+		//change submit button label back to the default value
+		changeSubmitLabel("Create a New List");
+	});
+
+	///////////////////edit list item button////////////////////
+	editListItemButton.bind('click',function(){
+
+		//toggle hide and show of the item edit window
+		if(cilItemWrapper.css('display') == 'none')
+		{
+			//close edit list form
+			closeEditListForm(editListForm);
+
+			showItemEdit();
+
+			editTemplateForm.fadeOut(200);
+
+			if(formListName.val() != "")
+			{
+				editListItemTitle.fadeIn(200).find('span').html(formListName.val());
+			}else{
+				editListItemTitle.fadeIn(200);
+			}
+
+		}else{
+			expandEditListForm(editListForm);
+			hideItemEdit();
+			editListItemTitle.fadeOut(200);
+		}
+	});
+
+	///////////////////edit list template button////////////////////
+	editTemplateButton.bind('click', function(){
+
+		if(editTemplateForm.css('display') == 'none')
+		{
+			closeEditListForm(editListForm);
+
+			hideItemEdit();
+			editListItemTitle.fadeOut(200);
+
+			if(formListName.val() != "")
+			{
+				editTemplateForm.fadeIn(200).find('label span').html(formListName.val());
+			}else{
+				editTemplateForm.fadeIn(200);
+			}
+
+		}else{
+			expandEditListForm(editListForm);
+			editTemplateForm.fadeOut(200);
+		}
 	});
 
 	///////////////list edit button functionality////////////
@@ -75,6 +153,9 @@ jQuery(document).ready(function() {
 
 		//show the edit list items button
 		showItemEditButton();
+		showTemplateButton();
+
+		editTemplateForm.fadeOut(200);
 
 		//change submit button label
 		changeSubmitLabel("Edit " + name + " List");
@@ -160,25 +241,6 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
-
-	///////////////////edit list cancel button////////////////////
-	jQuery('#cil_cancel_button').bind('click',function(){
-		//close form
-		closeEditListForm(editListForm);
-
-		//clear form
-		clearForm();
-
-		//change submit button label back to the default value
-		changeSubmitLabel("Create a New List");
-	});
-
-	///////////////////edit list item button////////////////////
-	jQuery('#cil_edit_list_items').bind('click',function(){
-		closeEditListForm(editListForm);
-
-		showItemEdit();
-	});
 
 	/////////////////Ajax pin List////////////////
 	jQuery(".cil_pin_btn").bind('click',pinButtonHandler);
@@ -604,22 +666,39 @@ jQuery(document).ready(function() {
 	/////////////////close the given form////////////////////
 	function closeEditListForm(form)
 	{
-		editListItemButton.fadeOut(200);
+
 		form.animate(
 				{height:'0px'},
 				350);
 	}
 
-	///////////////////////hide the button that shows the edit item menu///////////////////////
+	///////////////////////show the button that shows the edit item menu///////////////////////
 	function showItemEditButton()
 	{
 		editListItemButton.fadeIn(200);
+	}
+	///////////////////////hide the button that shows the edit item menu///////////////////////
+	function hideItemEditButton()
+	{
+		editListItemButton.fadeOut(200);
+	}
+
+	/////////////////////show button that displays the edit template form///////////////////
+	function showTemplateButton()
+	{
+		editTemplateButton.fadeIn(200);
+	}
+
+	/////////////////////hide button that displays the edit template form///////////////////
+	function hideTemplateButton()
+	{
+		editTemplateButton.fadeOut(200);
 	}
 
 	//////////////////hide item edit panel///////////////////
 	function hideItemEdit()
 	{
-		cilItemWrapper.hide();
+		cilItemWrapper.hide(200);
 		clearItemForm();
 		closeEditListForm(editItemForm);
 	}
@@ -657,5 +736,30 @@ jQuery(document).ready(function() {
 	function chopHeading(item,maxChars)
 	{
 		return item.slice(0,maxChars);
+	}
+
+	////////////////insert text into a textarea at the caret///////////////////
+	function insertAtCaret(myValue,textArea)
+	{//replace textArea with this if it goes into a jquery plugin
+		if (document.selection)
+		{
+			textArea.focus();
+			sel = document.selection.createRange();
+			sel.text = myValue;
+			textArea.focus();
+		}
+		else if(textArea.selectionStart || textArea.selectionStart == '0') {
+		    var startPos = textArea.selectionStart;
+		    var endPos = textArea.selectionEnd;
+		    var scrollTop = this.scrollTop;
+		    textArea.value = textArea.value.substring(0, startPos)+myValue+this.value.substring(endPos,textArea.value.length);
+		    textArea.focus();
+		    textArea.selectionStart = startPos + myValue.length;
+		    textArea.selectionEnd = startPos + myValue.length;
+		    textArea.scrollTop = scrollTop;
+		}else{
+			textArea.value += myValue;
+			textArea.focus();
+		}
 	}
 });
