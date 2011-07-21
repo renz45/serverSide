@@ -192,7 +192,6 @@ class cil_ajax_model {
 		die(); // this is required to return a proper result
 	}
 
-
 	//get list items for a specified list id
 	public function cil_get_items()
 	{
@@ -208,4 +207,6 @@ class cil_ajax_model {
 
 		die();// this is required to return a proper result
 	}
+
+	//TODO write ajax for setting the template, write model so that the short tag will output the template if != ''
 }
