@@ -10,6 +10,7 @@ cil_listInfo:
 	isPinned (id of list to be pinned under. 0 indicates a new main menu item)
 	logo_url
 	icon_url
+	template
 
 cil_listInfo:
 ---------------------
@@ -36,11 +37,12 @@ function cil_install () {
 	$sql = "CREATE TABLE " . $table_name . " (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		  name VARCHAR(128) NOT NULL,
-		  description text NOT NULL,
+		  name VARCHAR(128) DEFAULT '' NOT NULL,
+		  description text DEFAULT '' NOT NULL,
 		  logo_url VARCHAR(256) DEFAULT '' NOT NULL,
 		  icon_url VARCHAR(256) DEFAULT '' NOT NULL,
 		  isPinned tinyint(1) DEFAULT '0' NOT NULL,
+		  template text DEFAULT '' NOT NULL,
 		  UNIQUE KEY id (id)
 		);";
 
@@ -52,9 +54,9 @@ function cil_install () {
 
 		$sql = "CREATE TABLE " . $table_name . " (
 			  id mediumint(9) NOT NULL AUTO_INCREMENT,
-			  heading VARCHAR(200) NOT NULL,
+			  heading VARCHAR(200) DEFAULT '' NOT NULL,
 			  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			  content text NOT NULL,
+			  content text DEFAULT '' NOT NULL,
 			  url VARCHAR(256) DEFAULT '' NOT NULL,
 			  image_url VARCHAR(256) DEFAULT '' NOT NULL,
 			  list_id int(55) DEFAULT 0 NOT NULL,
@@ -117,11 +119,11 @@ function cil_install_data() {
 														'logo_url' => $logo_url,
 														'icon_url' => $icon_url ));
 
-	$description = "Sample details paragraph";
+	$content = "Sample details paragraph";
 	$list_id = 1;
 	$table_name = $wpdb->prefix . "cil_listItemInfo";
 
-	$rows_affected = $wpdb->insert( $table_name, array( 'heading'=>'default heading', 'time' => current_time('mysql'), 'description' => $description, 'list_id' => $list_id ) );
+	$wpdb->insert( $table_name, array( 'heading'=>'default heading', 'time' => current_time('mysql'), 'content' => $content, 'list_id' => $list_id ) );
 }
 
 function myplugin_update_db_check() {
