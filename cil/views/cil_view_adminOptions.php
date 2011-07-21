@@ -93,13 +93,10 @@ class view_optionsMenu {
 			<h3 id='cil_listItemsFor'>List items for: <span></span></h3>
 		";
 
-
-
 		// echo the output to work with the wordpress method do_action()
 		echo $output;
 
 		//display the view for editing list items for a given list
-
 		do_action('show_cil_admin_list_options',true);
 	}
 }
