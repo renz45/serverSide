@@ -20,12 +20,10 @@
 	font-weight:bold;
 }
 
-.cil_list_option_button {
-	height: 15px;
-	width: 130px;
+.cil_list_option_button li {
 	padding:7px;
 	margin-right: 5px;
-	display: inline;
+	display: inline-block;
 	background-color: #eee;
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #ddd;
@@ -35,6 +33,7 @@
 	font-weight: bold;
 	color: #2175a5;
 	cursor: pointer;
+	float:left;
 }
 
 #create_new_list_header:hover {
@@ -57,7 +56,6 @@
 	line-height: 25px;
 	font-size: 12px;
 	overflow: hidden;
-
 }
 
 .cil_admin_list li img {
@@ -185,6 +183,7 @@
 	height:0;
 	margin-top: 10px;
 	overflow:hidden;
+	clear: both;
 }
 
 #cil_wrap form p {
@@ -235,8 +234,39 @@
 	display:none;
 }
 
+#cil_edit_template {
+	display:none;
+}
+
+#cil_listItemsFor {
+	font-size: 12px;
+	font-weight: normal;
+	color: #777;
+	display:none;
+	margin-bottom: 0;
+}
+
 /* edit list view */
 
 #cil_item_wrap {
 	display: none;
+}
+
+#cil_edit_list_template {
+	display:none;
+}
+
+#cil_edit_list_template #cil_templateTextarea {
+	height: 300px;
+}
+
+#cil_edit_list_template label {
+	color:#777;
+	font-size: 13px;
+}
+
+#cil_item_desc, #cil_item_pageTitle {
+	margin: 0;
+	line-height: 0;
+	padding:0;
 }
