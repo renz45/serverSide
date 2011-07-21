@@ -1,4 +1,8 @@
 <?php
+
+//instantiate the model class
+$cil_model = new Cil_Models($wpdb);
+
 class Cil_Models {
 
 	private $_wpdb;
