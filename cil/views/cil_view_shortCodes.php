@@ -128,7 +128,10 @@ class cil_shortcode {
 		$content = $this->trimLineBreaks($content);
 		$content = stripslashes( html_entity_decode($content) );
 		//set attribute defaults
-		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display'),$atts);
+		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display',
+									'type'=>'ul',
+									'class'=>'',
+									'id'=>''),$atts);
 
 		//if the name doesn't exists within $this->_listItems, then query the database and get the information and insert it into the array
 		if(!key_exists($a['name'], $this->_listItems))
@@ -137,7 +140,7 @@ class cil_shortcode {
 			$this->_listItems[$a['name']] = $listItems;
 		}
 		//create the <ul> with a custom class name
-		$ret .= "<ul class='cil_list-". $a['name'] ."'>";
+		$ret .= "<". $a['type'] ." class='cil_list-". $a['name'] ." ". $a['class'] ."' id='". $a['id'] ."'>";
 
 		//loop through the list items, change the name and index attributes on any short tags to math the correct index
 		for($i = 0; $i < count($this->_listItems[$a['name']]); $i++)
@@ -148,9 +151,7 @@ class cil_shortcode {
 			//parse short tags to get desired output
 			$ret .= do_shortcode($itemText);
 		}
-		$ret .= "</ul>";
-
-
+		$ret .= "</".$a['type'].">";
 
 		return $ret;
 	}
@@ -319,7 +320,7 @@ class cil_shortcode {
 	/**
 	 *
 	 * Trim function that trims out all the extra <p></p> tags that the wordpress html editor inserts into your shortcode
-	 * @param unknown_type $string
+	 * @param String $string
 	 */
 	private function trimLineBreaks($string)
 	{
