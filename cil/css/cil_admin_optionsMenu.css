@@ -241,9 +241,13 @@
 #cil_listItemsFor {
 	font-size: 12px;
 	font-weight: normal;
-	color: #777;
+	color: #555;
 	display:none;
 	margin-bottom: 0;
+}
+
+#cil_listItemsFor span {
+	font-size: 16px;
 }
 
 /* edit list view */
