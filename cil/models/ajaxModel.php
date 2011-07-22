@@ -2,6 +2,7 @@
 
 $cil_ajax_model = new cil_ajax_model($wpdb);
 
+//register all the ajax methods into the wp system
 add_action('wp_ajax_cil_pin_list', array($cil_ajax_model,'cil_pin_list'));
 add_action('wp_ajax_cil_delete_list', array($cil_ajax_model,'cil_delete_list'));
 add_action('wp_ajax_cil_edit_list', array($cil_ajax_model,'cil_edit_list'));
@@ -9,7 +10,10 @@ add_action('wp_ajax_cil_hide_list', array($cil_ajax_model,'cil_hide_list'));
 add_action('wp_ajax_cil_delete_listItem', array($cil_ajax_model,'cil_delete_listItem'));
 add_action('wp_ajax_cil_edit_item', array($cil_ajax_model,'cil_edit_item'));
 add_action('wp_ajax_cil_get_items', array($cil_ajax_model,'cil_get_items'));
-//pin or unpin lists from the side menu
+add_action('wp_ajax_cil_get_template', array($cil_ajax_model,'cil_get_template'));
+add_action('wp_ajax_cil_edit_list_template', array($cil_ajax_model,'cil_edit_list_template'));
+
+
 class cil_ajax_model {
 
 	private $_wpdb;
@@ -19,6 +23,10 @@ class cil_ajax_model {
 		$this->_wpdb = $wpdb;
     }
 
+    /**
+     *
+     * Pin a list to the side menu
+     */
 	public function cil_pin_list()
 	{
 		global $wpdb;
@@ -37,7 +45,9 @@ class cil_ajax_model {
 	}
 
 
-	//delete a list
+	/**
+	 * delete a list with the specified id
+	 */
 	public function cil_delete_list()
 	{
 		global $wpdb;
@@ -60,7 +70,10 @@ class cil_ajax_model {
 	}
 
 
-	//edit a list
+	/**
+	 *
+	 * Edit a list, if an id was not given than create a new list
+	 */
 	public function cil_edit_list()
 	{
 		global $wpdb;
@@ -105,7 +118,9 @@ class cil_ajax_model {
 	//////////////////////////////////////////////////
 
 
-	//hide or show a list item
+	/**
+	 * toggle isHidden, which hides the item from view
+	 */
 	public function cil_hide_list()
 	{
 		global $wpdb;
@@ -125,7 +140,10 @@ class cil_ajax_model {
 	}
 
 
-	//delete a list item
+	/**
+	 *
+	 * Delete a list item with the specified id
+	 */
 	public function cil_delete_listItem()
 	{
 		global $wpdb;
@@ -143,7 +161,10 @@ class cil_ajax_model {
 	}
 
 
-	//edit a list item
+	/**
+	 *
+	 * Edit a list item, if an id is given than edit that list item, if there is no id create a new item
+	 */
 	public function cil_edit_item()
 	{
 		global $wpdb;
@@ -153,7 +174,7 @@ class cil_ajax_model {
 		$id = "";
 		$newItem = false;
 
-		//if an id was given as a post variable return just that list
+		//if there was an id, edit that particular post
 		if(!empty($_POST['id'] ))
 		{
 			$id = $_POST['id'];
@@ -168,7 +189,7 @@ class cil_ajax_model {
 					WHERE id='$id'";
 
 			$wpdb->query($sql);
-		}else{//if there was no id return all lists
+		}else{//if there was no id create a new items and return the new info for that item
 			$heading = $_POST['heading'];
 			$content = $_POST['content'];
 			$image_url = $_POST['imageUrl'];
@@ -192,7 +213,10 @@ class cil_ajax_model {
 		die(); // this is required to return a proper result
 	}
 
-	//get list items for a specified list id
+	/**
+	 *
+	 * Get list items that match the POST var id where id is the id of the list
+	 */
 	public function cil_get_items()
 	{
 		global $wpdb;
@@ -201,12 +225,50 @@ class cil_ajax_model {
 
 		$sql = "SELECT * FROM $table_name WHERE list_id='". $_POST['id'] ."'";
 
-		$result = $wpdb->get_results($sql,OBJECT_K);
+		$result = $wpdb->get_results($sql);
 
 		echo json_encode($result);
 
 		die();// this is required to return a proper result
 	}
 
-	//TODO write ajax for setting the template, write model so that the short tag will output the template if != ''
+	/**
+	 *
+	 * Get the template for a list
+	 */
+	public function cil_get_template()
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "cil_listInfo";
+
+		$sql = "SELECT template FROM $table_name WHERE id='". $_POST['id'] ."'";
+
+		$result = $wpdb->get_results($sql);
+
+		$result[0]->template = stripcslashes(html_entity_decode($result[0]->template));
+
+		echo json_encode($result[0]);
+
+		die();
+	}
+
+	/**
+	 *
+	 * Edit the template for a specified list
+	 */
+	public function cil_edit_list_template()
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "cil_listInfo";
+
+		$sql = "UPDATE $table_name SET template='%s' WHERE id='%d'";
+
+		$wpdb->query($wpdb->prepare($sql,array($_POST['template'],$_POST['id'])));
+
+		echo $sql;
+		die();
+	}
+
 }
