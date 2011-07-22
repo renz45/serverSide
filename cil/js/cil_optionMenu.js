@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
 	////////////////////////////////////////////////////////////
 	//														  //
-	//				frequently usedpage Elements			  //
+	//				frequently used page Elements			  //
 	//														  //
 	////////////////////////////////////////////////////////////
 	var cilListWrapper = jQuery('#cil_wrap');
@@ -45,42 +45,17 @@ jQuery(document).ready(function() {
 	//////////expand the form when the add new list button is pressed/////////
 	createNewListButton.bind('click',function(){
 
-		if(editListForm.css('height') == "0px")
+		if(editListForm.css('height') == "0px" || formListSubmit.val() != "Create a New List")
 		{
-			expandEditListForm(editListForm);
+			state_newListForm();
 		}else if(formListSubmit.val() == "Create a New List"){
-			closeEditListForm(editListForm);
+			state_startScreen();
 		}
-
-		//hide item list if its up
-		hideItemEdit();
-
-		//clear form
-		clearForm();
-
-		//fadeout the list edit item title
-		editListItemTitle.fadeOut(200);
-
-		hideItemEditButton();
-		hideTemplateButton();
-
-		editTemplateForm.fadeOut(200);
-
-		//change submit button label
-		changeSubmitLabel("Create a New List");
-
 	});
 
 	///////////////////edit list cancel button////////////////////
 	editListForm.find('#cil_cancel_button').bind('click',function(){
-		//close form
-		closeEditListForm(editListForm);
-
-		//clear form
-		clearForm();
-
-		//change submit button label back to the default value
-		changeSubmitLabel("Create a New List");
+		state_startScreen();
 	});
 
 	///////////////////edit list item button////////////////////
@@ -89,48 +64,38 @@ jQuery(document).ready(function() {
 		//toggle hide and show of the item edit window
 		if(cilItemWrapper.css('display') == 'none')
 		{
-			//close edit list form
-			closeEditListForm(editListForm);
-
-			showItemEdit();
-
-			editTemplateForm.fadeOut(200);
-
-			if(formListName.val() != "")
-			{
-				editListItemTitle.fadeIn(200).find('span').html(formListName.val());
-			}else{
-				editListItemTitle.fadeIn(200);
-			}
-
+			state_editListItems();
 		}else{
-			expandEditListForm(editListForm);
-			hideItemEdit();
-			editListItemTitle.fadeOut(200);
+			state_editListForm();
 		}
 	});
 
 	///////////////////edit list template button////////////////////
 	editTemplateButton.bind('click', function(){
-
 		if(editTemplateForm.css('display') == 'none')
 		{
-			closeEditListForm(editListForm);
-
-			hideItemEdit();
-			editListItemTitle.fadeOut(200);
-
-			if(formListName.val() != "")
-			{
-				editTemplateForm.fadeIn(200).find('label span').html(formListName.val());
-			}else{
-				editTemplateForm.fadeIn(200);
-			}
-
+			state_editTemplate();
 		}else{
-			expandEditListForm(editListForm);
-			editTemplateForm.fadeOut(200);
+			state_editListForm();
 		}
+	});
+
+	////////////////////////submit for form edit template////////////////
+	editTemplateForm.bind('submit',function(event){
+		event.preventDefault();
+		var data = {action:'cil_edit_list_template',
+					id:editListForm.find('.cil_hidden_list_id').val(),
+					template:editTemplateForm.find('#cil_templateTextarea').val()};
+
+		//send the information via ajax
+		jQuery.post(ajaxurl, data,function(r){
+			state_editListForm();
+		});
+	});
+
+	///////////////////cancel button on the edit template form/////////////////
+	editTemplateForm.find('#cil_cancelTemplate_button').bind('click',function(){
+		state_editListForm();
 	});
 
 	///////////////list edit button functionality////////////
@@ -141,20 +106,7 @@ jQuery(document).ready(function() {
 
 		var thisId =  jQuery(this).parent().attr('id').split("cil-list_")[1];
 
-		//expand the edit menu if it's closed
-		if(editListForm.css('height') == "0px")
-		{
-			expandEditListForm(editListForm);
-		}
-
-		//close the edit list item form if open
-		hideItemEdit();
-
-		//show the edit list items button
-		showItemEditButton();
-		showTemplateButton();
-
-		editTemplateForm.fadeOut(200);
+		state_editListForm();
 
 		//change submit button label
 		changeSubmitLabel("Edit " + name + " List");
@@ -173,7 +125,7 @@ jQuery(document).ready(function() {
 		//populate the list items in the hidden list edit menu in case the user wants to edit them
 		var data = {
 				action:'cil_get_items',
-				id: jQuery('.cil_hidden_list_id').val()
+				id: editListForm.find('.cil_hidden_list_id').val()
 		};
 
 		//make an ajax call to get the list items for list we are editing just in case we want to edit the items
@@ -233,11 +185,24 @@ jQuery(document).ready(function() {
 				newItem.find('.cil_item_delete_btn').bind('click',deleteItemButtonHandler);
 			}
 			//remove the no item notifaction message
-			var emptyMsg = jQuery('#cil_no_items');
-			if(emptyMsg.length > 0)
+			var emptyMsg = cilItemWrapper.find('#cil_no_items');
+			if(r.length > 0)
 			{
 				emptyMsg.remove();
 			}
+		});//end ajax call for loading list items
+
+		var data = {
+				action:'cil_get_template',
+				id: thisId
+		};
+
+		//make an ajax call to get the template for the selected list
+		jQuery.post(ajaxurl, data,function(r){
+			//add template text to the template form
+			r = jQuery.parseJSON(r);
+
+			editTemplateForm.find('#cil_templateTextarea').val("").val(r['template']);
 		});
 	}
 
@@ -278,10 +243,18 @@ jQuery(document).ready(function() {
 
 		hideItemEdit();
 
+		thisId = jQuery(this).parent().attr('id').split("cil-list_")[1];
+
 		var data = {
 				action:'cil_delete_list',
-				id: jQuery(this).parent().attr('id').split("cil-list_")[1]
+				id: thisId
 		};
+
+		//close the list edit form if the deleted list is the one being edited
+		if(editListForm.find('.cil_hidden_list_id').val() == thisId)
+		{
+			state_startScreen();
+		}
 
 		//delete list from the database
 		jQuery.post(ajaxurl, data,function(r){
@@ -354,14 +327,8 @@ jQuery(document).ready(function() {
 				list.find('.desc')
 					.html(data['listDesc']);
 			}
-			//close the form
-			closeEditListForm(editListForm);
 
-			//clear form
-			clearForm();
-
-			//change submit button label back to the default value
-			changeSubmitLabel("Create a New List");
+			state_startScreen();
 
 		});
 	});
@@ -382,7 +349,7 @@ jQuery(document).ready(function() {
 	});
 
 	///////////////////limit the list name so it's not too big to fit on the menu bar////////////////
-	formListName.bind('keyup', function(e){
+	formListName.bind('change', function(e){
 		var maxLength = 12;
 
 		var value = jQuery(this).val();
@@ -405,17 +372,12 @@ jQuery(document).ready(function() {
 
 	////////expand the form when the add new list button is pressed/////////
 	cilItemWrapper.find("#create_new_item_header").bind('click',function(){
-
-			if(editItemForm.css('height') == "0px")
+			if(editItemForm.css('height') == "0px" || formItemSubmit.val() != "Create a New Item")
 			{
-				expandEditListForm(editItemForm);
+				state_newListItemForm();
+			}else if(formItemSubmit.val() == "Create a New Item"){
+				state_editListItems();
 			}
-
-			//clear form
-			clearItemForm();
-
-			//change submit button label
-			changeItemSubmitLabel("Create a New Item");
 		});
 
 	///////////list edit button functionality////////////
@@ -424,11 +386,7 @@ jQuery(document).ready(function() {
 	function editItemButtonHandler(){
 		var name = jQuery(this).parent().find(".cil_item_heading span").attr('title');
 
-		//expand the edit menu if it's closed
-		if(editItemForm.css('height') == "0px")
-		{
-			expandEditListForm(editItemForm);
-		}
+		state_editListItemForm();
 
 		//change submit button label
 		changeItemSubmitLabel("Edit " + name);
@@ -446,15 +404,7 @@ jQuery(document).ready(function() {
 
 	///////////////////cancel button////////////////////
 	editItemForm.find('#cil_item_cancel_button').bind('click',function(){
-
-		//close form
-		closeEditListForm(editItemForm);
-
-		//clear form
-		clearItemForm();
-
-		//change submit button label back to the default value
-		changeItemSubmitLabel("Create a New List");
+		state_editListItems();
 	});
 
 	////////////////Ajax hide List////////////////
@@ -487,15 +437,23 @@ jQuery(document).ready(function() {
 		});
 	}
 
-	//////////////Ajax delete list//////////////
+	//////////////Ajax delete item//////////////
 	cilItemList.find(".cil_item_delete_btn").bind('click',deleteItemButtonHandler);
 	//delete an item
 	function deleteItemButtonHandler(){
 
+		var thisId = jQuery(this).parent().attr('id').split("cil-list_item_")[1];
+
 		var data = {
 				action:'cil_delete_listItem',
-				id: jQuery(this).parent().attr('id').split("cil-list_item_")[1]
+				id: thisId
 		};
+
+		//close the edit form if the item being edited is deleted
+		if(editItemForm.find('.cil_hidden_list_item_id').val() == thisId)
+		{
+			state_editListItems();
+		}
 
 		//delete list from the database
 		jQuery.post(ajaxurl, data,function(r){
@@ -623,14 +581,7 @@ jQuery(document).ready(function() {
 					.html(data['content']);
 			}
 
-			//close the form
-			closeEditListForm(editItemForm);
-
-			//clear form
-			clearItemForm();
-
-			//change submit button label back to the default value
-			changeItemSubmitLabel("Create a New Item");
+			state_editListItems();
 
 		});
 	});
@@ -738,6 +689,7 @@ jQuery(document).ready(function() {
 	}
 
 	////////////////insert text into a textarea at the caret///////////////////
+	//I never ended up using this, I might use it in the future to inject tags by clicking a button
 	function insertAtCaret(myValue,textArea)
 	{//replace textArea with this if it goes into a jquery plugin
 		if (document.selection)
@@ -760,5 +712,129 @@ jQuery(document).ready(function() {
 			textArea.value += myValue;
 			textArea.focus();
 		}
+	}
+
+	/////////////////////////////////////////////////
+	//											   //
+	//				 View States 				   //
+	//										       //
+	/////////////////////////////////////////////////
+
+	///////////////Start screen, only lists will be shown//////////
+	function state_startScreen()
+	{
+		closeEditListForm(editListForm);
+
+		//hide item list if its up
+		hideItemEdit();
+
+		//clear form
+		clearForm();
+
+		//fadeout the list edit item title
+		editListItemTitle.fadeOut(200);
+
+		hideItemEditButton();
+		hideTemplateButton();
+
+		editTemplateForm.fadeOut(200);
+
+		//change submit button label
+		changeSubmitLabel("Create a New List");
+	}
+	///////////////show only the edit list form, clear out all values and set button to 'create new list'/////////////
+	function state_newListForm()
+	{
+		expandEditListForm(editListForm);
+
+		//hide item list if its up
+		hideItemEdit();
+
+		//clear form
+		clearForm();
+
+		//fadeout the list edit item title
+		editListItemTitle.fadeOut(200);
+
+		hideItemEditButton();
+		hideTemplateButton();
+
+		editTemplateForm.fadeOut(200);
+
+		//change submit button label
+		changeSubmitLabel("Create a New List");
+	}
+
+	///////////show the edit list form, but don't clear it///////////////
+	function state_editListForm()
+	{
+		expandEditListForm(editListForm);
+		hideItemEdit();
+		editListItemTitle.fadeOut(200);
+		editTemplateForm.fadeOut(200);
+		showItemEditButton();
+		showTemplateButton();
+	}
+
+	///////////show list items contained in corrently edited list//////////////
+	function state_editListItems()
+	{
+		//close edit list form
+		closeEditListForm(editListForm);
+
+		//close editItemForm
+		closeEditListForm(editItemForm);
+
+		showItemEdit();
+
+		editTemplateForm.fadeOut(200);
+
+		if(formListName.val() != "")
+		{
+			editListItemTitle.fadeIn(200).find('span').html(formListName.val());
+		}else{
+			editListItemTitle.fadeIn(200);
+		}
+	}
+
+	////////////show form for creating a new list item, clear values///////////
+	function state_newListItemForm()
+	{
+		if(editItemForm.css('height') == "0px")
+		{
+			expandEditListForm(editItemForm);
+		}
+
+		//clear form
+		clearItemForm();
+
+		//change submit button label
+		changeItemSubmitLabel("Create a New Item");
+	}
+
+	////////////show form for editing a list item, don't clear values/////////
+	function state_editListItemForm()
+	{
+		//close edit list form
+		closeEditListForm(editListForm);
+		//open list edit form
+		expandEditListForm(editItemForm);
+	}
+
+	//////////////show edit template view/////////////////
+	function state_editTemplate()
+	{
+		closeEditListForm(editListForm);
+
+		hideItemEdit();
+		editListItemTitle.fadeOut(200);
+
+		if(formListName.val() != "")
+		{
+			editTemplateForm.fadeIn(200).find('label span').html(formListName.val());
+		}else{
+			editTemplateForm.fadeIn(200);
+		}
+
 	}
 });
