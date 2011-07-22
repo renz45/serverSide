@@ -84,8 +84,37 @@ class Cil_Models {
 					JOIN `wp_cil_listInfo` as l
 						on li.`list_id` = l.id
 					WHERE l.name = '$list_name'";
+		$result = $this->_wpdb->get_results($sql);
 
-		return $this->_wpdb->get_results($sql);
+		//run html_entity_decode on all returned fields
+		foreach($result as $item)
+		{
+			$item->heading = html_entity_decode($item->heading);
+			$item->content = html_entity_decode($item->content);
+		}
+
+		return $result;
     }
+
+    /**
+	 *
+	 * Get the template for a list
+	 */
+	public function get_template_by_name($name)
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "cil_listInfo";
+
+		$sql = "SELECT template FROM $table_name WHERE name='$name'";
+
+		$result = $wpdb->get_results($sql);
+
+		$result[0]->template = stripcslashes(html_entity_decode($result[0]->template));
+
+		return $result[0];
+
+	}
+
 
 }
