@@ -41,74 +41,83 @@ class cil_shortcode {
 		$ret = "";
 
 		//set shortcode attribute defaults
-		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display',
-									'use_item_url'=>'true',
-									'show_time'=>'false',
-									'image_width'=>'',
-									'image_height'=>'',
-									'link_target'=>'_blank'), $atts );
+			$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display',
+										'use_item_url'=>'true',
+										'show_time'=>'false',
+										'image_width'=>'',
+										'image_height'=>'',
+										'link_target'=>'_blank'), $atts );
 
-		//use the model to get a list of items according to a list name
-		$listItems = $this->_model->get_list_items_by_name($a['name']);
+		$template = $this->_model->get_template_by_name($a['name']);
 
-		//build container div and add a custom id to the list container for styling purposes
-		$ret .= "<div id='cil_list_-". $a['name'] ."' class='cil_list_container'>\n";
-		//logo or list image might go here
-		$ret .= "<h2>" . $a['name'] . "</h2>\n";
-
-		//if there are more than 0 list items go ahead and create the unordered list
-		if(count($listItems) > 0)
+		if(empty($template->template))
 		{
-			$ret .= "<ul>\n";
 
-			//loop through the list items and create html <li></li>
-			foreach ($listItems as $item)
+
+			//use the model to get a list of items according to a list name
+			$listItems = $this->_model->get_list_items_by_name($a['name']);
+
+			//build container div and add a custom id to the list container for styling purposes
+			$ret .= "<div id='cil_list_-". $a['name'] ."' class='cil_list_container'>\n";
+			//logo or list image might go here
+			$ret .= "<h2>" . $a['name'] . "</h2>\n";
+
+			//if there are more than 0 list items go ahead and create the unordered list
+			if(count($listItems) > 0)
 			{
-				$item->content = html_entity_decode($item->content);
+				$ret .= "<ul>\n";
 
-				if($item->isHidden == false)
+				//loop through the list items and create html <li></li>
+				foreach ($listItems as $item)
 				{
-					$ret .= "\t<li>\n";
+					$item->content = html_entity_decode($item->content);
 
-					//if there is an image url, insert an html <img />
-					if(!empty($item->image_url) )
+					if($item->isHidden == false)
 					{
-						//if there is a url wrap the image in an anchor tag
+						$ret .= "\t<li>\n";
+
+						//if there is an image url, insert an html <img />
+						if(!empty($item->image_url) )
+						{
+							//if there is a url wrap the image in an anchor tag
+							if($a['use_item_url'] == 'true' && !empty($item->url) )
+							{
+								$ret .= "\t\t<a href='$item->url' title='$item->heading' target='". $a['link_target'] ."'><img src='$item->image_url' alt='$item->image_url' title='$item->heading' width='". $a['image_width'] ."' height='". $a['image_height'] ."' /></a>\n";
+							}else{
+								$ret .= "\t\t<img src='$item->image_url' alt='$item->image_url' title='$item->heading' width='". $a['image_width'] ."' height='". $a['image_height'] ."' />\n";
+							}
+						}
+
+						$ret .= "\t\t<h3>";
+						//if there is an item url and the attribute use_item_url is set to true, wrap the heading in an anchor tag
 						if($a['use_item_url'] == 'true' && !empty($item->url) )
 						{
-							$ret .= "\t\t<a href='$item->url' title='$item->heading' target='". $a['link_target'] ."'><img src='$item->image_url' alt='$item->image_url' title='$item->heading' width='". $a['image_width'] ."' height='". $a['image_height'] ."' /></a>\n";
+							$ret .= "<a href='$item->url' title='$item->heading' target='". $a['link_target'] ."'>$item->heading</a>";
 						}else{
-							$ret .= "\t\t<img src='$item->image_url' alt='$item->image_url' title='$item->heading' width='". $a['image_width'] ."' height='". $a['image_height'] ."' />\n";
+							$ret .= $item->heading;
 						}
+						$ret .= "</h3>\n";
+
+						//output content in a <p>
+						$ret .= "\t\t<p>". do_shortcode($item->content) ."</p>\n";
+
+						//if the show_time attribute is true, than output time in a <span></span>
+						if($a['show_time'] == "true")
+						{
+							$ret .= "\t\t<span>". date( 'D m.d.Y - g:ia', strtotime($item->time) ) ."</span>\n";
+						}
+
+						$ret .= "\t</li>\n";
 					}
-
-					$ret .= "\t\t<h3>";
-					//if there is an item url and the attribute use_item_url is set to true, wrap the heading in an anchor tag
-					if($a['use_item_url'] == 'true' && !empty($item->url) )
-					{
-						$ret .= "<a href='$item->url' title='$item->heading' target='". $a['link_target'] ."'>$item->heading</a>";
-					}else{
-						$ret .= $item->heading;
-					}
-					$ret .= "</h3>\n";
-
-					//output content in a <p>
-					$ret .= "\t\t<p>". do_shortcode($item->content) ."</p>\n";
-
-					//if the show_time attribute is true, than output time in a <span></span>
-					if($a['show_time'] == "true")
-					{
-						$ret .= "\t\t<span>". date( 'D m.d.Y - g:ia', strtotime($item->time) ) ."</span>\n";
-					}
-
-					$ret .= "\t</li>\n";
 				}
+
+				$ret .= "</ul>\n";
 			}
 
-			$ret .= "</ul>\n";
+			$ret .= "</div>\n";
+		}else{
+			$ret = do_shortcode($template->template);
 		}
-
-		$ret .= "</div>\n";
 
 		return $ret;
 	}
@@ -127,6 +136,7 @@ class cil_shortcode {
 
 		$content = $this->trimLineBreaks($content);
 		$content = stripslashes( html_entity_decode($content) );
+
 		//set attribute defaults
 		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display',
 									'type'=>'ul',
@@ -147,9 +157,8 @@ class cil_shortcode {
 		{
 			//add a name and index to each short tag
 			$itemText = $this->parseCodes($content, $a['name'], $i);
-
 			//parse short tags to get desired output
-			$ret .= do_shortcode($itemText);
+			$ret .= do_shortcode(html_entity_decode($itemText));
 		}
 		$ret .= "</".$a['type'].">";
 
