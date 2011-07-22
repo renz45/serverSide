@@ -28,16 +28,12 @@ jQuery(document).ready(function() {
 	cilItemWrapper.find("#create_new_item_header").bind('click',function(){
 
 
-		if(editItemForm.css('height') == "0px")
+		if(editItemForm.css('height') == "0px" || formItemSubmit.val() != "Create a New Item")
 		{
-			expandEditListForm(editItemForm);
+			state_newListItemForm();
+		}else{
+			state_startScreen();
 		}
-
-		//clear form
-		clearItemForm();
-
-		//change submit button label
-		changeItemSubmitLabel("Create a New Item");
 	});
 
 	///////////list edit button functionality////////////
@@ -47,10 +43,7 @@ jQuery(document).ready(function() {
 		var name = jQuery(this).parent().find(".cil_item_heading span").attr('title');
 
 		//expand the edit menu if it's closed
-		if(editItemForm.css('height') == "0px")
-		{
-			expandEditListForm(editItemForm);
-		}
+		state_editListItemForm();
 
 		//change submit button label
 		changeItemSubmitLabel("Edit " + name);
@@ -68,15 +61,7 @@ jQuery(document).ready(function() {
 
 	///////////////////cancel button////////////////////
 	editItemForm.find('#cil_item_cancel_button').bind('click',function(){
-
-		//close form
-		closeEditListForm(editItemForm);
-
-		//clear form
-		clearItemForm();
-
-		//change submit button label back to the default value
-		changeItemSubmitLabel("Create a New List");
+		state_startScreen();
 	});
 
 	////////////Ajax hide List////////////////
@@ -245,14 +230,7 @@ jQuery(document).ready(function() {
 					.html(data['content']);
 			}
 
-			//close the form
-			closeEditListForm(editItemForm);
-
-			//clear form
-			clearItemForm();
-
-			//change submit button label back to the default value
-			changeItemSubmitLabel("Create a New Item");
+			state_startScreen();
 
 		});
 	});
@@ -304,5 +282,42 @@ jQuery(document).ready(function() {
 				350);
 	}
 
+	/////////////////////////////////////////////////
+	//											   //
+	//				 View States 				   //
+	//										       //
+	/////////////////////////////////////////////////
 
+	///////////////Start screen, only lists will be shown//////////
+	function state_startScreen()
+	{
+		closeEditListForm(editItemForm);
+
+		//clear form
+		clearItemForm();
+
+		//change submit button label
+		changeItemSubmitLabel("Create a New Item");
+	}
+
+	////////////show form for creating a new list item, clear values///////////
+	function state_newListItemForm()
+	{
+		expandEditListForm(editItemForm);
+
+
+		//clear form
+		clearItemForm();
+
+		//change submit button label
+		changeItemSubmitLabel("Create a New Item");
+	}
+
+	////////////show form for editing a list item, don't clear values/////////
+	function state_editListItemForm()
+	{
+
+		//open list edit form
+		expandEditListForm(editItemForm);
+	}
 });
