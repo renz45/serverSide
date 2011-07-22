@@ -9,7 +9,6 @@
 */
 
 //TODO add a way to reorganize list items within a list
-//TODO add html template for individual lists in the settings panel
 //TODO ajax pagination for the user side
 //TODO option to remove the database
 
