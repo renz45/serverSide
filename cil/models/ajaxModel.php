@@ -288,7 +288,6 @@ class cil_ajax_model {
 
 		for($i = 1; $i < count($itemIds); $i++)
 		{
-			echo ":".$itemIds[$i] ." ";
 			$sql = "UPDATE $table_name
 						SET
 							item_index='$i'
