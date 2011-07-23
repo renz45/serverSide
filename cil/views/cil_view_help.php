@@ -64,7 +64,22 @@ class cil_view_contextualHelp {
 
     public function show_optionsHelp()
     {
-		$ret = 'This is options menu help for the plugin CIL';
+		$ret = '<div id="cil_edit_item_help"><p>This menu is used to manage your custom item lists. Lists can be pinned to the side menu to make them more visible and easy to edit for clients or yourself</p>
+				<p>You have the ability to use templates to pre-format lists before they are output, this also allows the formating of the basic shortcode <code>[cil name="listName"]</code>
+					which will make it easier for users to display a list in their page or post. The wrapper list tags are set by setting the type property on the <code>[cil_list]</code> shortcode,
+					but all other html needs to be put inside the <code>[cil_list] [/cil_list]</code> shortcode</p>
+				<p>The shortcodes for templating are:</p>
+				<ul>
+					<li>\'<code>[cil_list name="listName"] [/cil_list]</code>\' - This tag must surround the template and the <code>name</code> attribute is required, and optional <code>type</code> attribute can be used to set the list type - <code>ul, ol, dl</code></li>
+					<li>\'<code>[cil_item_heading]</code>\' - Display the item heading</li>
+					<li>\'<code>[cil_item_image_url]</code>\' - Display the item\'s image url</li>
+					<li>\'<code>[cil_item_image]</code>\' - Display an <code>&lt;img /&gt;</code> tag with the src filled in with the item image url</li>
+					<li>\'<code>[cil_item_content]</code>\' - Display the item content</li>
+					<li>\'<code>[cil_item_time]</code>\' - Display the time that the item was created</li>
+					<li>\'<code>[cil_item_url]</code>\' - Display the item URL, or if this tag is used to wrap and item like, <code>[cil_item_url]my link[cil_item_url]</code>, than the item is wrapped in an <code>&lt;a&gt;my link&lt;/a&gt;</code> html tag</li>
+
+				</ul></div>';
+
 
 		return $ret;
     }
