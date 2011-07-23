@@ -586,6 +586,22 @@ jQuery(document).ready(function() {
 		});
 	});
 
+	/////////////////////reorganize item list///////////////////
+	cilItemList.sortable().disableSelection().bind('sortupdate',function(){
+
+		var itemIds = jQuery(this).sortable('toArray').join("").split('cil-list_item_');
+
+		var data = {
+				action:'cil_set_order_of_items',
+				idArray: itemIds.join('%') //basic serialization for the array of item ids
+		};
+
+		jQuery.post(ajaxurl, data,function(r){
+
+		});
+
+	});
+
 	/////////////////////////////////////////////////
 	//											   //
 	//				helper functions			   //

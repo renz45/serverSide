@@ -240,14 +240,29 @@ jQuery(document).ready(function() {
 		editItemForm.find('#cil_preview_item_image').attr('src', jQuery(this).val());
 	});
 
+	/////////////////////reorganize item list///////////////////
+	cilItemList.sortable().disableSelection().bind('sortupdate',function(){
+
+		var itemIds = jQuery(this).sortable('toArray').join("").split('cil-list_item_');
+
+		var data = {
+				action:'cil_set_order_of_items',
+				idArray: itemIds.join('%') //basic serialization for the array of item ids
+		};
+
+		//send array of list item ids
+		jQuery.post(ajaxurl, data);
+
+	});
+
+
 	/////////////////////////////////////////////////
 	//											   //
 	//				helper functions			   //
 	//										       //
 	/////////////////////////////////////////////////
 
-
-	////////////clear edit list form//////////////
+	/////////////clear edit list form//////////////
 	function clearItemForm(){
 		formItemHeading.val("");
 		formItemContent.val("");
