@@ -38,19 +38,19 @@ require 'models/ajaxModel.php';
 require("controllers/cil_controller_adminMenu.php");
 
 if(is_admin())
-{
+{//load admin files if on admin side
 	//view files
-	require("views/cil_view_adminOptions.php");
-	require("views/cil_view_adminListEdit.php");
+	require "views/cil_view_adminOptions.php";
+	require "views/cil_view_adminListEdit.php";
 
 	//help drop down contents for the various menus
-	require("views/cil_view_help.php");
-}else{
-
+	require "views/cil_view_help.php";
+}else{//load the client side files
+	require "views/cil_view_template.php";
 }
 
 //short code functionality include
-require("views/cil_view_shortCodes.php");
+require "views/cil_view_shortCodes.php";
 
 
 
