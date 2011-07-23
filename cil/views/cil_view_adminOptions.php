@@ -28,7 +28,7 @@ class view_optionsMenu {
 
 		$output = "
 			<div id='cil_wrap'>
-				<h2><span>CIL - </span>Custom Item List | Options</h2>
+				<h2><span>CIL - </span>Custom Item List | Manage Lists</h2>
 
 				<p class='cil_list_label'>Current Item Lists:</p>
 				<ul class='cil_admin_list'>\n" ;
