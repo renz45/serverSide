@@ -8,7 +8,6 @@
     Author URI: http://www.adamrensel.com
 */
 
-//TODO add a way to reorganize list items within a list
 //TODO ajax pagination for the user side
 //TODO option to remove the database
 
@@ -25,7 +24,6 @@ require("models/cil_model_installDataBase.php");
 
 //run installation methods
 register_activation_hook(__FILE__,'cil_install');
-register_activation_hook(__FILE__,'cil_install_data');
 
 //wordpress database class used in the 2 model instantiations
 global $wpdb;
@@ -39,14 +37,21 @@ require 'models/ajaxModel.php';
 //admin menu
 require("controllers/cil_controller_adminMenu.php");
 
-//view files
-require("views/cil_view_adminOptions.php");
-require("views/cil_view_adminListEdit.php");
+if(is_admin())
+{
+	//view files
+	require("views/cil_view_adminOptions.php");
+	require("views/cil_view_adminListEdit.php");
+
+	//help drop down contents for the various menus
+	require("views/cil_view_help.php");
+}else{
+
+}
 
 //short code functionality include
 require("views/cil_view_shortCodes.php");
 
-//help drop down contents for the various menus
-require("views/cil_view_help.php");
+
 
 ?>
