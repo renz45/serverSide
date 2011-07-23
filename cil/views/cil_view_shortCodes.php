@@ -12,6 +12,7 @@ add_shortcode("cil_item_content",array($cil_shortCode,"show_content"));
 add_shortcode("cil_item_time",array($cil_shortCode,"show_time"));
 add_shortcode("cil_item_url",array($cil_shortCode,"show_url"));
 
+
 class cil_shortcode {
 
 	private $_model;
@@ -299,6 +300,7 @@ class cil_shortcode {
 
 	}
 
+	/////////////////////////Helper functions//////////////////////////
 	/**
 	 *
 	 * This parses shortcodes in a string and adds the given list name and item list index to each short code
