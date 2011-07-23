@@ -12,7 +12,7 @@ cil_listInfo:
 	icon_url
 	template
 
-cil_listInfo:
+cil_listItemInfo:
 ---------------------
 	id
 	time
@@ -22,6 +22,7 @@ cil_listInfo:
 	image_url
 	list_id
 	isHidden
+	index
 */
 
 global $cil_db_version;
@@ -43,7 +44,8 @@ function cil_install () {
 		  icon_url VARCHAR(256) DEFAULT '' NOT NULL,
 		  isPinned tinyint(1) DEFAULT '0' NOT NULL,
 		  template text DEFAULT '' NOT NULL,
-		  UNIQUE KEY id (id)
+		  UNIQUE KEY id (id),
+		  UNIQUE KEY name (name)
 		);";
 
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -61,14 +63,14 @@ function cil_install () {
 			  image_url VARCHAR(256) DEFAULT '' NOT NULL,
 			  list_id int(55) DEFAULT 0 NOT NULL,
 			  isHidden tinyint(1) DEFAULT '0' NOT NULL,
+			  item_index mediumint(9) NOT NULL,
 			  UNIQUE KEY id (id)
 			);";
 
 	dbDelta($sql);
 
-	global $cil_db_version;
-	add_option("cil_db_version", $cil_db_version);
-
+	//global $cil_db_version;
+	//add_option("cil_db_version", $cil_db_version);
 	/* // update database on version change example code
 	$installed_ver = get_option( "cil_db_version" );
 
@@ -103,28 +105,6 @@ $table_name = $wpdb->prefix . "cil_listInfo";
 		  pin_id int(55) DEFAULT 0 NOT NULL,
 		  UNIQUE KEY id (id)
 		);";*/
-
-function cil_install_data() {
-	global $wpdb;
-
-	$table_name = $wpdb->prefix . "cil_listInfo";
-	$name = "Default List";
-	$description = "Description for the default list";
-	$logo_url = "jkasd.com";
-	$icon_url = "asdasd.jpg";
-
-	$rows_affected = $wpdb->insert($table_name, array('name' => $name,
-														'time' => current_time('mysql'),
-														'description' => $description,
-														'logo_url' => $logo_url,
-														'icon_url' => $icon_url ));
-
-	$content = "Sample details paragraph";
-	$list_id = 1;
-	$table_name = $wpdb->prefix . "cil_listItemInfo";
-
-	$wpdb->insert( $table_name, array( 'heading'=>'default heading', 'time' => current_time('mysql'), 'content' => $content, 'list_id' => $list_id ) );
-}
 
 function myplugin_update_db_check() {
     global $cil_db_version;
