@@ -1,12 +1,12 @@
 <?php
+//setup menus
+add_action('admin_menu', 'cil_plugin_menus');
 
 if(is_admin())
 {
 	//import external scripts if on the admin page
 	wp_enqueue_style('cil_optionScript', $cilPluginURL.'/css/cil_admin.css');
 	//set up menus
-	add_action('admin_menu', 'cil_plugin_menus');
-
 }
 
 //adds admin menus
@@ -14,19 +14,17 @@ function cil_plugin_menus()
 {
 	setupSideMenu();
 
-	$page = add_options_page('cil - Custom Item Lists', 'cil', 'manage_options', 'cil_adminOptionsView.php', 'cil_plugin_optionMenu_options', "");
-	//add hook to load external files used for the options menu - js/css
-	 add_action('admin_print_styles-' . $page , 'cil_optionsMenu_externalFileLoad');
+	if(is_admin())
+	{
+		$page = add_options_page('cil - Custom Item Lists', 'cil - Manage Lists', 'manage_options', 'cil_adminOptionsView.php', 'cil_plugin_optionMenu_options', "");
+		//add hook to load external files used for the options menu - js/css
+		 add_action('admin_print_styles-' . $page , 'cil_optionsMenu_externalFileLoad');
+	}
 }
 
 //show top level list edit page - pinned lists
 function cil_list_options($arg)
 {
-
-	if (!current_user_can('manage_options'))  {
-		wp_die( __('You do not have sufficient permissions to access this page.') );
-	}
-
 	//show list edit view, url will determine which list gets shown
 	do_action('show_cil_admin_list_options');
 }
@@ -34,9 +32,6 @@ function cil_list_options($arg)
 //show the options page
 function cil_plugin_optionMenu_options()
 {
-	if (!current_user_can('manage_options'))  {
-		wp_die( __('You do not have sufficient permissions to access this page.') );
-	}
 	//show admin options view, this view exists in cil_adminOptionsView.php
 	do_action('show_cil_admin_options_menu');
 }
@@ -49,13 +44,13 @@ function cil_optionsMenu_externalFileLoad()
 	global $cilPluginURL;
 
 	//load javascript
+
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('thickbox');
 	wp_register_script('imageUpload', $cilPluginURL.'/js/imageUpload.js', array('jquery','media-upload','thickbox'));
 	wp_enqueue_script('imageUpload');
-
-	wp_enqueue_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js');
-
+	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js',array('jquery','jquery-ui-sortable'));
+	wp_enqueue_script('cil_optionScript');
 
 	//load styles
 	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_listOptions.css');
@@ -77,7 +72,8 @@ function cil_admin_listOptions_externalFileLoad()
 	wp_register_script('imageUpload', $cilPluginURL.'/js/imageUpload.js', array('jquery','media-upload','thickbox'));
 	wp_enqueue_script('imageUpload');
 	//page specific javascript
-	wp_enqueue_script('cil_optionScript', $cilPluginURL.'/js/cil_listOptionMenu.js');
+	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_listOptionMenu.js',array('jquery','jquery-ui-sortable'));
+	wp_enqueue_script('cil_optionScript');
 
 	//load styles
 	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_listOptions.css');
