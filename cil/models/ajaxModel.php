@@ -12,6 +12,7 @@ add_action('wp_ajax_cil_edit_item', array($cil_ajax_model,'cil_edit_item'));
 add_action('wp_ajax_cil_get_items', array($cil_ajax_model,'cil_get_items'));
 add_action('wp_ajax_cil_get_template', array($cil_ajax_model,'cil_get_template'));
 add_action('wp_ajax_cil_edit_list_template', array($cil_ajax_model,'cil_edit_list_template'));
+add_action('wp_ajax_cil_set_order_of_items', array($cil_ajax_model,'cil_set_order_of_items'));
 
 
 class cil_ajax_model {
@@ -196,7 +197,11 @@ class cil_ajax_model {
 			$url = $_POST['url'];
 			$list_id = $_POST['listId'];
 
-			$wpdb->insert($table_name, array('heading' => $heading,'time' => current_time('mysql'),'content' => htmlentities($content),'image_url' => $image_url,'url' => $url, 'list_id' => $list_id ));
+			$sql="INSERT INTO wp_cil_listItemInfo  (heading, time, content, url, image_url, list_id, item_index)
+				 	 SELECT '%s',NOW(),'%s', '%s', '%s', '%d',  COUNT(*)+1
+				 	 FROM wp_cil_listItemInfo
+				 	 	WHERE list_id='$list_id';";
+			$wpdb->query($wpdb->prepare($sql,array($heading,$content,$url,$image_url,$list_id)));
 			$id = $wpdb->insert_id;//get recently created id
 			$newItem = true;
 		}
@@ -223,7 +228,7 @@ class cil_ajax_model {
 
 		$table_name = $wpdb->prefix . "cil_listItemInfo";
 
-		$sql = "SELECT * FROM $table_name WHERE list_id='". $_POST['id'] ."'";
+		$sql = "SELECT * FROM $table_name WHERE list_id='". $_POST['id'] ."' ORDER BY item_index";
 
 		$result = $wpdb->get_results($sql);
 
@@ -268,6 +273,30 @@ class cil_ajax_model {
 		$wpdb->query($wpdb->prepare($sql,array($_POST['template'],$_POST['id'])));
 
 		echo $sql;
+		die();
+	}
+
+	/**
+	 * re-order items according to an array passed from jQuery sortable
+	 */
+	public function cil_set_order_of_items()
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "cil_listItemInfo";
+		$itemIds = split("%", $_POST['idArray']);
+
+		for($i = 1; $i < count($itemIds); $i++)
+		{
+			echo ":".$itemIds[$i] ." ";
+			$sql = "UPDATE $table_name
+						SET
+							item_index='$i'
+						WHERE id='". $itemIds[$i] ."';";
+
+			$wpdb->query($sql);//doesn't need to be prepared since it's drawing ids from html ids
+		}
+
 		die();
 	}
 
