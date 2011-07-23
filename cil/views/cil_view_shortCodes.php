@@ -1,23 +1,32 @@
 <?php
-//TODO write the help views that go with this on the config page
-
+//instantiate shortcode view class
 $cil_shortCode = new cil_shortcode($cil_model);
 
-add_shortcode( "cil", array($cil_shortCode,"cil_shortcode_callback") );
-add_shortcode( "cil_list", array($cil_shortCode,"cil_list_shortcode_callback") );
-add_shortcode("cil_item_heading",array($cil_shortCode,"show_heading"));
-add_shortcode("cil_item_image_url",array($cil_shortCode,"show_image_url"));
-add_shortcode("cil_item_image",array($cil_shortCode,"show_image"));
-add_shortcode("cil_item_content",array($cil_shortCode,"show_content"));
-add_shortcode("cil_item_time",array($cil_shortCode,"show_time"));
-add_shortcode("cil_item_url",array($cil_shortCode,"show_url"));
+add_shortcode( "cil", array($cil_shortCode,"cil_shortcode_callback") );//[cil name=""]
+add_shortcode( "cil_list", array($cil_shortCode,"cil_list_shortcode_callback") );// [cil_list name=""] [/cil_list]
+add_shortcode("cil_item_heading",array($cil_shortCode,"show_heading"));// [cil_item_heading]
+add_shortcode("cil_item_image_url",array($cil_shortCode,"show_image_url"));//[cil_item_image_url]
+add_shortcode("cil_item_image",array($cil_shortCode,"show_image"));//[cil_item_image]
+add_shortcode("cil_item_content",array($cil_shortCode,"show_content"));//[cil_item_content]
+add_shortcode("cil_item_time",array($cil_shortCode,"show_time"));//[cil_item_time]
+add_shortcode("cil_item_url",array($cil_shortCode,"show_url"));//[cil_item_url]
 
-
+/**
+ *
+ * view class containing views for the shortcode output
+ * @author adamrensel
+ *
+ */
 class cil_shortcode {
 
 	private $_model;
 	private $_listItems = array();
 
+	/**
+	 *
+	 * Enter description here ...
+	 * @param Cil_Models $cil_model cil models class
+	 */
     public function __construct($cil_model)
     {
 		$this->_model = $cil_model;
