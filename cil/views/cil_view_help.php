@@ -76,7 +76,7 @@ class cil_view_contextualHelp {
 					<li>\'<code>[cil_item_image]</code>\' - Display an <code>&lt;img /&gt;</code> tag with the src filled in with the item image url</li>
 					<li>\'<code>[cil_item_content]</code>\' - Display the item content</li>
 					<li>\'<code>[cil_item_time]</code>\' - Display the time that the item was created</li>
-					<li>\'<code>[cil_item_url]</code>\' - Display the item URL, or if this tag is used to wrap and item like, <code>[cil_item_url]my link[cil_item_url]</code>, than the item is wrapped in an <code>&lt;a&gt;my link&lt;/a&gt;</code> html tag</li>
+					<li>\'<code>[cil_item_url]</code>\' - Display the item URL, or if this tag is used to wrap and item like, <code>[cil_item_url]my link[/cil_item_url]</code>, than the item is wrapped in a pre-formed <code>&lt;a&gt;my link&lt;/a&gt;</code> html tag</li>
 
 				</ul></div>';
 
