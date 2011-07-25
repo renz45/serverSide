@@ -43,6 +43,10 @@ class view_optionsMenu {
 							<p class='desc'>" . $value->description . "</p>
 							<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
 							<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
+
+							<ul>
+							</ul>
+
 						</li>\n";
 		}
 		$output .=	"</ul>
