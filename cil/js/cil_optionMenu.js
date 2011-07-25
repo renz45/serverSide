@@ -602,6 +602,124 @@ jQuery(document).ready(function() {
 
 	});
 
+	///////////////////////////Nest lists within each other/////////////////
+
+	cilListList.find('>li>ul').sortable();
+	cilListList.sortable();
+
+	var dropDelay = 1200; //delay before drop is enabled
+	var hoverTimer = "";
+	var rdyToDrop = false;
+
+	cilListList.find('>li')
+	.droppable({
+		//tolerance: 'pointer' ,
+		drop: function( e, ui ) {
+			var item = jQuery( this );
+
+			console.log(rdyToDrop);
+
+			jQuery(this).css({'height':'auto',
+								'border-style':'solid',
+								'border-top-color':'#fff',
+								'border-left-color':'#fff',
+								'border-bottom-color':'#ddd',
+								'border-right-color':'#ddd'});
+
+			//make sure the item isnt from within another nested list or a list with nested items
+			if(jQuery(ui.draggable).parent()[0] != cilListList[0] || jQuery(ui.draggable).find('>ul>li').length > 0)
+			{
+				//return if the item is already in the list, fixes sortable errors
+				return this;
+			}else if(rdyToDrop == false)//if the rdyToDrop flag isnt set than return early
+			{
+				return this;
+			}
+
+			var list = jQuery(this).find('>ul');
+
+			ui.draggable.hide( "fast", function() {
+				jQuery(this)
+					.droppable('disable')//disable droppable so we can't drop anything in a nested item
+					.prepend("<span class='cil_up_arrow'>&uarr;</span>")//insert the arrow at the beginning of the li
+					.find('.cil_pin_btn')//hide the pin button while items are nexted, they will pin with their parent list
+						.hide();
+				// had to split this up, for some reason there was a bug where lists were following each other back into nested status
+				jQuery(this)
+					.appendTo(list)//append this li to the nested ul of another list
+					.show('fast')
+					.bind('dblclick',function(){//double click to remove the item
+						jQuery(this)
+							.unbind('dblclick')//unbind doubleclick since the item has been removed
+							.hide('fast',function(){
+								jQuery(this)
+									.appendTo(cilListList)//append this item back to the main list
+									.show('fast',function(){
+										jQuery(this).droppable('enable');//enable droppable again since the item isnt nested anymore
+									})
+									.find('.cil_pin_btn')//show the pin button again
+										.show()
+										.parent()
+									.find('.cil_up_arrow')//remove the arrow
+										.remove();
+							});
+					});
+
+			});
+		}
+	})
+
+	//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
+	.bind('mousedown',function()
+	{
+		console.log('DOWN');
+
+		rdyToDrop = false;
+	})
+
+	//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
+	.bind('mouseup',function()
+	{
+		clearInterval(hoverTimer);
+		console.log('UP');
+		jQuery(this).parent().find('>li').css({'height':'auto',
+			'border-style':'solid',
+			'border-top-color':'#fff',
+			'border-left-color':'#fff',
+			'border-bottom-color':'#ddd',
+			'border-right-color':'#ddd'});
+
+	})
+	.bind('dropover',function(){//when an item is over a droppable, count to 2 secs and enable insertion, this fixes the glitchiness with sortable and the dropable
+			var item = jQuery(this);
+			console.log('OVER');
+
+			clearInterval(hoverTimer);//clear interval before a new one is started, fixes a problem where the timer wasn't getting cleared other ways
+
+			hoverTimer = setInterval(function(){
+				rdyToDrop = true; //set ready to drop to true, this enables the dropable to take in the sortable
+				clearInterval(hoverTimer);//clear the timer after it fires, keeps it from repeating(Although, it should stop automatically, but it doesn't)
+				console.log("TRUE");
+
+				item.height(function(index,height){return height += 25;}).css({'border-color':'#faa','border-style':'dashed'});
+
+			}, dropDelay);//interval in milliseconds
+
+	})
+	.bind('dropout',function(){//when an item moves out of a droppable, reset the timer
+			//clearInterval(hoverTimer);
+			console.log("FALSE");
+			rdyToDrop = false;//set the ready to drop flag back to false so the process can start over with the new item
+
+			jQuery(this).css({'height':'auto',
+								'border-style':'solid',
+								'border-top-color':'#fff',
+								'border-left-color':'#fff',
+								'border-bottom-color':'#ddd',
+								'border-right-color':'#ddd'});
+	});
+
+
 	/////////////////////////////////////////////////
 	//											   //
 	//				helper functions			   //
