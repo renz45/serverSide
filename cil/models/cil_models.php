@@ -65,7 +65,7 @@ class Cil_Models {
 
 		if(!is_null($list_id))
 		{
-			$sql .= " WHERE list_id='".$list_id ."' ORDER BY item_index";
+			$sql .= " WHERE list_id='".$list_id ."' AND isHidden='0' ORDER BY item_index";
 			$arr = $this->_wpdb->get_results($sql);
 			return $arr;
 		}else{
@@ -83,7 +83,7 @@ class Cil_Models {
     	$sql = "SELECT * FROM `wp_cil_listItemInfo` as li
 					JOIN `wp_cil_listInfo` as l
 						on li.`list_id` = l.id
-					WHERE l.name = '$list_name'
+					WHERE l.name = '$list_name' AND isHidden='0'
 					ORDER BY item_index";
 		$result = $this->_wpdb->get_results($sql);
 
