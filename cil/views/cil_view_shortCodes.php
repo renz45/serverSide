@@ -68,7 +68,7 @@ class cil_shortcode {
 			$listItems = $this->_model->get_list_items_by_name($a['name']);
 
 			//build container div and add a custom id to the list container for styling purposes
-			$ret .= "<div id='cil_list_-". $a['name'] ."' class='cil_list_container'>\n";
+			$ret .= "<div id='cil_list-". $a['name'] ."' class='cil_list_container'>\n";
 			//logo or list image might go here
 			$ret .= "<h2>" . $a['name'] . "</h2>\n";
 
@@ -148,11 +148,16 @@ class cil_shortcode {
 		$content = stripslashes( html_entity_decode($content) );
 
 		//set attribute defaults
-		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display',
+		$a = shortcode_atts( array( 'name' => '',
 									'type'=>'ul',
-									'class'=>'',
-									'id'=>''),$atts);
+									'class'=>'cil_list',
+									'id'=>'cil_list_'.$atts['name']),$atts);
 
+		//if the name isn't set, return an error message
+		if(empty($a['name']))
+		{
+			return "<h2>The name attribute must be set to a list name, it is a required attribute</h2>";
+		}
 		//if the name doesn't exists within $this->_listItems, then query the database and get the information and insert it into the array
 		if(!key_exists($a['name'], $this->_listItems))
 		{
@@ -160,7 +165,7 @@ class cil_shortcode {
 			$this->_listItems[$a['name']] = $listItems;
 		}
 		//create the <ul> with a custom class name
-		$ret .= "<". $a['type'] ." class='cil_list-". $a['name'] ." ". $a['class'] ."' id='". $a['id'] ."'>";
+		$ret .= "<". $a['type'] ." class='". $a['class'] ."' id='". $a['id'] ."'>";
 
 		//loop through the list items, change the name and index attributes on any short tags to math the correct index
 		for($i = 0; $i < count($this->_listItems[$a['name']]); $i++)
