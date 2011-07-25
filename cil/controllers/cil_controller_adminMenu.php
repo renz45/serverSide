@@ -49,7 +49,7 @@ function cil_optionsMenu_externalFileLoad()
 	wp_enqueue_script('thickbox');
 	wp_register_script('imageUpload', $cilPluginURL.'/js/imageUpload.js', array('jquery','media-upload','thickbox'));
 	wp_enqueue_script('imageUpload');
-	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js',array('jquery','jquery-ui-sortable'));
+	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js',array('jquery','jquery-ui-sortable','jquery-ui-draggable', 'jquery-ui-droppable'));
 	wp_enqueue_script('cil_optionScript');
 
 	//load styles
@@ -74,6 +74,7 @@ function cil_admin_listOptions_externalFileLoad()
 	//page specific javascript
 	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_listOptionMenu.js',array('jquery','jquery-ui-sortable'));
 	wp_enqueue_script('cil_optionScript');
+
 
 	//load styles
 	wp_enqueue_style('cil_optionStyle', $cilPluginURL.'/css/cil_admin_listOptions.css');
