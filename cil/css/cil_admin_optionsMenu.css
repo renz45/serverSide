@@ -45,8 +45,9 @@
 	color: #777;
 }
 
-.cil_admin_list li {
-	height: 25px;
+.cil_admin_list>li{
+	/*height: 25px;*/
+	height:auto;
 	display: block;
 	background-color: #eee;
 	border-top: 1px solid #fff;
@@ -56,7 +57,46 @@
 	line-height: 25px;
 	font-size: 12px;
 	overflow: hidden;
+	border
 }
+/*////////////////////////// nested lists //////////////////////////*/
+.cil_admin_list>li {
+	position: relative;
+}
+
+.cil_admin_list>li>ul {
+	width:600px;
+	background-color: #faa;
+
+}
+
+.cil_admin_list>li>ul>li{
+	background-color: #ddd;
+	float:left;
+	clear:both;
+	width:600px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	line-height: 25px;
+	margin:0 0 0 0 ;/*35px;*/
+}
+
+.cil_admin_list>li>ul>li span.cil_up_arrow {
+	float:left;
+	margin: 0 15px 0 13px;
+	font-weight: bold;
+}
+
+.cil_admin_list>li>ul>li .cil_list_btn {
+	visibility: hidden;
+}
+
+.cil_admin_list>li>ul>li:hover .cil_list_btn {
+	visibility: visible;
+}
+
+/* //////////////////////////end nested lists////////////////////////// */
 
 .cil_admin_list li img {
 	float:left;
