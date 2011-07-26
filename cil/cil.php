@@ -27,6 +27,7 @@ register_activation_hook(__FILE__,'cil_install');
 
 //wordpress database class used in the 2 model instantiations
 global $wpdb;
+$wpdb->hide_errors(); //this must be hidden for error feedback messages to show.
 
 //require the models class
 require 'models/cil_models.php';
