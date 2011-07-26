@@ -44,6 +44,8 @@ function cil_install () {
 		  icon_url VARCHAR(256) DEFAULT '' NOT NULL,
 		  isPinned tinyint(1) DEFAULT '0' NOT NULL,
 		  template text DEFAULT '' NOT NULL,
+		  list_index mediumint(9) NOT NULL,
+		  nestedIn_id mediumint(9) DEFAULT NULL,
 		  UNIQUE KEY id (id),
 		  UNIQUE KEY name (name)
 		);";
