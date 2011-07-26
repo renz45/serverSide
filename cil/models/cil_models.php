@@ -109,8 +109,11 @@ class Cil_Models {
 	public function get_list_items_by_name($list_name)
     {
 
-    	$sql = "SELECT * FROM `wp_cil_listItemInfo` as li
-					JOIN `wp_cil_listInfo` as l
+    	$listItemTableName = $this->_wpdb->prefix . "cil_listItemInfo";
+    	$listTableName = $this->_wpdb->prefix . "cil_listInfo";
+
+    	$sql = "SELECT * FROM $listItemTableName as li
+					JOIN $listTableName as l
 						on li.`list_id` = l.id
 					WHERE l.name = '$list_name' AND isHidden='0'
 					ORDER BY item_index";
@@ -132,18 +135,34 @@ class Cil_Models {
 	 */
 	public function get_template_by_name($name)
 	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . "cil_listInfo";
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
 
 		$sql = "SELECT template FROM $table_name WHERE name='$name'";
 
-		$result = $wpdb->get_results($sql);
+		$result = $this->_wpdb->get_results($sql);
 
 		$result[0]->template = stripcslashes(html_entity_decode($result[0]->template));
 
 		return $result[0];
 
+	}
+
+	/**
+	 *
+	 * Returns the description for a given list
+	 * @param String $name
+	 */
+	public function get_description_by_name($name)
+	{
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
+
+		$sql = "SELECT description FROM $table_name WHERE name='$name'";
+
+		$result = $this->_wpdb->get_results($sql);
+
+		$result[0]->description = stripcslashes(html_entity_decode($result[0]->description));
+
+		return $result[0];
 	}
 
 
