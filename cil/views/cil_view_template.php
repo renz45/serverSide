@@ -18,3 +18,13 @@ function get_list_by_template($template)
 {
 	echo do_shortcode($template);
 }
+
+/**
+ *
+ * echos a list's description given the lists name
+ * @param String $name
+ */
+function get_list_description($name)
+{
+	echo do_shortcode("[cil_list_description name='$name']");
+}
