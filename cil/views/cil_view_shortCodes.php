@@ -3,7 +3,8 @@
 $cil_shortCode = new cil_shortcode($cil_model);
 
 add_shortcode( "cil", array($cil_shortCode,"cil_shortcode_callback") );//[cil name=""]
-add_shortcode( "cil_list", array($cil_shortCode,"cil_list_shortcode_callback") );// [cil_list name=""] [/cil_list]
+add_shortcode( "cil_list", array($cil_shortCode,"cil_list_shortcode_callback"));// [cil_list name=""] [/cil_list]
+add_shortcode( "cil_list_description", array($cil_shortCode,"cil_list_description_shortcode_callback"));//[cil_list_description]
 add_shortcode("cil_item_heading",array($cil_shortCode,"show_heading"));// [cil_item_heading]
 add_shortcode("cil_item_image_url",array($cil_shortCode,"show_image_url"));//[cil_item_image_url]
 add_shortcode("cil_item_image",array($cil_shortCode,"show_image"));//[cil_item_image]
@@ -34,7 +35,8 @@ class cil_shortcode {
 
 
 	//shortcode that generates a complete list that is pre formated
-	/* [cil ] shortcode has attributes:
+
+	/** [cil ] shortcode has attributes:
 	 *
 	 * name - list name (required)
 	 * use_item_url - defaults to true - If this is set true, then if the item has a url, the heading is turned into a link
@@ -43,7 +45,7 @@ class cil_shortcode {
 	 * image_height - forces the item's image to be a certain height, sets the height property on the <img /> tag
 	 * link_target - target for the link, this is the same target attribute which is on an anchor tag <a></a>
 	 *
-	 *  */
+	 */
 	public function cil_shortcode_callback( $atts, $content=null ){
 
 
@@ -62,7 +64,6 @@ class cil_shortcode {
 
 		if(empty($template->template))
 		{
-
 
 			//use the model to get a list of items according to a list name
 			$listItems = $this->_model->get_list_items_by_name($a['name']);
@@ -130,6 +131,22 @@ class cil_shortcode {
 		}
 
 		return $ret;
+	}
+
+	//shortcode that generates a complete list that is pre formated
+
+	/** [cil_list_description ] shortcode has attributes:
+	 *
+	 *
+	 */
+	public function cil_list_description_shortcode_callback( $atts, $content=null ){
+
+
+		$a = shortcode_atts( array( 'name' => 'Please add a "name" attribute to the cil shortcode and specify which list you want to display'), $atts );
+
+		$desc = $this->_model->get_description_by_name($a['name']);
+
+		return $desc->description;
 	}
 
 	/**
