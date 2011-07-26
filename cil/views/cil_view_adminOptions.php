@@ -26,52 +26,55 @@ class view_optionsMenu {
 		//$results = $this->_model->get_item_lists();
 		$results = $this->_model->get_unested_item_lists();
 
-		if(count($results) == 0)
-		{
-			return;
-		}
+
 
 
 		$output = "
 			<div id='cil_wrap'>
 				<h2><span>CIL - </span>Custom Item List | Manage Lists</h2>
 
-				<p class='cil_list_label'>Current Item Lists:</p>
-				<ul class='cil_admin_list'>\n" ;
-
-		foreach ($results as $value)
+					<p class='cil_list_label'>Current Item Lists:</p>
+					<ul class='cil_admin_list'>\n" ;
+		if(count($results) == 0)
 		{
-			$nestedResult = $this->_model->get_nested_lists_for($value->id);
+			//if there are 0 results
+		}else{
+			foreach ($results as $value)
+			{
+				$nestedResult = $this->_model->get_nested_lists_for($value->id);
 
-			$output .= "<li id='cil-list_". $value->id ."'>
-							<a class='cil_pin_btn cil_list_btn ". ($value->isPinned == 1 ? 'active' : "") ."' title='Pin this list to menu'>pin</a>
-							<img class='cil_icon_url' src='". $value->icon_url ."' alt='". $value->name . "-" . $value->icon_url ."' title='". $value->icon_url ."' width='20' height='20' />
-							<img class='cil_logo_url' src='". $value->logo_url ."' alt='". $value->name . "-" . $value->logo_url ."' title='". $value->logo_url ."' width='0' height='0' />
-							<span class='cil_list_name'> - <span>" . $value->name . "</span> - </span>
-							<p class='desc'>" . $value->description . "</p>
-							<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
-							<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
+				$output .= "<li id='cil-list_". $value->id ."'>
+								<a class='cil_pin_btn cil_list_btn ". ($value->isPinned == 1 ? 'active' : "") ."' title='Pin this list to menu'>pin</a>
+								<img class='cil_icon_url' src='". $value->icon_url ."' alt='". $value->name . "-" . $value->icon_url ."' title='". $value->icon_url ."' width='20' height='20' />
+								<img class='cil_logo_url' src='". $value->logo_url ."' alt='". $value->name . "-" . $value->logo_url ."' title='". $value->logo_url ."' width='0' height='0' />
+								<span class='cil_list_name'> - <span>" . $value->name . "</span> - </span>
+								<p class='desc'>" . $value->description . "</p>
+								<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
+								<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
 
-							<ul>\n";
+								<ul>\n";
 
-									foreach($nestedResult as $nestValue)
-									{
-										$output .=	"<li id='cil-list_". $nestValue->id ."'>
-													<span class='cil_up_arrow'>&uarr;</span>
-													<a style='display:none' class='cil_pin_btn cil_list_btn ". ($nestValue->isPinned == 1 ? 'active' : "") ."' title='Pin this list to menu'>pin</a>
-													<img class='cil_icon_url' src='". $nestValue->icon_url ."' alt='". $nestValue->name . "-" . $nestValue->icon_url ."' title='". $nestValue->icon_url ."' width='20' height='20' />
-													<img class='cil_logo_url' src='". $nestValue->logo_url ."' alt='". $nestValue->name . "-" . $nestValue->logo_url ."' title='". $nestValue->logo_url ."' width='0' height='0' />
-													<span class='cil_list_name'> - <span>" . $nestValue->name . "</span> - </span>
-													<p class='desc'>" . $nestValue->description . "</p>
-													<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
-													<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
-													</li>\n";
-									}
+										foreach($nestedResult as $nestValue)
+										{
+											$output .=	"<li id='cil-list_". $nestValue->id ."'>
+														<span class='cil_up_arrow'>&uarr;</span>
+														<a style='display:none' class='cil_pin_btn cil_list_btn ". ($nestValue->isPinned == 1 ? 'active' : "") ."' title='Pin this list to menu'>pin</a>
+														<img class='cil_icon_url' src='". $nestValue->icon_url ."' alt='". $nestValue->name . "-" . $nestValue->icon_url ."' title='". $nestValue->icon_url ."' width='20' height='20' />
+														<img class='cil_logo_url' src='". $nestValue->logo_url ."' alt='". $nestValue->name . "-" . $nestValue->logo_url ."' title='". $nestValue->logo_url ."' width='0' height='0' />
+														<span class='cil_list_name'> - <span>" . $nestValue->name . "</span> - </span>
+														<p class='desc'>" . $nestValue->description . "</p>
+														<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
+														<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
+														</li>\n";
+										}
 
-			$output .= 	"</ul>
+				$output .= 	"</ul>
 
-						</li>\n";
-		}
+							</li>\n";
+			}//end forach
+
+		}//end if
+
 		$output .=	"</ul>
 				<ul class='cil_list_option_button'>
 					<li id='cil_create_new_list_header'>Create a new item list</li>
