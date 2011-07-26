@@ -13,6 +13,8 @@ add_action('wp_ajax_cil_get_items', array($cil_ajax_model,'cil_get_items'));
 add_action('wp_ajax_cil_get_template', array($cil_ajax_model,'cil_get_template'));
 add_action('wp_ajax_cil_edit_list_template', array($cil_ajax_model,'cil_edit_list_template'));
 add_action('wp_ajax_cil_set_order_of_items', array($cil_ajax_model,'cil_set_order_of_items'));
+add_action('wp_ajax_cil_set_order_of_lists', array($cil_ajax_model,'cil_set_order_of_lists'));
+add_action('wp_ajax_cil_set_nested_list_id', array($cil_ajax_model,'cil_set_nested_list_id'));
 
 
 class cil_ajax_model {
@@ -30,13 +32,13 @@ class cil_ajax_model {
      */
 	public function cil_pin_list()
 	{
-		global $wpdb;
+		$tableName = $this->_wpdb->prefix . "cil_listInfo";
 
-		$tableName = $wpdb->prefix . "cil_listInfo";
+		$sql = "UPDATE ". $tableName ."
+					SET isPinned='". $_POST['isPinned'] ."'
+					WHERE id = '". $_POST['id'] ."'";
 
-		$sql = "UPDATE ". $tableName ." SET isPinned='". $_POST['isPinned'] ."' WHERE id = '". $_POST['id'] ."'";
-
-	   	$wpdb->query($sql);
+	   	$this->_wpdb->query($sql);
 
 	   	$return = json_encode(array('id'=>$_POST['id'],'isPinned'=>$_POST['isPinned']));
 
@@ -51,19 +53,30 @@ class cil_ajax_model {
 	 */
 	public function cil_delete_list()
 	{
-		global $wpdb;
+		//delete the list items within specified list
+	   	$itemTableName = $this->_wpdb->prefix . "cil_listItemInfo";
+	   	$listTableName = $this->_wpdb->prefix . "cil_listInfo";
 
-		//delete list with specified id
-		$tableName = $wpdb->prefix . "cil_listInfo";
-		$sql = "DELETE FROM ". $tableName ." WHERE id='". $_POST['id'] ."'";
+	   	//delete all list items within the primary list and all the nested lists
+		$sql =   "DELETE lio.*
+				  FROM $itemTableName AS lio
+					JOIN $listTableName AS lo
+						ON (lo.id = lio.list_id)
+					WHERE
+						lo.nestedIn_id = '". $_POST['id'] ."'
+						OR
+						lo.id = '". $_POST['id'] ."';";
 
-	   	$wpdb->query($sql);
+		$this->_wpdb->query($sql);
 
-	   	//delete the list items within specified list
-	   	$tableName = $wpdb->prefix . "cil_listItemInfo";
-	   	$sql = "DELETE FROM ". $tableName ." WHERE list_id='". $_POST['id'] ."'";
+		//delete list with specified id and any nested lists within it
+		$sql = "DELETE FROM ". $listTableName ."
+				WHERE
+					id='". $_POST['id'] ."'
+					OR
+					nestedIn_id='". $_POST['id']."';";
 
-	   	$wpdb->query($sql);
+	   	$this->_wpdb->query($sql);
 
 	   	echo $_POST['id'];
 
@@ -77,9 +90,7 @@ class cil_ajax_model {
 	 */
 	public function cil_edit_list()
 	{
-		global $wpdb;
-
-		$table_name = $wpdb->prefix . "cil_listInfo";
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
 
 		$id = "";
 		$newPost = false;
@@ -88,19 +99,41 @@ class cil_ajax_model {
 		if(!empty($_POST['id'] ))
 		{
 			$id = $_POST['id'];
-			$sql = "UPDATE " . $table_name . " SET name='%s', time=NOW(), description='%s', logo_url='%s', icon_url='%s' WHERE id='". $id ."'";
+			$sql = "UPDATE " . $table_name . "
+						SET name='%s',
+							time=NOW(),
+							description='%s',
+							logo_url='%s',
+							icon_url='%s'
+						WHERE id='". $id ."'";
 
 			//security measures, stripping slashes and such with wp built in prepare method
-			$wpdb->query($wpdb->prepare($sql,array($_POST['listName'], $_POST['listDesc'], $_POST['logoUrl'],$_POST['iconUrl'])));
+			$this->_wpdb->query($this->_wpdb->prepare($sql,array($_POST['listName'], $_POST['listDesc'], $_POST['logoUrl'],$_POST['iconUrl'])));
 		}else{//if there was no id create a new list
 			$name = $_POST['listName'];
 			$description = $_POST['listDesc'];
 			$logo_url = $_POST['logoUrl'];
 			$icon_url = $_POST['iconUrl'];
 
-			$wpdb->insert($table_name, array('name' => $name,'time' => current_time('mysql'),'description' => $description,'logo_url' => $logo_url,'icon_url' => $icon_url ));
-			$id = $wpdb->insert_id;
+			//$this->_wpdb->insert($table_name, array('name' => $name,'time' => current_time('mysql'),'description' => $description,'logo_url' => $logo_url,'icon_url' => $icon_url ));
+
+			$table_name = $this->_wpdb->prefix . "cil_listInfo";
+
+			$sql="INSERT INTO $table_name (name, time, description, logo_url, icon_url,list_index)
+				 	 SELECT '%s',NOW(),'%s', '%s', '%s',  COUNT(*)+1
+				 	 FROM $table_name;";
+
+
+			$this->_wpdb->query($this->_wpdb->prepare($sql,array($name,$description,$logo_url,$icon_url)));
+
+			$id = $this->_wpdb->insert_id;
 			$newPost = true;
+
+			if($this->_wpdb->last_error)
+			{
+				return "false";
+				die();
+			}
 		}
 
 		$return = json_encode(array('id'=>$id,
@@ -115,7 +148,7 @@ class cil_ajax_model {
 	}
 
 	//////////////////////////////////////////////////
-	//////////////////List Items//////////////////////
+	//					List Items					//
 	//////////////////////////////////////////////////
 
 
@@ -124,14 +157,14 @@ class cil_ajax_model {
 	 */
 	public function cil_hide_list()
 	{
-		global $wpdb;
 
-		$tableName = $wpdb->prefix . "cil_listItemInfo";
+
+		$tableName = $this->_wpdb->prefix . "cil_listItemInfo";
 
 		$sql = "UPDATE ". $tableName ." SET isHidden='". $_POST['isHidden'] ."' WHERE id = '". $_POST['id'] ."'";
 
-		$wpdb->prepare($sql);
-	   	$wpdb->query($sql);
+		$this->_wpdb->prepare($sql);
+	   	$this->_wpdb->query($sql);
 
 	   	$return = json_encode(array('id'=>$_POST['id'],'isHidden'=>$_POST['isHidden']));
 
@@ -147,14 +180,14 @@ class cil_ajax_model {
 	 */
 	public function cil_delete_listItem()
 	{
-		global $wpdb;
+
 
 		//delete list item with specified id
-		$tableName = $wpdb->prefix . "cil_listItemInfo";
+		$tableName = $this->_wpdb->prefix . "cil_listItemInfo";
 		$sql = "DELETE FROM ". $tableName ." WHERE id='". $_POST['id'] ."'";
 
-		$wpdb->prepare($sql);
-	   	$wpdb->query($sql);
+		$this->_wpdb->prepare($sql);
+	   	$this->_wpdb->query($sql);
 
 	   	echo $_POST['id'];
 
@@ -168,9 +201,9 @@ class cil_ajax_model {
 	 */
 	public function cil_edit_item()
 	{
-		global $wpdb;
 
-		$table_name = $wpdb->prefix . "cil_listItemInfo";
+
+		$table_name = $this->_wpdb->prefix . "cil_listItemInfo";
 
 		$id = "";
 		$newItem = false;
@@ -189,7 +222,7 @@ class cil_ajax_model {
 					    list_id='".$_POST['listId']."'
 					WHERE id='$id'";
 
-			$wpdb->query($sql);
+			$this->_wpdb->query($sql);
 		}else{//if there was no id create a new items and return the new info for that item
 			$heading = $_POST['heading'];
 			$content = $_POST['content'];
@@ -197,12 +230,14 @@ class cil_ajax_model {
 			$url = $_POST['url'];
 			$list_id = $_POST['listId'];
 
-			$sql="INSERT INTO wp_cil_listItemInfo  (heading, time, content, url, image_url, list_id, item_index)
+			$table_name = $this->_wpdb->prefix . "cil_listItemInfo";
+
+			$sql="INSERT INTO $table_name  (heading, time, content, url, image_url, list_id, item_index)
 				 	 SELECT '%s',NOW(),'%s', '%s', '%s', '%d',  COUNT(*)+1
-				 	 FROM wp_cil_listItemInfo
+				 	 FROM $table_name
 				 	 	WHERE list_id='$list_id';";
-			$wpdb->query($wpdb->prepare($sql,array($heading,$content,$url,$image_url,$list_id)));
-			$id = $wpdb->insert_id;//get recently created id
+			$this->_wpdb->query($this->_wpdb->prepare($sql,array($heading,$content,$url,$image_url,$list_id)));
+			$id = $this->_wpdb->insert_id;//get recently created id
 			$newItem = true;
 		}
 
@@ -224,13 +259,13 @@ class cil_ajax_model {
 	 */
 	public function cil_get_items()
 	{
-		global $wpdb;
 
-		$table_name = $wpdb->prefix . "cil_listItemInfo";
+
+		$table_name = $this->_wpdb->prefix . "cil_listItemInfo";
 
 		$sql = "SELECT * FROM $table_name WHERE list_id='". $_POST['id'] ."' ORDER BY item_index";
 
-		$result = $wpdb->get_results($sql);
+		$result = $this->_wpdb->get_results($sql);
 
 		echo json_encode($result);
 
@@ -243,13 +278,13 @@ class cil_ajax_model {
 	 */
 	public function cil_get_template()
 	{
-		global $wpdb;
 
-		$table_name = $wpdb->prefix . "cil_listInfo";
+
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
 
 		$sql = "SELECT template FROM $table_name WHERE id='". $_POST['id'] ."'";
 
-		$result = $wpdb->get_results($sql);
+		$result = $this->_wpdb->get_results($sql);
 
 		$result[0]->template = stripcslashes(html_entity_decode($result[0]->template));
 
@@ -264,13 +299,13 @@ class cil_ajax_model {
 	 */
 	public function cil_edit_list_template()
 	{
-		global $wpdb;
 
-		$table_name = $wpdb->prefix . "cil_listInfo";
+
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
 
 		$sql = "UPDATE $table_name SET template='%s' WHERE id='%d'";
 
-		$wpdb->query($wpdb->prepare($sql,array($_POST['template'],$_POST['id'])));
+		$this->_wpdb->query($this->_wpdb->prepare($sql,array($_POST['template'],$_POST['id'])));
 
 		echo $sql;
 		die();
@@ -281,9 +316,9 @@ class cil_ajax_model {
 	 */
 	public function cil_set_order_of_items()
 	{
-		global $wpdb;
 
-		$table_name = $wpdb->prefix . "cil_listItemInfo";
+
+		$table_name = $this->_wpdb->prefix . "cil_listItemInfo";
 		$itemIds = split("%", $_POST['idArray']);
 
 		for($i = 1; $i < count($itemIds); $i++)
@@ -293,8 +328,51 @@ class cil_ajax_model {
 							item_index='$i'
 						WHERE id='". $itemIds[$i] ."';";
 
-			$wpdb->query($sql);//doesn't need to be prepared since it's drawing ids from html ids
+			$this->_wpdb->query($sql);//doesn't need to be prepared since it's drawing ids from html ids
 		}
+
+		die();
+	}
+
+	/**
+	 * re-order lists according to an array passed from jQuery sortable
+	 */
+	public function cil_set_order_of_lists()
+	{
+
+
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
+		$itemIds = split("%", $_POST['idArray']);
+
+		for($i = 1; $i < count($itemIds); $i++)
+		{
+			$sql = "UPDATE $table_name
+						SET
+							list_index='$i'
+						WHERE id='". $itemIds[$i] ."';";
+
+			$this->_wpdb->query($sql);//doesn't need to be prepared since it's drawing ids from html ids
+		}
+
+		die();
+	}
+
+	public function cil_set_nested_list_id()
+	{
+		$table_name = $this->_wpdb->prefix . "cil_listInfo";
+
+		$id = $_POST['id'];
+		$nestedId = $_POST['nestedId'];
+		$index = $_POST['index'];
+
+		$sql = "UPDATE $table_name
+					SET
+						nestedIn_id=". ($nestedId == "null"?"NULL":"'$nestedId'") .",
+						list_index='$index'
+					WHERE
+						id='$id'";
+
+		$this->_wpdb->query($sql);
 
 		die();
 	}
