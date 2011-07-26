@@ -38,6 +38,35 @@ class Cil_Models {
 			return $this->_wpdb->get_results($sql);
 		}
     }
+    /**
+     *
+     * get un-nested item lists
+     */
+    public function get_nested_lists_for($id)
+    {
+
+    	$tableName = $this->_wpdb->prefix . "cil_listInfo";
+
+    	$sql = "SELECT * FROM $tableName WHERE nestedIn_id='$id' ORDER BY list_index";
+
+		return $this->_wpdb->get_results($sql);
+
+    }
+
+   /**
+     *
+     * get un-nested item lists
+     */
+    public function get_unested_item_lists()
+    {
+
+    	$tableName = $this->_wpdb->prefix . "cil_listInfo";
+
+    	$sql = "SELECT * FROM $tableName WHERE nestedIn_id IS NULL ORDER BY list_index";
+
+		return $this->_wpdb->get_results($sql);
+
+    }
 
     /**
      *
