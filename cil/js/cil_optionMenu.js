@@ -241,26 +241,44 @@ jQuery(document).ready(function() {
 	//delete an item - this is a seperate function so it can be rebound to newly created buttons
 	function deleteButtonHandler(){
 
-		hideItemEdit();
+		var c = true;
 
-		thisId = jQuery(this).parent().attr('id').split("cil-list_")[1];
+		console.log(jQuery(this).parent().find('>ul>li').length);
 
-		var data = {
-				action:'cil_delete_list',
-				id: thisId
-		};
+		var nestedCount = jQuery(this).parent().find('>ul>li').length;
 
-		//close the list edit form if the deleted list is the one being edited
-		if(editListForm.find('.cil_hidden_list_id').val() == thisId)
+		if(nestedCount > 0)
 		{
-			state_startScreen();
+			c = confirm("Deleting this list item will result in the deletion of "+ nestedCount + " other nested\n list"+ (nestedCount > 1?"s":"") +" and items that " + (nestedCount > 1?"they":"it") + " contain"+(nestedCount > 1?"":"s")+", are you sure you want to delete?");
 		}
 
-		//delete list from the database
-		jQuery.post(ajaxurl, data,function(r){
-			//remove the item from the list
-			jQuery("#cil-list_"+r).remove();
-		});
+		if(c == true)
+		{
+
+			thisId = jQuery(this).parent().attr('id').split("cil-list_")[1];
+
+			var data = {
+					action:'cil_delete_list',
+					id: thisId
+			};
+
+			//close the list edit form if the deleted list is the one being edited
+
+			var currentlyBeingEditedId = editListForm.find('.cil_hidden_list_id').val();
+
+			console.log(jQuery(this).parent().find('>ul #cil-list_' + currentlyBeingEditedId).length);
+
+			if(currentlyBeingEditedId == thisId || jQuery(this).parent().find('>ul #cil-list_' + currentlyBeingEditedId).length > 0)
+			{
+				state_startScreen();
+			}
+
+			//delete list from the database
+			jQuery.post(ajaxurl, data,function(r){
+				//remove the item from the list
+				jQuery("#cil-list_"+r).remove();
+			});
+		}
 	}
 
 	//////////////Ajax edit list////////////////
@@ -284,8 +302,15 @@ jQuery(document).ready(function() {
 
 		//perform the ajax call
 		jQuery.post(ajaxurl, data,function(r){
-			//if the upload is successful
 
+			//return an error message if that list name is already in use.
+			if(r == 0)
+			{
+				editListForm.find('.cil_error').fadeIn().html('A list with this name already exists, please choose another');
+				return ;
+			}
+
+			//if the upload is successful
 			//parse the return JSON object into a javascript object
 			var data = jQuery.parseJSON(r);
 
@@ -300,6 +325,7 @@ jQuery(document).ready(function() {
 				"<p class='desc'>"+data['listDesc']+"</p>"+
 				"<a class='cil_list_btn cil_list_edit_btn'>Edit</a>"+
 				"<a class='cil_list_btn cil_list_delete_btn'>Delete</a>"+
+				"<ul></u>"+
 				"</li>\n");
 
 				//rebind click handlers to the buttons in the new list item, this is done automatically on page reload, but this is for when a list item is
@@ -309,6 +335,9 @@ jQuery(document).ready(function() {
 				newItem.find('.cil_list_edit_btn').bind('click',editButtonHandler);
 				newItem.find('.cil_pin_btn').bind('click',pinButtonHandler);
 				newItem.find('.cil_list_delete_btn').bind('click',deleteButtonHandler);
+
+				//add droppable functionality
+				makeNestable(newItem);
 
 			}else{//if the list item exists and it's just being edited, change the values in the main list to match the edits
 				var list = cilListWrapper.find("#cil-list_" + data['id']);
@@ -349,7 +378,7 @@ jQuery(document).ready(function() {
 	});
 
 	///////////////////limit the list name so it's not too big to fit on the menu bar////////////////
-	formListName.bind('change', function(e){
+	formListName.bind('change keyup', function(e){
 		var maxLength = 12;
 
 		var value = jQuery(this).val();
@@ -596,128 +625,201 @@ jQuery(document).ready(function() {
 				idArray: itemIds.join('%') //basic serialization for the array of item ids
 		};
 
-		jQuery.post(ajaxurl, data,function(r){
-
-		});
+		jQuery.post(ajaxurl, data);
 
 	});
 
 	///////////////////////////Nest lists within each other/////////////////
 
-	cilListList.find('>li>ul').sortable();
-	cilListList.sortable();
+	//cilListList
 
 	var dropDelay = 1200; //delay before drop is enabled
 	var hoverTimer = "";
 	var rdyToDrop = false;
 
-	cilListList.find('>li')
-	.droppable({
-		//tolerance: 'pointer' ,
-		drop: function( e, ui ) {
-			var item = jQuery( this );
-
-			console.log(rdyToDrop);
-
-			jQuery(this).css({'height':'auto',
-								'border-style':'solid',
-								'border-top-color':'#fff',
-								'border-left-color':'#fff',
-								'border-bottom-color':'#ddd',
-								'border-right-color':'#ddd'});
-
-			//make sure the item isnt from within another nested list or a list with nested items
-			if(jQuery(ui.draggable).parent()[0] != cilListList[0] || jQuery(ui.draggable).find('>ul>li').length > 0)
-			{
-				//return if the item is already in the list, fixes sortable errors
-				return this;
-			}else if(rdyToDrop == false)//if the rdyToDrop flag isnt set than return early
-			{
-				return this;
-			}
-
-			var list = jQuery(this).find('>ul');
-
-			ui.draggable.hide( "fast", function() {
-				jQuery(this)
-					.droppable('disable')//disable droppable so we can't drop anything in a nested item
-					.prepend("<span class='cil_up_arrow'>&uarr;</span>")//insert the arrow at the beginning of the li
-					.find('.cil_pin_btn')//hide the pin button while items are nexted, they will pin with their parent list
-						.hide();
-				// had to split this up, for some reason there was a bug where lists were following each other back into nested status
-				jQuery(this)
-					.appendTo(list)//append this li to the nested ul of another list
-					.show('fast')
-					.bind('dblclick',function(){//double click to remove the item
-						jQuery(this)
-							.unbind('dblclick')//unbind doubleclick since the item has been removed
-							.hide('fast',function(){
-								jQuery(this)
-									.appendTo(cilListList)//append this item back to the main list
-									.show('fast',function(){
-										jQuery(this).droppable('enable');//enable droppable again since the item isnt nested anymore
-									})
-									.find('.cil_pin_btn')//show the pin button again
-										.show()
-										.parent()
-									.find('.cil_up_arrow')//remove the arrow
-										.remove();
-							});
-					});
-
-			});
+	cilListList.sortable().bind('sortupdate',function(){
+		//if the item wasn't dropped into another list, update the list order
+		if(rdyToDrop == false)
+		{
+			var listIds = cilListList.sortable('toArray').join("").split('cil-list_');
+			updateListIndexs(listIds);
 		}
-	})
+	});
 
-	//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
-	.bind('mousedown',function()
+
+
+	//////////////////////code to create the nestable list, an item must be held over the ////////////////
+	/////////////////////list for the time designated by the hoverTimer variable above////////////////////
+	makeNestable(cilListList.find('>li'));
+
+	//adds all the nesting functionality
+	function makeNestable(item)
 	{
-		console.log('DOWN');
 
-		rdyToDrop = false;
-	})
 
-	//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
-	.bind('mouseup',function()
+		//setup sortable
+		item.find('>ul')
+		.sortable()
+			.bind('sortupdate',function(e){
+				e.stopPropagation();
+				var listIds = jQuery(this).sortable('toArray').join("").split('cil-list_');
+				updateListIndexs(listIds);
+			})
+		.find('>li').bind('dblclick',itemDblClick_callback);
+
+
+		//setup droppable
+		item.droppable({
+			drop: function( e, ui ) {
+				var item = jQuery( this );
+
+				dropDefault(jQuery(this));//set default styles back to normal
+
+				//make sure the item isnt from within another nested list or a list with nested items
+				if(jQuery(ui.draggable).parent()[0] != cilListList[0] || jQuery(ui.draggable).find('>ul>li').length > 0)
+				{
+					//return if the item is already in the list, fixes sortable errors
+					return this;
+				}else if(rdyToDrop == false)//if the rdyToDrop flag isnt set than return early
+				{
+					return this;
+				}
+
+				var list = jQuery(this).find('>ul');
+				var dropped = ui.draggable;
+
+				var data = {
+						action:'cil_set_nested_list_id',
+						id: jQuery(dropped).attr('id').split("cil-list_")[1],
+						nestedId: jQuery(this).attr('id').split("cil-list_")[1],
+						index: jQuery(this).find(">ul>li").length + 1
+				};
+				//ajax call to set the nestIn_id and list_index to the last item in the nested list
+				jQuery.post(ajaxurl, data,function(r){
+					dropped.hide( "fast", function() {
+
+						jQuery(this)
+							.droppable('disable')//disable droppable so we can't drop anything in a nested item
+							.prepend("<span class='cil_up_arrow'>&uarr;</span>")//insert the arrow at the beginning of the li
+							.find('.cil_pin_btn')//hide the pin button while items are nexted, they will pin with their parent list
+								.hide();
+						// had to split this up, for some reason there was a bug where lists were following each other back into nested status
+						jQuery(this)
+							.appendTo(list)//append this li to the nested ul of another list
+							.show('fast')
+							.bind('dblclick',itemDblClick_callback);
+
+						var listIds = list.sortable('toArray').join("").split('cil-list_');
+						updateListIndexs(listIds);
+					});
+				});//end ajax post
+			}
+		})
+
+		//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
+		.bind('mousedown',function()
+		{
+			rdyToDrop = false;
+			dropDefault(jQuery(this));
+		})
+
+		//mouse down, set the rdyTo Drop flag to false, this starts the drop timer back to 0
+		.bind('mouseup',function()
+		{
+			clearInterval(hoverTimer);
+			//reset all list items border and height back to default, fixes a bug where lists were getting stuck in the drop ready state
+
+			dropDefault(jQuery(this));
+
+		})
+		.bind('dropover',function(e,ui){//when an item is over a droppable, count to 2 secs and enable insertion, this fixes the glitchiness with sortable and the dropable
+				var item = jQuery(this);
+
+
+				//test to make sure the item isn't nested
+				if(ui.draggable.parent()[0] == cilListList[0])
+				{
+					clearInterval(hoverTimer);//clear interval before a new one is started, fixes a problem where the timer wasn't getting cleared other ways
+
+					hoverTimer = setInterval(function(){
+						rdyToDrop = true; //set ready to drop to true, this enables the dropable to take in the sortable
+						clearInterval(hoverTimer);//clear the timer after it fires, keeps it from repeating(Although, it should stop automatically, but it doesn't)
+
+						dropReady(item);
+
+					}, dropDelay);//interval in milliseconds
+				}
+
+		})
+		.bind('dropout',function(){//when an item moves out of a droppable, reset the timer
+
+				rdyToDrop = false;//set the ready to drop flag back to false so the process can start over with the new item
+
+				dropDefault(jQuery(this));
+		});
+	}//end make droppable
+
+	///////////////////callback for nested item doubleclick/////////////////
+	function itemDblClick_callback(e)
 	{
-		clearInterval(hoverTimer);
-		console.log('UP');
-		jQuery(this).parent().find('>li').css({'height':'auto',
+		var item = this;
+		var data = {
+				action:'cil_set_nested_list_id',
+				id: jQuery(this).attr('id').split("cil-list_")[1],
+				nestedId: null,
+				index:cilListList.find('>li').length + 1};
+
+			//ajax call to remove an item from the nested list
+			jQuery.post(ajaxurl, data,function(r){
+
+				var listIds = cilListList.sortable('toArray').join("").split('cil-list_');
+				updateListIndexs(listIds);
+
+				jQuery(item)
+					.unbind('dblclick')//unbind doubleclick since the item has been removed
+					.hide('fast',function(){
+						jQuery(this)
+							.appendTo(cilListList)//append this item back to the main list
+							.show('fast',function(){
+								jQuery(this).droppable('enable');//enable droppable again since the item isnt nested anymore
+							})//show
+							.find('.cil_pin_btn')//show the pin button again
+								.show()
+								.parent()
+							.find('.cil_up_arrow')//remove the arrow
+								.remove();
+					});//hide
+			});//end ajax post
+	}
+
+	//////////////////////updates list indexes for nested lists or the main list/////////////////
+	function updateListIndexs(listIds)
+	{
+		var data = {
+				action:'cil_set_order_of_lists',
+				idArray: listIds.join('%') //basic serialization for the array of item ids
+		};
+
+		jQuery.post(ajaxurl, data);
+	}
+
+	/////////////////////set li css to the drop ready status//////////////////
+	function dropReady(item)
+	{
+		item.height(function(index,height){return height += 25;})
+		.css({'border-color':'#faa','border-style':'dashed'});
+	}
+
+	/////////////////////revert li css back to normal////////////////////////
+	function dropDefault(item)
+	{
+		item.css({'height':'auto',
 			'border-style':'solid',
 			'border-top-color':'#fff',
 			'border-left-color':'#fff',
 			'border-bottom-color':'#ddd',
 			'border-right-color':'#ddd'});
-
-	})
-	.bind('dropover',function(){//when an item is over a droppable, count to 2 secs and enable insertion, this fixes the glitchiness with sortable and the dropable
-			var item = jQuery(this);
-			console.log('OVER');
-
-			clearInterval(hoverTimer);//clear interval before a new one is started, fixes a problem where the timer wasn't getting cleared other ways
-
-			hoverTimer = setInterval(function(){
-				rdyToDrop = true; //set ready to drop to true, this enables the dropable to take in the sortable
-				clearInterval(hoverTimer);//clear the timer after it fires, keeps it from repeating(Although, it should stop automatically, but it doesn't)
-				console.log("TRUE");
-
-				item.height(function(index,height){return height += 25;}).css({'border-color':'#faa','border-style':'dashed'});
-
-			}, dropDelay);//interval in milliseconds
-
-	})
-	.bind('dropout',function(){//when an item moves out of a droppable, reset the timer
-			//clearInterval(hoverTimer);
-			console.log("FALSE");
-			rdyToDrop = false;//set the ready to drop flag back to false so the process can start over with the new item
-
-			jQuery(this).css({'height':'auto',
-								'border-style':'solid',
-								'border-top-color':'#fff',
-								'border-left-color':'#fff',
-								'border-bottom-color':'#ddd',
-								'border-right-color':'#ddd'});
-	});
+	}
 
 
 	/////////////////////////////////////////////////
