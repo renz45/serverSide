@@ -76,7 +76,7 @@ class Cil_Models {
     {
 		$tableName = $this->_wpdb->prefix . "cil_listInfo";
 
-    	$sql = "SELECT * FROM " . $tableName . " WHERE isPinned='1'";
+    	$sql = "SELECT * FROM " . $tableName . " WHERE isPinned='1' AND nestedIn_id IS NULL ORDER BY list_index";
 
 		return $this->_wpdb->get_results($sql);
     }
@@ -164,6 +164,5 @@ class Cil_Models {
 
 		return $result[0];
 	}
-
 
 }
