@@ -45,7 +45,7 @@ class cil_view_adminListEdit {
 		//dynamic background image without using javascript
 		$output = "<div id='cil_item_wrap'>
 
-				<h2 id='cil_item_pageTitle' style='background: url(\"". $listData->logo_url ."\") left center no-repeat;'>". $listData->name ."</h2>
+				<h2 id='cil_item_pageTitle'><img src='$listData->logo_url', alt='$listData->name' title='$listData->name' height='45' width='45' /> ". $listData->name ."</h2>
 				<p id='cil_item_desc'>". $listData->description ."</p>\n";
 		$output	.= "<ul class='cil_admin_list_items'>\n";
 		if(count($listItems) > 0)
