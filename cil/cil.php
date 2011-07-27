@@ -10,6 +10,8 @@
 
 //TODO ajax pagination for the user side
 //TODO option to remove the database
+//TODO finish nested list feature, when a list is nested, it gets output as a list item
+//TODO add an option (checkbox?) where a list can be set to edit only, no adding or deleting of items
 
 //////////////dev aids//////////////////
 include 'dev_aids/php_dump.php';
