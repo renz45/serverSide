@@ -1,9 +1,12 @@
 #cil_item_wrap h2 {
-	padding-left: 60px;
 	line-height: 50px;
 	font-size: 28px;
 	color:#555;
 	margin-bottom:5px;
+}
+
+#cil_item_wrap h2 img {
+	vertical-align: middle;
 }
 
 #cil_item_cil_item_content {
