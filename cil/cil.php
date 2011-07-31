@@ -26,6 +26,7 @@ require("models/cil_model_installDataBase.php");
 
 //run installation methods
 register_activation_hook(__FILE__,'cil_install');
+register_deactivation_hook( __FILE__, 'cil_uninstall' );
 
 //wordpress database class used in the 2 model instantiations
 global $wpdb;
