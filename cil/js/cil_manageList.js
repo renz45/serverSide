@@ -34,8 +34,6 @@ jQuery(document).ready(function() {
 
 	var cilItemImageIcon = editItemForm.find('#cil_item_imageIcon');
 
-	var cilEditArea = cilListWrapper.find('#cil_edit_area').clone(true);
-
 
 
 	////////////////////////////////////////////////////////////
@@ -655,12 +653,13 @@ jQuery(document).ready(function() {
 	//make all list items nestable
 	makeNestable(cilListList.find('li'));
 
-	//disable the droppable on all the list items that are already nested.
 	cilListList.find('ul>li').droppable('disable');
 
 	//adds all the nesting functionality
 	function makeNestable(item)
 	{
+
+
 		//setup sortable
 		item.find('>ul')
 		.sortable()
@@ -1008,15 +1007,14 @@ jQuery(document).ready(function() {
 	///////////show the edit list form, but don't clear it///////////////
 	function state_editListForm()
 	{
-
-		expandEditListForm(cilEditArea.find('#cil_edit_List_form'));
+		expandEditListForm(editListForm);
 		hideItemEdit();
 		editListItemTitle.fadeOut(200);
 		editTemplateForm.fadeOut(200);
 		showItemEditButton();
 		showTemplateButton();
 
-		//jQuery(item).find('#cil_list_edit_area').append(cilEditArea);
+
 	}
 
 	///////////show list items contained in corrently edited list//////////////
