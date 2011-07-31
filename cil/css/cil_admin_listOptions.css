@@ -9,6 +9,10 @@
 	vertical-align: middle;
 }
 
+#cil_item_wrap>p {
+	width:600px;
+}
+
 #cil_item_cil_item_content {
 	width:500px;
 	color:#666;
