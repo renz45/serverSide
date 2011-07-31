@@ -3,7 +3,8 @@
 $cil_view_optionsMenu = new view_optionsMenu($cil_model);
 
 
-add_action('show_cil_admin_options_menu', array($cil_view_optionsMenu,'show_options_menu'));
+add_action('show_cil_admin_manage_lists', array($cil_view_optionsMenu,'show_manage_list_menu'));
+add_action('show_cil_admin_options', array($cil_view_optionsMenu,'show_options_menu'));
 
 class view_optionsMenu {
 
@@ -16,9 +17,9 @@ class view_optionsMenu {
 
     /**
      *
-     * show the view for the options menu
+     * show the view for the manage list menu
      */
-	public function show_options_menu()
+	public function show_manage_list_menu()
 	{
 
 		$output = "";
@@ -138,5 +139,29 @@ class view_optionsMenu {
 		do_action('show_cil_admin_list_options',true);
 
 	}
+
+	 /**
+     *
+     * show the view for the options menu
+     */
+	public function show_options_menu()
+	{
+
+		$output = "
+			<div id='cil_wrap'>
+				<h2><span>CIL - </span>Custom Item List | Options</h2>
+
+				<form name='' action='#' method='post'>
+					<p>
+						<label for='deleteDb'>Delete database entries on uninstall?</label>
+						<input type=checkbox value='' name='deleteDb' id='deleteDb' ". (get_option("cil_uninstall_db") == true?"checked='checked':''":'') ." />
+					</p>
+				</form>
+			</div>";
+
+		echo $output;
+	}
+
+
 }
 
