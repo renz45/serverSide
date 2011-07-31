@@ -16,9 +16,12 @@ function cil_plugin_menus()
 
 	if(is_admin())
 	{
-		$page = add_options_page('cil - Custom Item Lists', 'cil - Manage Lists', 'manage_options', 'cil_adminOptionsView.php', 'cil_plugin_optionMenu_options', "");
+		$page = add_options_page('cil - Custom Item Lists', 'cil - Manage Lists', 'manage_options', 'cil_adminOptionsView.php', 'cil_plugin_optionMenu_list', "");
 		//add hook to load external files used for the options menu - js/css
-		 add_action('admin_print_styles-' . $page , 'cil_optionsMenu_externalFileLoad');
+		add_action('admin_print_styles-' . $page , 'cil_manageLists_externalFileLoad');
+
+		$page = add_options_page('cil - options', 'cil - Options', 'manage_options', 'cil_options.php', 'cil_plugin_optionMenu_options', "");
+		add_action('admin_print_styles-' . $page , 'cil_optionsMenu_externalFileLoad');
 	}
 }
 
@@ -29,15 +32,28 @@ function cil_list_options($arg)
 	do_action('show_cil_admin_list_options');
 }
 
-//show the options page
+//option menu
 function cil_plugin_optionMenu_options()
 {
+	do_action('show_cil_admin_options');
+}
+
+//show the manage lists page
+function cil_plugin_optionMenu_list()
+{
 	//show admin options view, this view exists in cil_adminOptionsView.php
-	do_action('show_cil_admin_options_menu');
+	do_action('show_cil_admin_manage_lists');
+}
+
+function cil_optionsMenu_externalFileLoad()
+{
+	global $cilPluginURL;
+	wp_register_script('cil_options', $cilPluginURL.'/js/cil_optionsMenu.js', array('jquery'));
+	wp_enqueue_script('cil_options');
 }
 
 //load external css, js here for the plugin options page
-function cil_optionsMenu_externalFileLoad()
+function cil_manageLists_externalFileLoad()
 {
 
 	//load javascript specific to this option menu.
@@ -49,7 +65,7 @@ function cil_optionsMenu_externalFileLoad()
 	wp_enqueue_script('thickbox');
 	wp_register_script('imageUpload', $cilPluginURL.'/js/imageUpload.js', array('jquery','media-upload','thickbox'));
 	wp_enqueue_script('imageUpload');
-	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_optionMenu.js',array('jquery','jquery-ui-sortable','jquery-ui-draggable', 'jquery-ui-droppable'));
+	wp_register_script('cil_optionScript', $cilPluginURL.'/js/cil_manageList.js',array('jquery','jquery-ui-sortable','jquery-ui-draggable', 'jquery-ui-droppable'));
 	wp_enqueue_script('cil_optionScript');
 
 	//load styles
