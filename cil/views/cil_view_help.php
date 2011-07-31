@@ -70,7 +70,7 @@ class cil_view_contextualHelp {
 					but all other html needs to be put inside the <code>[cil_list] [/cil_list]</code> shortcode</p>
 				<p>The shortcodes for templating are:</p>
 				<ul>
-					<li>\'<code>[cil_list name="listName"] [/cil_list]</code>\' - This tag must surround the template and the <code>name</code> attribute is required, and optional <code>type</code> attribute can be used to set the list type - <code>ul, ol, dl</code></li>
+					<li>\'<code>[cil_list name="listName"] [/cil_list]</code>\' - This tag must surround the template and the <code>name</code> attribute is required, an optional <code>type</code> attribute can be used to set the list type - <code>ul, ol, dl</code></li>
 					<li>\'<code>[cil_item_heading]</code>\' - Display the item heading</li>
 					<li>\'<code>[cil_item_image_url]</code>\' - Display the item\'s image url</li>
 					<li>\'<code>[cil_item_image]</code>\' - Display an <code>&lt;img /&gt;</code> tag with the src filled in with the item image url</li>
@@ -78,7 +78,10 @@ class cil_view_contextualHelp {
 					<li>\'<code>[cil_item_time]</code>\' - Display the time that the item was created</li>
 					<li>\'<code>[cil_item_url]</code>\' - Display the item URL, or if this tag is used to wrap and item like, <code>[cil_item_url]my link[/cil_item_url]</code>, than the item is wrapped in a pre-formed <code>&lt;a&gt;my link&lt;/a&gt;</code> html tag</li>
 
-				</ul></div>';
+				</ul>
+				<p>Lists can also be nested within each other in the pinned menu, drag one list over top of another, hold and drop into the other list. Lists can also be reorganized within each other.
+				 Please note that lists must still be inserted into a list item using shortcodes to output within each other correctly.</p>
+				</div>';
 
 
 		return $ret;
