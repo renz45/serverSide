@@ -15,6 +15,7 @@ add_action('wp_ajax_cil_edit_list_template', array($cil_ajax_model,'cil_edit_lis
 add_action('wp_ajax_cil_set_order_of_items', array($cil_ajax_model,'cil_set_order_of_items'));
 add_action('wp_ajax_cil_set_order_of_lists', array($cil_ajax_model,'cil_set_order_of_lists'));
 add_action('wp_ajax_cil_set_nested_list_id', array($cil_ajax_model,'cil_set_nested_list_id'));
+add_action('wp_ajax_cil_set_db_uninstall', array($cil_ajax_model,'cil_set_db_uninstall'));
 
 
 class cil_ajax_model {
@@ -375,6 +376,20 @@ class cil_ajax_model {
 		$this->_wpdb->query($sql);
 
 		die();
+	}
+
+	public function cil_set_db_uninstall()
+	{
+		$uninstall = $_POST['uninstall'];
+
+		if($uninstall == 'true')
+		{
+			update_option("cil_uninstall_db",true);
+		}else{
+			update_option("cil_uninstall_db",false);
+		}
+
+		return $uninstall;
 	}
 
 }
