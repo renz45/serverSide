@@ -144,7 +144,7 @@ jQuery(document).ready(function() {
 			var data = jQuery.parseJSON(r);
 
 			data['content'] = data['content'].replace(/>/gi,'&gt;').replace(/</gi,'&lt;');
-
+			data['heading'] = data['heading'].replace(/\\/g,"");
 
 			var choppedHeading =  (data['heading']).slice(0,maxChars);
 
