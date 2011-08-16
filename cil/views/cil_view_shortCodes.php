@@ -146,7 +146,7 @@ class cil_shortcode {
 
 		$desc = $this->_model->get_description_by_name($a['name']);
 
-		return $desc->description;
+		return do_shortcode($desc->description);
 	}
 
 	/**
@@ -213,7 +213,7 @@ class cil_shortcode {
 		{
 			return "There was a problem with the cil_item_heading short code";
 		}else{
-			return $this->_listItems[$a['name']][$a['index']]->heading;
+			return htmlentities(stripslashes($this->_listItems[$a['name']][$a['index']]->heading));
 		}
 	}
 
@@ -317,10 +317,11 @@ class cil_shortcode {
 			//if there is content than wrap the contant in an anchor tag
 			if(!empty($content))
 			{
+				$item =$this->_listItems[$a['name']][$a['index']];
 				//if the url  is empty, just display the content
-				if(!empty($this->_listItems[$a['name']][$a['index']]->url) )
+				if(!empty($item->url) )
 				{
-					return "<a href='". $this->_listItems[$a['name']][$a['index']]->url ."' title='". $this->_listItems[$a['name']][$a['index']]->heading ."' target='". $a['target'] ."'>". do_shortcode($content) ."</a>";
+					return "<a href='". $item->url ."' title=\"". htmlentities(stripslashes($item->heading)) ."\" target='". $a['target'] ."'>". stripslashes(do_shortcode($content)) ."</a>";
 				}else{
 					return do_shortcode($content);
 				}
