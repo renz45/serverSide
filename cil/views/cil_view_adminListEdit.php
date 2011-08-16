@@ -58,7 +58,7 @@ class cil_view_adminListEdit {
 				$value->content = stripslashes_deep($value->content);
 
 				//shorten the heading so it fits in the list
-				$choppedHeading = substr($value->heading,0, $maxChars);
+				$choppedHeading = substr(stripslashes($value->heading),0, $maxChars);
 
 				$output .= "<li id='cil-list_item_". $value->id ."'>
 								<a class='cil_hide_btn cil_list_item_btn ". ($value->isHidden == 1 ? 'active' : "") ."' title='Hide this item'>hide</a>\n";
