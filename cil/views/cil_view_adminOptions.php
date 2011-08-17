@@ -49,7 +49,7 @@ class view_optionsMenu {
 								<img class='cil_icon_url' src='". $value->icon_url ."' alt='". $value->name . "-" . $value->icon_url ."' title='". $value->icon_url ."' width='20' height='20' />
 								<img class='cil_logo_url' src='". $value->logo_url ."' alt='". $value->name . "-" . $value->logo_url ."' title='". $value->logo_url ."' width='0' height='0' />
 								<span class='cil_list_name'> - <span>" . $value->name . "</span> - </span>
-								<p class='desc'>" . $value->description . "</p>
+								<p class='desc'>" . stripslashes($value->description) . "</p>
 								<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
 								<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
 
@@ -63,7 +63,7 @@ class view_optionsMenu {
 															<img class='cil_icon_url' src='". $nestValue->icon_url ."' alt='". $nestValue->name . "-" . $nestValue->icon_url ."' title='". $nestValue->icon_url ."' width='20' height='20' />
 															<img class='cil_logo_url' src='". $nestValue->logo_url ."' alt='". $nestValue->name . "-" . $nestValue->logo_url ."' title='". $nestValue->logo_url ."' width='0' height='0' />
 															<span class='cil_list_name'> - <span>" . $nestValue->name . "</span> - </span>
-															<p class='desc'>" . $nestValue->description . "</p>
+															<p class='desc'>" . stripslashes($nestValue->description) . "</p>
 															<a class='cil_list_btn cil_list_edit_btn'>Edit</a>
 															<a class='cil_list_btn cil_list_delete_btn'>Delete</a>
 															<ul>

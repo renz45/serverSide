@@ -109,7 +109,7 @@ class cil_ajax_model {
 						WHERE id='". $id ."'";
 
 			//security measures, stripping slashes and such with wp built in prepare method
-			$this->_wpdb->query($this->_wpdb->prepare($sql,array($_POST['listName'], $_POST['listDesc'], $_POST['logoUrl'],$_POST['iconUrl'])));
+			$this->_wpdb->query($this->_wpdb->prepare($sql,array(urldecode($_POST['listName']), urldecode($_POST['listDesc']), $_POST['logoUrl'],$_POST['iconUrl'])));
 		}else{//if there was no id create a new list
 			$name = $_POST['listName'];
 			$description = $_POST['listDesc'];
@@ -138,11 +138,11 @@ class cil_ajax_model {
 		}
 
 		$return = json_encode(array('id'=>$id,
-									'listName'=>$_POST['listName'],
-									'listDesc'=>$_POST['listDesc'],
-									'logoUrl'=>$_POST['logoUrl'],
-									'iconUrl'=>$_POST['iconUrl'],
-									'newPost'=>$newPost));
+									'listName'=>stripslashes($_POST['listName']),
+									'listDesc'=>stripslashes($_POST['listDesc']),
+									'logoUrl'=>stripslashes($_POST['logoUrl']),
+									'iconUrl'=>stripslashes($_POST['iconUrl']),
+									'newPost'=>stripslashes($newPost)));
 
 		echo $return;
 		die(); // this is required to return a proper result
