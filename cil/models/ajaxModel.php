@@ -242,14 +242,14 @@ class cil_ajax_model {
 			$newItem = true;
 		}
 
-		$return = json_encode(array('id'=>$id,
-									'heading'=>$_POST['heading'],
+		$return = json_encode(array(
+									'id'=>$id,
+									'heading'=>stripslashes($_POST['heading']),
 									'content'=>stripslashes($_POST['content']),
 									'imageUrl'=>$_POST['imageUrl'],
 									'url'=>$_POST['url'],
 									'listId'=>$_POST['listId'],
 									'newItem'=>$newItem));
-
 		echo $return;
 		die(); // this is required to return a proper result
 	}

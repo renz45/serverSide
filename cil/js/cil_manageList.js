@@ -154,18 +154,18 @@ jQuery(document).ready(function() {
 
 				if(item['url'].length > 0)
 				{
-					heading = "<a class='cil_name_link' href='"+ item['url'] +"' title='"+ item['heading'] +"'><span title='"+ item['heading'] +"'>"+ choppedHeading +"</span></a>";
+					heading = "<a class='cil_name_link' href='"+ item['url'] +"' title=\""+ item['heading'] +"\"><span title=\""+ item['heading'] +"\">"+ choppedHeading +"</span></a>";
 				}else{
-					heading = "<span title='"+ item['heading'] +"'>"+ choppedHeading +"</span>";
+					heading = "<span title=\""+ item['heading'] +"\">"+ choppedHeading +"</span>";
 				}
 
 				if(item['image_url'].length > 0)
 				{
-					image = "<img class='cil_item_image' src='"+ cilItemImageIcon.attr('src') +"' alt='"+ item['image_url'] +"' title='This item has an image' width='15' height='15' />";
+					image = "<img class='cil_item_image' src=\""+ cilItemImageIcon.attr('src') +"\" alt=\""+ item['image_url'] +"\" title='This item has an image' width='15' height='15' />";
 				}
 
 				cilItemList.append(
-				"<li id='cil-list_item_"+ item['id'] +"'>"+
+				"<li id=\"cil-list_item_"+ item['id'] +"\">"+
 						"<a class='cil_hide_btn cil_list_item_btn "+ (item['isHidden']==1?'active':'') +" ' title='Hide this item'>hide</a>"+
 						image +
 						"<span class='cil_item_heading'> - "+
@@ -409,7 +409,7 @@ jQuery(document).ready(function() {
 			}
 		});
 
-	///////////list edit button functionality////////////
+	///////////list item edit button functionality////////////
 	cilItemWrapper.find(".cil_item_edit_btn").bind('click',editItemButtonHandler);
 
 	function editItemButtonHandler(){
